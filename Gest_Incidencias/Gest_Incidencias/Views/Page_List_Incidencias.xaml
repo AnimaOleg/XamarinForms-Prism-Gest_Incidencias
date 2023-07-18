@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Gest_Incidencias.Views.Page_List_Incidencias"
+			 Padding="0"
+             Title="Gest_Incidencias">
+    <!-- listado basado en headerFooter del ejemplo "WorkingWithListview"-->
+
+
+    <!--<ListView x:Name="MyListView" ItemsSource="{Binding Items}" ItemTapped="Handle_ItemTapped" CachingStrategy="RecycleElement">-->
+    <!--<ListView x:Name="listView" ItemsSource="{Binding Monkeys}" Header="{Binding Intro}" Footer="{Binding Summary}"> -->
+
+    <!--<ListView x:Name="listView" ItemsSource="{Binding Monkeys}" RowHeight="80" HasUnevenRows="False">--> <!-- Uneven = Desactivar tamaño fijo -->
+    <ListView x:Name="listView" SelectionMode="Single" ItemTapped="OnItemTapped" RowHeight="110" HasUnevenRows="False">
+
+            <ListView.Header>
+            <StackLayout Orientation="Horizontal">
+                <Grid RowDefinitions="*"/>
+                <!--<Label  Grid.Row="0" Text="Header" TextColor="Olive" BackgroundColor="Red" />-->
+                <StackLayout Orientation="Horizontal" Padding="0,10,0,10" BackgroundColor="Yellow">
+
+                    <!--<Grid ColumnDefinitions="0.20*, 0.20*, *, 0.20*, 0.20*">-->
+                    <Grid ColumnDefinitions="*">
+                        <Button Grid.Column="0" BorderWidth="1" HeightRequest="50" BorderColor="DarkBlue" Padding="4"
+                            Text="Reportes" Clicked="OnReportsClicked"/>
+                        
+                        <!--<Label Text="~~"/>-->
+                        <Label Grid.Column="1" Text="{Binding Intro}"/>
+                        <!--<Label Text="~~"/>-->
+
+                        <Button Grid.Column="2" BorderWidth="1" HeightRequest="50" BorderColor="DarkBlue" Padding="4"
+                            Text="Eliminar" Clicked="OnDeleteClicked"/>
+
+                        <Button Grid.Column="3" BorderWidth="1" HeightRequest="50" BorderColor="DarkBlue" Padding="4"
+                            Text="Modificar" Clicked="OnModifyClicked"/>
+
+                        <Button Grid.Column="4" BorderWidth="1" HeightRequest="50" BorderColor="DarkBlue" Padding="4"
+                            Text="Finalizar" Clicked="OnFinishClicked" />
+                    </Grid>
+
+                </StackLayout>
+            </StackLayout>
+        </ListView.Header>
+
+        <ListView.Footer>
+
+            <StackLayout Orientation="Horizontal" Padding="5,5,5,5" BackgroundColor="white">
+                <!--<Label Text="Footer" TextColor="Gray" BackgroundColor="Blue"/>-->
+
+                <!--<Grid ColumnDefinitions="0.8*, 0.2"/>-->
+                <StackLayout HorizontalOptions="Fill" Orientation="Vertical">
+                    <Grid ColumnDefinitions="0.5*, 0.5"/>
+                    <Label VerticalTextAlignment="Center" Text="{Binding Summary}"/>
+                    <!--<Grid ColumnDefinitions="*"/>-->
+                    <Button VerticalOptions="Fill" BorderWidth="1" HeightRequest="40" BorderColor="DarkBlue"
+                            Text="Crear" Clicked="OnCreateClicked" Grid.Column="1"/>
+                </StackLayout>
+            
+            </StackLayout>
+        </ListView.Footer>
+
+        <!--Built in Cells-->
+        <!--<ListView.ItemTemplate>
+            <DataTemplate>
+                <Label Text="{Binding .}"/>
+            </DataTemplate>
+        </ListView.ItemTemplate>-->
+
+
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <StackLayout HorizontalOptions="StartAndExpand" Orientation="Vertical" Margin="{StaticResource PageMargin}" Padding="0">
+                        <!--
+                            <Label Text="{Binding Name}" VerticalTextAlignment="Start" FontSize="Medium" TextColor="DarkRed" Padding="0" Margin="0"/>
+                            <Label Text="{Binding Description}" VerticalTextAlignment="Start" FontSize="Small" Padding="0" Margin="0"/>
+                            -->
+
+                        <StackLayout HorizontalOptions="Fill"  Orientation="Horizontal">
+                            <Label Text="{Binding Id}" TextColor="{StaticResource TertiaryColor}" FontSize="Medium"/>
+                            <Label Text="." FontSize="Medium" HorizontalTextAlignment="Start"/>
+                            <Label Text="{Binding Text}" TextColor="{StaticResource PrimaryColor}" FontSize="Medium" />
+                        </StackLayout>
+                        
+                        <Label Text="{Binding Description}"
+                                FontSize="Small" />
+                        <Label Text="{Binding Date}"
+                               TextColor="{StaticResource TertiaryColor}"
+                               FontSize="Small" />
+                        <!--<Button Text="X" BackgroundColor="Gray" HorizontalOptions="EndAndExpand" CommandParameter="{Binding .}" Clicked="OnCellClicked" />-->
+                    </StackLayout>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+        
+    </ListView>
+
+</ContentPage>

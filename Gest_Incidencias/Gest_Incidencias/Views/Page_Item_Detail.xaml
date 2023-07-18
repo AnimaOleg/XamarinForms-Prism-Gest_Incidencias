@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Gest_Incidencias.Views.Page_Item_Detail"
+             Title ="Pagina Detalles">
+
+    <StackLayout Spacing="20" Padding="15">
+        <Label Text="Text:" FontSize="Medium" />
+        <Editor
+            Text="{Binding Text}"
+            FontSize="Small"/>
+        <Label Text="Description:" FontSize="Medium" />
+        <Editor
+            Text="{Binding Description}"
+            FontSize="Small"/>
+        <Label Text="Fecha:" FontSize="Medium" />
+        <Label
+            Text="{Binding Date}"
+            FontSize="Small"/>
+
+
+        <Grid ColumnDefinitions="*,*">
+            <Button Text="Save"
+                    Clicked="OnSaveButtonClicked" />
+            <Button Grid.Column="1"
+                    Text="Delete"
+                    Clicked="OnDeleteButtonClicked"/>
+        </Grid>
+
+    </StackLayout>
+</ContentPage>
