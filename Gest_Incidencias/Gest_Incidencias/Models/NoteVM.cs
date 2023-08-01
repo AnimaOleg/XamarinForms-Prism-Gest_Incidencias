@@ -8,7 +8,7 @@ namespace Gest_Incidencias.Models
     {
     }
 }*/
-
+/*
 
 using Gest_Incidencias.Models;
 using System.Collections.Generic;
@@ -21,4 +21,4 @@ class NoteVM // View Model
     {
         get { return " There were " + Notes.Count + " notes"; }
     }
-}
+}*/

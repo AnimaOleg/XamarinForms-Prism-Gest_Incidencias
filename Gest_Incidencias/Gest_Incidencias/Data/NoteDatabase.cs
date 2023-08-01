@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using SQLite;
 using Gest_Incidencias.Models;
+using System;
 
 namespace Gest_Incidencias.Data
 {
@@ -15,10 +16,16 @@ namespace Gest_Incidencias.Data
             database.CreateTableAsync<Note>().Wait();
         }
 
-        public Task<List<Note>> GetNotesAsync()
+        public Task<List<Note>> GetNotesAsync(string tipo)
         {
-            //Get all notes.
-            return database.Table<Note>().ToListAsync();
+            if(tipo == "All" || tipo == null) {
+                return database.Table<Note>().ToListAsync();
+            }
+            else
+                return database.Table<Note>().Where(i => i.Tipo == tipo).ToListAsync();
+                            //.Where(i => i.Tipo.Equals(tipo)).ToListAsync();
+            //.FirstOrDefaultAsync();
+            //Where(x => x.drugname.Contains(pillname));
         }
 
         public Task<Note> GetNoteAsync(int id)
@@ -33,20 +40,18 @@ namespace Gest_Incidencias.Data
         {
             if (note.Id != 0)
             {
-                // Update an existing note.
                 return database.UpdateAsync(note);
             }
             else
             {
-                // Save a new note.
                 return database.InsertAsync(note);
             }
         }
 
-        public Task<int> DeleteNoteAsync(Note note)
+        /*public Task<int> DeleteNoteAsync(Note note)
         {
             // Delete a note.
             return database.DeleteAsync(note);
-        }
+        }*/
     }
 }

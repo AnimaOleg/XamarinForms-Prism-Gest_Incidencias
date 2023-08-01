@@ -4,4 +4,11 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+
+	<color name="ListViewPressed">#ff3333</color>
+	<color name="ListViewFocused">#fff000</color>
+	<color name="ListViewActivate">#ff00ff</color>
+	<color name="ListViewSelected">#96BCE3</color>
+
 </resources>

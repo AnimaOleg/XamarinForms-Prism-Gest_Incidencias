@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gest_Incidencias.Android", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gest_Incidencias.iOS", "Gest_Incidencias\Gest_Incidencias.iOS\Gest_Incidencias.iOS.csproj", "{4C46A8D2-1625-431B-8EBC-7832D98F3CFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gest_Incidencias", "Gest_Incidencias\Gest_Incidencias\Gest_Incidencias.csproj", "{2FFA4D65-9855-4EDF-BD1D-9719A0AFE644}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gest_Incidencias", "Gest_Incidencias\Gest_Incidencias\Gest_Incidencias.csproj", "{2FFA4D65-9855-4EDF-BD1D-9719A0AFE644}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,7 +38,6 @@ Global
 		{972ED1D4-85D9-4D02-A921-D453E65FF86E}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{972ED1D4-85D9-4D02-A921-D453E65FF86E}.Release|iPhoneSimulator.Deploy.0 = Release|Any CPU
 		{4C46A8D2-1625-431B-8EBC-7832D98F3CFA}.Debug|Any CPU.ActiveCfg = Debug|iPhone
-		{4C46A8D2-1625-431B-8EBC-7832D98F3CFA}.Debug|Any CPU.Build.0 = Debug|iPhone
 		{4C46A8D2-1625-431B-8EBC-7832D98F3CFA}.Debug|Any CPU.Deploy.0 = Debug|iPhone
 		{4C46A8D2-1625-431B-8EBC-7832D98F3CFA}.Debug|iPhone.ActiveCfg = Debug|iPhone
 		{4C46A8D2-1625-431B-8EBC-7832D98F3CFA}.Debug|iPhone.Build.0 = Debug|iPhone

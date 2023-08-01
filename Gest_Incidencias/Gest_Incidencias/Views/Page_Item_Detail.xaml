@@ -1,31 +1,144 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Gest_Incidencias.Views.Page_Item_Detail"
-             Title ="Pagina Detalles">
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            mc:Ignorable="d"
+            xmlns:vm="clr-namespace:Gest_Incidencias.ViewModels"
+            x:Class="Gest_Incidencias.Views.Page_Item_Detail"
+            xmlns:fontAwesome="clr-namespace:FontAwesome"
+            Title="Detalles">
+    <ScrollView>
 
-    <StackLayout Spacing="20" Padding="15">
-        <Label Text="Text:" FontSize="Medium" />
-        <Editor
-            Text="{Binding Text}"
-            FontSize="Small"/>
-        <Label Text="Description:" FontSize="Medium" />
-        <Editor
-            Text="{Binding Description}"
-            FontSize="Small"/>
-        <Label Text="Fecha:" FontSize="Medium" />
-        <Label
-            Text="{Binding Date}"
-            FontSize="Small"/>
+        <!--<StackLayout Spacing="10" Padding="15" Orientation="Vertical">-->
+        <StackLayout Spacing="4" Orientation="Vertical" Padding="10" HeightRequest="500">
+
+            <!--<Grid ColumnDefinitions="0.3*, 0.4*, 0.4*">
+                <Button Text="Ini" Command="{Binding FinalizarCommand}" Grid.Column="1" ImageSource="tocar64px.png" FontSize="24" HeightRequest="74" Opacity="0.85" TextColor="black" BackgroundColor="Red" BorderColor="Black" BorderWidth="1"/>
+                <Button Text="Fin" Command="{Binding IniciarCommand}" Grid.Column="2" ImageSource="prohibicion64px.png" FontSize="24" HeightRequest="74" Opacity="0.85" TextColor="black" BackgroundColor="GreenYellow" BorderColor="Black" BorderWidth="1"/>
+            </Grid>
+            -->
+            <Grid ColumnDefinitions="0.3*, 0.4*, 0.4*">
+                <!--<Button Command="{Binding IniciarCommand}" IsEnabled="{Binding IsAvailableProperty}"-->
+                <Button Command="{Binding IniciarCommand}"
+                Text="{x:Static fontAwesome:FontAwesomeIcons.Play}" FontFamily="FAS"
+                        Grid.Column="1" FontSize="36"
+                        TextColor="Green" BackgroundColor="{StaticResource SecondaryColor}" BorderColor="Green" BorderWidth="3"/>
+                    <!--<Button Command="{Binding FinalizarCommand}" IsEnabled="{Binding IsAvailableProperty}"-->
+                    <Button Command="{Binding FinalizarCommand}"
+                        Text="{x:Static fontAwesome:FontAwesomeIcons.Stop}" FontFamily="FAS"
+                        Grid.Column="2" FontSize="36"
+                        TextColor="Red" BackgroundColor="{StaticResource SecondaryColor}" BorderColor="Red" BorderWidth="3"/>
+            </Grid>
+
+            <Frame BorderColor="Orange" CornerRadius="10" HasShadow="True" Padding="12" Margin="8,2">
+                <StackLayout Orientation="Vertical">
+                    <Label Text="Titulo" FontSize="Medium" HeightRequest="20"/>
+                    <!--<BoxView Color="White" HeightRequest="1" HorizontalOptions="Fill" />-->
+                    <Entry Text="{Binding Title}" FontSize="Large"/>
+                </StackLayout>
+            </Frame>
+
+            <Frame BorderColor="Orange" CornerRadius="0" HasShadow="True" Padding="12" Margin="0,2">
+                <StackLayout Orientation="Vertical">
+                    <Label Text="Description" FontSize="Medium"/>
+                    <!--<BoxView Color="white" HeightRequest="1" HorizontalOptions="Fill" />-->
+                    <Editor Text="{Binding Description}" FontSize="Large" HeightRequest="100"/>
+                </StackLayout>
+            </Frame>
 
 
-        <Grid ColumnDefinitions="*,*">
-            <Button Text="Save"
-                    Clicked="OnSaveButtonClicked" />
-            <Button Grid.Column="1"
-                    Text="Delete"
-                    Clicked="OnDeleteButtonClicked"/>
-        </Grid>
+            <Grid ColumnDefinitions="0.5*, 0.5*">
+                <Frame Grid.Column="0"
+                       BorderColor="Orange" CornerRadius="0" HasShadow="True" Padding="0" Margin="0,2">
+                    <StackLayout Orientation="Horizontal">
+                        <Grid ColumnDefinitions="0.5*,0.5*" BackgroundColor="{StaticResource SecondaryColor}" Padding="4" Margin="8">
+                            <Label Text="Estado" FontSize="Medium" Grid.Column="0"/>
+                            <Label Text="{Binding Tipo}" FontSize="Medium" Grid.Column="0"/>
+                        </Grid>
+                    </StackLayout>
+                </Frame>
+                <Frame Grid.Column="1"
+                    BorderColor="Orange" CornerRadius="0" HasShadow="True" Padding="0" Margin="0,2">
+                    <StackLayout Orientation="Horizontal">
+                        <Grid ColumnDefinitions="0.75*,0.25*" BackgroundColor="{StaticResource SecondaryColor}" Padding="4" Margin="8">
+                            <Label Text="Disponible" FontSize="Medium" Grid.Column="0"/>
+                            <CheckBox IsChecked="{Binding IsAvailable}" Grid.Column="1" ScaleX="2" ScaleY="2" Scale="1"
+                                  HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Color="Red"/>
+                        </Grid>
+                    </StackLayout>
+                </Frame>
+            </Grid>
 
-    </StackLayout>
+            <Frame BorderColor="Gray"  CornerRadius="0" HasShadow="True" Margin="0,8,0,0" Padding="0">
+                <StackLayout Orientation="Vertical" Padding="0" Margin="0">
+
+                    <Grid ColumnDefinitions="0.4*,0.6*" BackgroundColor="{StaticResource SecondaryColor}" Padding="12,4,12,0" Margin="1">
+                        <Label Text="Fecha Inicio:" FontSize="16" Grid.Column="0" TextColor="DarkBlue"/>
+                        <Label Text="{Binding DateStarting}" FontSize="16" Grid.Column="1" TextColor="DarkBlue"/>
+                    </Grid>
+                    <Grid ColumnDefinitions="0.4*,0.6*" BackgroundColor="{StaticResource SecondaryColor}" Padding="12,0,12,4" Margin="1">
+                        <Label Text="Fecha Finalizacion:" FontSize="16" Grid.Column="0" TextColor="DarkBlue"/>
+                        <Label Text="{Binding DateFinish}" FontSize="16" Grid.Column="1" TextColor="DarkBlue"/>
+                    </Grid>
+                </StackLayout>
+            </Frame>
+
+            <Frame BorderColor="Gray" CornerRadius="0" HasShadow="True" Margin="0,0,0,8" Padding="0">
+                <StackLayout Orientation="Vertical" Padding="0" Margin="0">
+
+                    <Grid ColumnDefinitions="0.45*,0.7*" BackgroundColor="{StaticResource SecondaryColor}" Padding="12,0" Margin="1">
+                        <Label Text="Fecha Creación:" FontSize="14" Grid.Column="0"/>
+                        <Label Text="{Binding DateCreation, StringFormat='{0:dd/MM/yyyy - hh\\:mm}'}" FontSize="14" Grid.Column="1"/>
+                    </Grid>
+                    <Grid ColumnDefinitions="0.45*,0.7*" BackgroundColor="{StaticResource SecondaryColor}" Padding="12,0" Margin="1">
+                        <Label Text="Fecha Modificacion:" FontSize="14" Grid.Column="0"/>
+                        <Label Text="{Binding DateModification}" FontSize="14" Grid.Column="1"/>
+                    </Grid>
+                    <Grid ColumnDefinitions="0.45*,0.7*" BackgroundColor="{StaticResource SecondaryColor}" Padding="12,0" Margin="1">
+                        <Label Text="Fecha Borrado:" FontSize="14" Grid.Column="0"/>
+                        <Label Text="{Binding DateDeleted}" FontSize="14" Grid.Column="1"/>
+                    </Grid>
+                </StackLayout>
+            </Frame>
+
+            <!--<Grid ColumnDefinitions="0.325*, 0.325*, 0.35*">
+                <Button Text="Delete" FontSize="14"  Command="{Binding DeleteCommand}" Grid.Column="0" ImageSource="basura.png"/>
+                <Button Text="Atrás" FontSize="14" Command="{Binding CancelCommand}" Grid.Column="1" ImageSource="cruz.png"/>
+                <Button Text="Guardar" FontSize="14"  Command="{Binding SaveCommand}" Grid.Column="2" ImageSource="controlar.png"/>
+            </Grid>-->
+
+            <Grid RowDefinitions="*,*">
+
+                <Grid Grid.Row="0">
+                    <Grid ColumnDefinitions="*, *"/>
+                    <!--<Button Text="Delete" FontSize="14"  Command="{Binding DeleteCommand}" Grid.Column="0" ImageSource="basura.png"/>-->
+
+
+                    <!--IsEnabled="{Binding IsDeletedStateElement}"-->
+                    <Button Command="{Binding RenovarCommand}" Grid.Column="0"
+                        Text="{x:Static fontAwesome:FontAwesomeIcons.TrashArrowUp}" FontFamily="FAS" FontSize="36"
+                        TextColor="Green" BackgroundColor="{StaticResource SecondaryColor}" BorderColor="Green" BorderWidth="2"/>
+                    <!--IsEnabled="{Binding IsDeletedStateElement}"-->
+                    <Button Command="{Binding DeleteCommand}" Grid.Column="1"
+                        Text="{x:Static fontAwesome:FontAwesomeIcons.Trash}" FontFamily="FAS" FontSize="36"
+                        TextColor="Red" BackgroundColor="{StaticResource SecondaryColor}" BorderColor="Red" BorderWidth="2"/>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid ColumnDefinitions="*, *">
+                        <!--<Button Text="Atrás" FontSize="14" Command="{Binding CancelCommand}" Grid.Column="0" ImageSource="anguloIzquierdo.png"/>
+                        <Button Text="Guardar" FontSize="14"  Command="{Binding SaveCommand}" Grid.Column="1" ImageSource="controlar.png"/>-->
+                        <Button Command="{Binding CancelCommand}" Grid.Column="0"
+                            Text="{x:Static fontAwesome:FontAwesomeIcons.ArrowLeft}" FontFamily="FAS" FontSize="36"
+                            TextColor="Black" BackgroundColor="{StaticResource SecondaryColor}" BorderColor="Black" BorderWidth="2"/>
+                        <Button Command="{Binding SaveCommand}" Grid.Column="1"
+                            Text="{x:Static fontAwesome:FontAwesomeIcons.SquareCheck}" FontFamily="FAS" FontSize="36"
+                            TextColor="Green" BackgroundColor="{StaticResource SecondaryColor}" BorderColor="Green" BorderWidth="2"/>
+                    </Grid>
+                </Grid>
+                
+            </Grid>
+
+        </StackLayout>
+    </ScrollView>
 </ContentPage>
