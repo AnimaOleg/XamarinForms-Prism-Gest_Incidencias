@@ -4,32 +4,36 @@
             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
             mc:Ignorable="d"
+            xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
             xmlns:vm="clr-namespace:Gest_Incidencias.ViewModels"
             x:Class="Gest_Incidencias.Views.Page_Item_Detail"
             xmlns:fontAwesome="clr-namespace:FontAwesome"
             Title="Detalles">
-    <ScrollView>
+    <!--xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"-->
 
+    <ScrollView>
         <!--<StackLayout Spacing="10" Padding="15" Orientation="Vertical">-->
-        <StackLayout Spacing="4" Orientation="Vertical" Padding="10" HeightRequest="500">
+        <StackLayout Spacing="4" Orientation="Vertical" Padding="10" HeightRequest="700">
 
             <!--<Grid ColumnDefinitions="0.3*, 0.4*, 0.4*">
-                <Button Text="Ini" Command="{Binding FinalizarCommand}" Grid.Column="1" ImageSource="tocar64px.png" FontSize="24" HeightRequest="74" Opacity="0.85" TextColor="black" BackgroundColor="Red" BorderColor="Black" BorderWidth="1"/>
-                <Button Text="Fin" Command="{Binding IniciarCommand}" Grid.Column="2" ImageSource="prohibicion64px.png" FontSize="24" HeightRequest="74" Opacity="0.85" TextColor="black" BackgroundColor="GreenYellow" BorderColor="Black" BorderWidth="1"/>
-            </Grid>
-            -->
+                    <Button Text="Ini" Command="{Binding FinalizarCommand}" Grid.Column="1" ImageSource="tocar64px.png" FontSize="24" HeightRequest="74" Opacity="0.85" TextColor="black" BackgroundColor="Red" BorderColor="Black" BorderWidth="1"/>
+                    <Button Text="Fin" Command="{Binding IniciarCommand}" Grid.Column="2" ImageSource="prohibicion64px.png" FontSize="24" HeightRequest="74" Opacity="0.85" TextColor="black" BackgroundColor="GreenYellow" BorderColor="Black" BorderWidth="1"/>
+                </Grid>
+                -->
             <Grid ColumnDefinitions="0.3*, 0.4*, 0.4*">
                 <!--<Button Command="{Binding IniciarCommand}" IsEnabled="{Binding IsAvailableProperty}"-->
                 <Button Command="{Binding IniciarCommand}"
                 Text="{x:Static fontAwesome:FontAwesomeIcons.Play}" FontFamily="FAS"
                         Grid.Column="1" FontSize="36"
                         TextColor="Green" BackgroundColor="{StaticResource SecondaryColor}" BorderColor="Green" BorderWidth="3"/>
-                    <!--<Button Command="{Binding FinalizarCommand}" IsEnabled="{Binding IsAvailableProperty}"-->
-                    <Button Command="{Binding FinalizarCommand}"
+                <!--<Button Command="{Binding FinalizarCommand}" IsEnabled="{Binding IsAvailableProperty}"-->
+                <Button Command="{Binding FinalizarCommand}"
                         Text="{x:Static fontAwesome:FontAwesomeIcons.Stop}" FontFamily="FAS"
                         Grid.Column="2" FontSize="36"
                         TextColor="Red" BackgroundColor="{StaticResource SecondaryColor}" BorderColor="Red" BorderWidth="3"/>
             </Grid>
+
 
             <Frame BorderColor="Orange" CornerRadius="10" HasShadow="True" Padding="12" Margin="8,2">
                 <StackLayout Orientation="Vertical">
@@ -70,6 +74,7 @@
                 </Frame>
             </Grid>
 
+
             <Frame BorderColor="Gray"  CornerRadius="0" HasShadow="True" Margin="0,8,0,0" Padding="0">
                 <StackLayout Orientation="Vertical" Padding="0" Margin="0">
 
@@ -102,14 +107,8 @@
                 </StackLayout>
             </Frame>
 
-            <!--<Grid ColumnDefinitions="0.325*, 0.325*, 0.35*">
-                <Button Text="Delete" FontSize="14"  Command="{Binding DeleteCommand}" Grid.Column="0" ImageSource="basura.png"/>
-                <Button Text="Atrás" FontSize="14" Command="{Binding CancelCommand}" Grid.Column="1" ImageSource="cruz.png"/>
-                <Button Text="Guardar" FontSize="14"  Command="{Binding SaveCommand}" Grid.Column="2" ImageSource="controlar.png"/>
-            </Grid>-->
 
             <Grid RowDefinitions="*,*">
-
                 <Grid Grid.Row="0">
                     <Grid ColumnDefinitions="*, *"/>
                     <!--<Button Text="Delete" FontSize="14"  Command="{Binding DeleteCommand}" Grid.Column="0" ImageSource="basura.png"/>-->
@@ -128,6 +127,7 @@
                     <Grid ColumnDefinitions="*, *">
                         <!--<Button Text="Atrás" FontSize="14" Command="{Binding CancelCommand}" Grid.Column="0" ImageSource="anguloIzquierdo.png"/>
                         <Button Text="Guardar" FontSize="14"  Command="{Binding SaveCommand}" Grid.Column="1" ImageSource="controlar.png"/>-->
+                        <!--<Button Command="{prism:NavigateTo 'NavigationPage/MainPage'}" Grid.Column="0"-->
                         <Button Command="{Binding CancelCommand}" Grid.Column="0"
                             Text="{x:Static fontAwesome:FontAwesomeIcons.ArrowLeft}" FontFamily="FAS" FontSize="36"
                             TextColor="Black" BackgroundColor="{StaticResource SecondaryColor}" BorderColor="Black" BorderWidth="2"/>
@@ -136,7 +136,6 @@
                             TextColor="Green" BackgroundColor="{StaticResource SecondaryColor}" BorderColor="Green" BorderWidth="2"/>
                     </Grid>
                 </Grid>
-                
             </Grid>
 
         </StackLayout>

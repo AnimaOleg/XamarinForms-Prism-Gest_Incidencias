@@ -4,6 +4,8 @@ using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
+using Prism.Ioc;
+using Prism;
 
 namespace Gest_Incidencias.Droid
 {
@@ -16,8 +18,21 @@ namespace Gest_Incidencias.Droid
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            LoadApplication(new App());
+            //LoadApplication(new App());
+
+            // Nueva Navegacion
+            LoadApplication(new App(new AndroidInitializer()));
         }
+
+        // Nueva Navegacion
+        public class AndroidInitializer : IPlatformInitializer
+        {
+            public void RegisterTypes(IContainerRegistry containerRegistry)
+            {
+                // Register any platform specific implementations
+            }
+        }
+
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);

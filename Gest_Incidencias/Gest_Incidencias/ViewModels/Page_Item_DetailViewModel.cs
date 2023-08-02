@@ -2,6 +2,7 @@
 using Gest_Incidencias.Views;
 using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,11 +14,16 @@ using Xamarin.Forms;
 
 namespace Gest_Incidencias.ViewModels
 {
-    public class Page_Item_DetailViewModel : BindableBase
+    public class Page_Item_DetailViewModel : BaseViewModel /*BindableBase*/
     {
+        #region Variables
         private readonly Services.IMessageService _messageService;
+        private readonly INavigationService _navigationService; //public INavigation Navigation { get; set; }
+        #endregion
 
         #region Properties
+        public string Tipo { get; set; }
+
         private int _id;
         public int Id {
             get { return _id; }
@@ -46,7 +52,6 @@ namespace Gest_Incidencias.ViewModels
             get { return _dateModification; }
             set { SetProperty(ref _dateModification, value); }
         }
-
         private string _dateStarting;
         public string DateStarting
         {
@@ -77,9 +82,6 @@ namespace Gest_Incidencias.ViewModels
             get { return _isDeleted; }
             set { SetProperty(ref _isDeleted, value); }
         }
-
-        public string Tipo { get; set; }
-
         public bool IsDeletedStateElement
         {
             get
@@ -95,16 +97,14 @@ namespace Gest_Incidencias.ViewModels
             get { return _isAvailable; }
             set { SetProperty(ref _isAvailable, value); }
         }
-
         private bool _isAvailableProperty = false;
         public bool IsAvailableProperty
         {
             get => _isAvailableProperty;
             set => SetProperty(ref _isAvailableProperty, value);
         }
-
-
         #endregion
+
 
         #region Commands
         public DelegateCommand IniciarCommand { private set; get; }
@@ -113,11 +113,45 @@ namespace Gest_Incidencias.ViewModels
         public DelegateCommand DeleteCommand { private set; get; }
         public DelegateCommand CancelCommand { private set; get; }
         public DelegateCommand SaveCommand { private set; get; }
-        public INavigation Navigation { get; set; }
+
+        private DelegateCommand _navigationCommand;
+        public DelegateCommand NavigateCommand =>
+            _navigationCommand ?? (_navigationCommand = new DelegateCommand(ExecuteNavigationCommand));
         #endregion
 
+
         #region Constructor
-        public Page_Item_DetailViewModel(INavigation navigation)
+        public Page_Item_DetailViewModel(INavigationService navigationService) : base(navigationService)
+        //public Page_Item_DetailViewModel(INavigationService navigationService) : base(navigationService,"")
+        {
+            Title = " VIEW Page_Item_DetailViewModel";
+            _navigationService = navigationService;
+            _messageService = DependencyService.Get<Services.IMessageService>();
+
+            /*
+            _messageService = DependencyService.Get<Services.IMessageService>();
+
+            IniciarCommand = new DelegateCommand(Iniciar);
+            FinalizarCommand = new DelegateCommand(Finalizar);
+            RenovarCommand = new DelegateCommand(Renovar);
+            DeleteCommand = new DelegateCommand(Delete);
+            CancelCommand = new DelegateCommand(Return);
+            SaveCommand = new DelegateCommand(Save);
+
+            Title = Parameters.EditingNote.Title;
+            Description = Parameters.EditingNote.Description;
+            IsAvailable = Parameters.EditingNote.IsAvailable;
+            DateCreation = Parameters.EditingNote.DateCreation;
+            DateModification = Parameters.EditingNote.DateModification;
+            DateStarting = Parameters.EditingNote.DateStarting;
+            DateFinish = Parameters.EditingNote.DateFinish;
+            DateDeleted = Parameters.EditingNote.DateDeleted;
+
+            Tipo = Tipo;
+            Parameters.EditingNote.IsSelected = false;
+            */
+        }
+        /*public Page_Item_DetailViewModel(INavigation navigation)
         {
             Navigation = navigation;
             _messageService = DependencyService.Get<Services.IMessageService>();
@@ -140,9 +174,21 @@ namespace Gest_Incidencias.ViewModels
 
             Tipo = Tipo;
             Parameters.EditingNote.IsSelected = false;
+        }*/
+        public override void Initialize(INavigationParameters parameters)
+        {
+            Console.WriteLine(" VIEW Page_Item_DetailViewModel");
+            base.Initialize(parameters);
         }
         #endregion
 
+
+        #region CommandsFunctions
+        async void ExecuteNavigationCommand()
+        {
+            Console.WriteLine("Click Boton NAVIGATE");
+            await _navigationService.NavigateAsync("ViewB");
+        }
 
         async void Iniciar()
         {
@@ -169,7 +215,7 @@ namespace Gest_Incidencias.ViewModels
                 Console.WriteLine("NOTA YA Iniciada");
             }
         }
-        #region Finalizar()
+
         async void Finalizar()
         {
             // hay nota, y no esta ya finalizada
@@ -196,10 +242,7 @@ namespace Gest_Incidencias.ViewModels
                 Console.WriteLine("NOTA Finalizar - Parameters.EditingNote == NULL ");
             }
         }
-        #endregion
 
-
-        #region Renovar()
         async void Renovar()
         {
             try
@@ -216,7 +259,7 @@ namespace Gest_Incidencias.ViewModels
                     try
                     {
                         await App.Database.SaveNoteAsync(Parameters.EditingNote);
-                        await Navigation.PushAsync(new MainPage());
+                        await NavigationService.NavigateAsync("MainPage");
                     }
                     catch (Exception ex)
                     {
@@ -231,11 +274,9 @@ namespace Gest_Incidencias.ViewModels
                 await _messageService.ShowAsync(message: "Excepcion: " + ex);
             }
             //await Navigation.PopAsync(); // no deja la lista actualizada
-            await Navigation.PushAsync(new MainPage());
+            await NavigationService.NavigateAsync("MainPage");
         }
-        #endregion
 
-        #region Delete()
         async void Delete()
         {
             Console.WriteLine("BORRAR: " + Parameters.EditingNote.Title);
@@ -250,7 +291,7 @@ namespace Gest_Incidencias.ViewModels
                 if (!string.IsNullOrWhiteSpace(Parameters.EditingNote.Title) && !string.IsNullOrWhiteSpace(Parameters.EditingNote.Description)) {
                     try {
                         await App.Database.SaveNoteAsync(Parameters.EditingNote);
-                        await Navigation.PushAsync(new MainPage());
+                        await NavigationService.NavigateAsync("MainPage");
                     }
                     catch (Exception ex) {
                         Console.WriteLine(ex.Message);
@@ -264,18 +305,16 @@ namespace Gest_Incidencias.ViewModels
                 await _messageService.ShowAsync(message: "Excepcion: " + ex);
             }
             //await Navigation.PopAsync(); // no deja la lista actualizada
-            await Navigation.PushAsync(new MainPage());
+            await NavigationService.NavigateAsync("MainPage");
         }
-        #endregion
 
-        #region Return()
         async void Return()
         {
-            await Navigation.PopAsync();
+            //await Navigation.PopAsync();
+            await NavigationService.GoBackAsync();
+            //await NavigationService.NavigateAsync("MainPage");
         }
-        #endregion
 
-        #region Save()
         async void Save()
         {
             Console.WriteLine("Guardar: " + Title);
@@ -307,7 +346,7 @@ namespace Gest_Incidencias.ViewModels
                 await _messageService.ShowAsync(message: "Excepcion: "+ex);
             }
             //await Navigation.PopAsync(); // no deja la lista actualizada
-            await Navigation.PushAsync(new MainPage());
+            await NavigationService.NavigateAsync("MainPage");
         }
         #endregion
 

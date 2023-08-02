@@ -25,7 +25,6 @@ namespace Gest_Incidencias.Models
         public bool InProgress { get; set; } = false;
         public string StateElement {
             get {
-
                 if (IsAvailable) return FontAwesome.FontAwesomeIcons.Check;
                 else if (IsDeleted) return FontAwesome.FontAwesomeIcons.Trash;
                 else if (InProgress) return FontAwesome.FontAwesomeIcons.Play;
@@ -50,23 +49,21 @@ namespace Gest_Incidencias.Models
             set;
         } = false;
 
-        /*[Ignore]
-        public Color SelectedItemColor
-        {
-            get
-            {
-                if (!IsSelected) return Color.DarkBlue;
-                else return Color.Transparent;
-            }
-        }*/
-        /*public float StateSelectedToOpacity
-        {
-            get
-            {
-                if (!IsSelected) return float.Parse("1", CultureInfo.InvariantCulture);
-                else return float.Parse("0,5", CultureInfo.InvariantCulture);
-            }
-        }*/
+        //[Ignore]
+        //public Color SelectedItemColor
+        //{
+        //    get
+        //    {
+        //        if (!IsSelected) return Color.DarkBlue;
+        //        else return Color.Transparent;
+        //    }
+        //}
+        //public float StateSelectedToOpacity{
+        //    get{
+        //        if (!IsSelected) return float.Parse("1", CultureInfo.InvariantCulture);
+        //        else return float.Parse("0,5", CultureInfo.InvariantCulture);
+        //    }
+        //}
         public string Tipo { get; set; }
     }
 }

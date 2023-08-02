@@ -2,6 +2,7 @@
 using Gest_Incidencias.Views;
 using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,14 +15,19 @@ using Xamarin.Forms.Internals;
 
 namespace Gest_Incidencias.ViewModels
 {
-    public class Page_List_IncidenciasViewModel : BindableBase
+    public class Page_List_IncidenciasViewModel : BaseViewModel /*BindableBase*/
     {
-        private readonly Services.IMessageService _messageService;
+        #region Variables
         int contador_notas_seleccionadas = 0;
 
-        public string Tipo { get; set; }
+        private /*readonly*/ Services.IMessageService _messageService;
+        private /*readonly*/ INavigationService _navigationService; //public INavigation Navigation { get; set; }
+        #endregion
+
 
         #region Properties
+        public string Tipo { get; set; }
+
         private ObservableCollection<Note> _notes;
         public ObservableCollection<Note> Notes {
             get => _notes;
@@ -47,50 +53,95 @@ namespace Gest_Incidencias.ViewModels
         }
         #endregion
 
+
         #region Commands
         public ICommand GetReportsItemCommand { private set; get; }
         public ICommand DeleteItemCommand { private set; get; }
         public ICommand ModifyItemCommand { private set; get; }
         public ICommand SetFinishedItemCommand { private set; get; }
-        public ICommand CreateItemCommand { private set; get; }
+        //public ICommand CreateItemCommand { private set; get; }
         public ICommand OnCheckedChangedCommand { private set; get; }
-
-        public INavigation Navigation { get; set; }
         public ICommand GoToDetailsCommand { private set; get; }
 
+        private DelegateCommand _navigationCommand;
+        public DelegateCommand NavigateCommand =>
+            _navigationCommand ?? (_navigationCommand = new DelegateCommand(ExecuteNavigationCommand));
+
+        
+        private DelegateCommand _createItemCommand;
+        public DelegateCommand CreateItemCommand =>
+            _createItemCommand ?? (_createItemCommand = new DelegateCommand(CreateItem));
+        
         #endregion
 
+
         #region Constructor
-
-        public Page_List_IncidenciasViewModel(INavigation navigation, string tipo)
-        {
-            Navigation = navigation;
+        public Page_List_IncidenciasViewModel(INavigationService navigationService, string tipo) : base(navigationService /*, tipo*/)
+        { // DEBUGEAR
+            
+            // Variables
+            this.Tipo = tipo;
+            Title = "Page_List_IncidenciasViewModel 2";
             _messageService = DependencyService.Get<Services.IMessageService>();
+            _navigationService = navigationService; //Navigation = navigation;
+            Console.WriteLine(" MODEL 1 Page_List_IncidenciasViewModel, TIPO: " + tipo);
 
-
+            /// Commands
             //OnCheckedChangedCommand = new Command<CheckedChangedEventArgs>(OnCheckedChanged);
             OnCheckedChangedCommand = new Command<CheckedChangedEventArgs>(OnCheckedChanged);
             DeleteItemCommand = new Command(DeleteItem);
             ModifyItemCommand = new Command(ModifyItem);
             GetReportsItemCommand = new Command(GetReportsItem);
             SetFinishedItemCommand = new Command(Finalizar);
-            CreateItemCommand = new Command(CreateItem);
-            this.Tipo = tipo;
+            //CreateItemCommand = new Command(CreateItem);
 
-            LoadDataList();
+            Load_Data();
         }
-        #endregion
 
-        #region LoadData()
-        private async void LoadDataList()
+        public Page_List_IncidenciasViewModel(INavigationService navigationService) : base(navigationService)
+        { // DEBUGEAR
+            /*
+            // Variables
+            Title = " VISTA Page_List_IncidenciasViewModel 1";
+            _messageService = DependencyService.Get<Services.IMessageService>();
+            _navigationService = navigationService; //Navigation = navigation;
+            Console.WriteLine(" MODEL 2 Page_List_IncidenciasViewModel, TIPO: " + this.Tipo);
+            */
+
+            _navigationService = navigationService; //Navigation = navigation;
+
+            // Commands
+            //OnCheckedChangedCommand = new Command<CheckedChangedEventArgs>(OnCheckedChanged);
+            OnCheckedChangedCommand = new Command<CheckedChangedEventArgs>(OnCheckedChanged);
+            DeleteItemCommand = new Command(DeleteItem);
+            ModifyItemCommand = new Command(ModifyItem);
+            GetReportsItemCommand = new Command(GetReportsItem);
+            SetFinishedItemCommand = new Command(Finalizar);
+            //CreateItemCommand = new Command(CreateItem);
+            
+            //Load_Data();
+        }
+        async void Load_Data()
         {
-            Notes = new ObservableCollection<Note>(await App.Database.GetNotesAsync(Tipo));
-            //Notes.ForEach(note => note.IsSelected = false);
+            Notes = new ObservableCollection<Note>(await App.Database.GetNotesAsync(Tipo)); //Notes.ForEach(note => note.IsSelected = false);
             Summary = Notes.Count() + ""; /* + " " + Tipo*/
         }
+        public override void Initialize(INavigationParameters parameters)
+        {
+            //Console.WriteLine(" INITIALIZE Page_List_Incidencias params: " + parameters);
+            base.Initialize(parameters);
+        }
+
         #endregion
 
-        #region OnCheckedChanged()
+
+        #region CommandsFunctions
+        async void ExecuteNavigationCommand()
+        {
+            Console.WriteLine("Click Boton NAVIGATE TO B");
+            await _navigationService.NavigateAsync("ViewA");
+        }
+
         async void OnCheckedChanged(CheckedChangedEventArgs arg)
         {
             // Contador de Checks Marcados
@@ -138,9 +189,7 @@ namespace Gest_Incidencias.ViewModels
             //    Console.WriteLine("nota: "+Notes[n].Title);
             //}
         }
-        #endregion
 
-        #region GetReportsItem()
         async void GetReportsItem()
         {
             // https://www.google.com/search?q=xamarin+generar+reporte+con+pdf&rlz=1C1GCEU_esES1064ES1064&sxsrf=AB5stBjR1xYSV5FLdhD7ATVklfuycQf8Qg%3A1690541030546&ei=5pvDZPvxIOqrkdUP-IipiAU&ved=0ahUKEwj7_OmMnLGAAxXqVaQEHXhEClEQ4dUDCA8&uact=5&oq=xamarin+generar+reporte+con+pdf&gs_lp=Egxnd3Mtd2l6LXNlcnAiH3hhbWFyaW4gZ2VuZXJhciByZXBvcnRlIGNvbiBwZGYyBRAhGKABMgUQIRigATIFECEYoAFInRBQyQlYtQ9wAXgBkAEAmAHGAaABhweqAQMxLja4AQPIAQD4AQHCAgoQABhHGNYEGLADwgIEECEYFeIDBBgAIEGIBgGQBgg&sclient=gws-wiz-serp
@@ -149,9 +198,7 @@ namespace Gest_Incidencias.ViewModels
             //await Navigation.PushAsync(new Page_List_Incidencias());
             //await Navigation.PushAsync(new MainPage());
         }
-        #endregion
 
-        #region DeleteItem()
         async void DeleteItem()
         {
             if (Parameters.EditingNote == null) {
@@ -166,27 +213,23 @@ namespace Gest_Incidencias.ViewModels
                 Parameters.EditingNote.DateDeleted = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
 
                 await App.Database.SaveNoteAsync(Parameters.EditingNote);
-                await Navigation.PushAsync(new MainPage());
+                await NavigationService.NavigateAsync("MainPage");
             }
 
             //await Navigation.PushAsync(new Page_List_Incidencias());
         }
-        #endregion
 
-        #region ModifyItem()
         async void ModifyItem()
         {
             if (Parameters.EditingNote != null) {
                 Parameters.EditingNote.IsSelected = false;
-                await Navigation.PushAsync(new Page_Item_Detail());
+                await NavigationService.NavigateAsync("Page_Item_Detail");
             }
             else {
                 await _messageService.ShowAsync(message: "Elige una Incidencia para Modificar");
             }
         }
-        #endregion
 
-        #region Finalizar()
         async void Finalizar()
         {
             if (Parameters.EditingNote != null)
@@ -212,21 +255,22 @@ namespace Gest_Incidencias.ViewModels
                     //VisibleFecha = true
                 }
                 await App.Database.SaveNoteAsync(Parameters.EditingNote);
-                await Navigation.PushAsync(new MainPage());
+                await NavigationService.NavigateAsync("MainPage");
             }
             else
             {
                 Console.WriteLine("NOTA Finalizar - Parameters.EditingNote == NULL ");
             }
         }
-        #endregion
 
-        #region CreateItem()
         async void CreateItem()
         {
-            await Navigation.PushAsync(new Page_Entry_Incidence());
+            await _navigationService.NavigateAsync("Page_Entry_Incidence");
+            //await _navigationService.NavigateAsync("Page_Entry_Incidence");
+            //await Navigation.PushAsync(new Page_Entry_Incidence());
         }
         #endregion
+
     }
 
 

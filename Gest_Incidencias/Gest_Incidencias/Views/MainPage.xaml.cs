@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Gest_Incidencias.Views;
+using Gest_Incidencias.ViewModels;
 
 namespace Gest_Incidencias.Views
 {
@@ -14,7 +15,15 @@ namespace Gest_Incidencias.Views
     {
         public MainPage()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(" MAIN PAGE EXCEPTION: "+e.ToString());
+            }
+            
         }
 
 

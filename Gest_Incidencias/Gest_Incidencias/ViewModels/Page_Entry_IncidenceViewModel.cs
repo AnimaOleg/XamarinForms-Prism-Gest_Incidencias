@@ -2,6 +2,7 @@
 using Gest_Incidencias.Views;
 using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Navigation;
 using Prism.Navigation.Xaml;
 using Prism.Xaml;
 using System;
@@ -16,9 +17,13 @@ using Xamarin.Forms;
 
 namespace Gest_Incidencias.ViewModels
 {
-    public class Page_Entry_IncidenceViewModel : BindableBase
+    public class Page_Entry_IncidenceViewModel : /*BindableBase*/ BaseViewModel
     {
+        #region Variables
         private readonly Services.IMessageService _messageService;
+        private /*readonly*/ INavigationService _navigationService; //public INavigation Navigation { get; set; }
+        #endregion
+
 
         #region Properties
         private int _id;
@@ -50,28 +55,46 @@ namespace Gest_Incidencias.ViewModels
         }
         #endregion
 
+
         #region Commands
         public ICommand OnTextChangedCommand { private set; get; }
         //public ICommand UnfocusedTitleCommand { private set; get; }
         public ICommand CreateNoteCommand { private set; get; }
         public DelegateCommand CancelNoteCommand { private set; get; }
-        public INavigation Navigation { get; set; }
+        private DelegateCommand _navigationCommand;
+        public DelegateCommand NavigateCommand =>
+            _navigationCommand ?? (_navigationCommand = new DelegateCommand(ExecuteNavigationCommand));
         #endregion
 
+
         #region Constructor
-        public Page_Entry_IncidenceViewModel(INavigation navigation)
+        public Page_Entry_IncidenceViewModel(INavigationService navigationService) : base(navigationService)
+        //public Page_Entry_IncidenceViewModel(INavigationService navigationService) : base(navigationService,"")
         {
-            Navigation = navigation;
+            //Title = " VISTA Page_Entry_IncidenceViewModel";
+            _navigationService = navigationService;
             _messageService = DependencyService.Get<Services.IMessageService>();
 
             CancelNoteCommand = new DelegateCommand(Cancel);
             CreateNoteCommand = new Command(CreateNote);
             OnTextChangedCommand = new Command(TextChanged);
-            //UnfocusedTitleCommand = new Command(UnfocusedTitle);
+            //    //UnfocusedTitleCommand = new Command(UnfocusedTitle);
+        }
+        public override void Initialize(INavigationParameters parameters)
+        {
+            Console.WriteLine(" INITIALIZE Page_Entry_IncidenceViewModel");
+            base.Initialize(parameters);
         }
         #endregion
 
-        #region TextChanged()
+
+        #region CommandsFunctions
+        async void ExecuteNavigationCommand()
+        {
+            Console.WriteLine("Click Boton NAVIGATEB");
+            await _navigationService.NavigateAsync("ViewB");
+        }
+
         void TextChanged()
         {
             if (Title == "")
@@ -84,11 +107,7 @@ namespace Gest_Incidencias.ViewModels
                 IsAvailable = true;
             }
         }
-        #endregion
 
-        //void UnfocusedTitle() {}
-
-        #region CreateNote()
         async void CreateNote()
         {
             Console.WriteLine("Dentro");
@@ -105,7 +124,7 @@ namespace Gest_Incidencias.ViewModels
                 if (!string.IsNullOrWhiteSpace(note.Title) || !string.IsNullOrWhiteSpace(note.Description)) {
                     try {
                         await App.Database.SaveNoteAsync(note);
-                        await Navigation.PushAsync(new MainPage());
+                        await NavigationService.NavigateAsync("MainPage");
                     }
                     catch (Exception ex) {
                         await _messageService.ShowAsync("Error: " + ex.Message);
@@ -120,11 +139,12 @@ namespace Gest_Incidencias.ViewModels
 
             //await Navigation.PopAsync(); // no deja la lista actualizada
         }
-        #endregion
 
-        #region Cancel()
         async void Cancel() {
-            await Navigation.PopAsync();
+            //await Navigation.PopAsync();
+            await NavigationService.GoBackAsync();
+
+            //await NavigationService.NavigateAsync("MainPage");
         }
         #endregion
     }

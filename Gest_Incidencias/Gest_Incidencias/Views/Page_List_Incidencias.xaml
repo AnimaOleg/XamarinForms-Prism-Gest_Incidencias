@@ -7,10 +7,12 @@
             xmlns:local="clr-namespace:Gest_Incidencias.Views"
             xmlns:vm="clr-namespace:Gest_Incidencias.ViewModels"
             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
             xmlns:fontAwesome="clr-namespace:FontAwesome"
              x:Class="Gest_Incidencias.Views.Page_List_Incidencias"
-             Title="{Binding Tipo}"
-             x:Name="oThis">
+             x:Name="oThis"
+             Title="{Binding Tipo}">
     
     <!--<NavigationPage.TitleView>
         <AbsoluteLayout>
@@ -172,13 +174,18 @@
 
         <!--<BoxView Color="Transparent" Grid.Row="2"/>-->
         <Grid RowDefinitions="*" Padding="6,0,6,4" Grid.Row="2">
-            <Grid ColumnDefinitions="*">
+            <Grid ColumnDefinitions="*,*">
 
+                <!--<Button Command="{Binding NavigateCommand}"-->
                 <Button Command="{Binding CreateItemCommand}"
                     Grid.Column="0" HorizontalOptions="EndAndExpand"
                     Text="{x:Static fontAwesome:FontAwesomeIcons.Plus}"
                     FontFamily="FAS" FontSize="40" BackgroundColor="LightGreen"
                     TextColor="DarkBlue" BorderColor="DarkBlue" BorderWidth="2" />
+
+                <Button Text="Navigate to A" Command="{Binding NavigateCommand}"
+                    Grid.Column="1"/>
+                    
             </Grid>
         </Grid>
 

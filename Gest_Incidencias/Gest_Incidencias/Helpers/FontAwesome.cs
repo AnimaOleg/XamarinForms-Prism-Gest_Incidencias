@@ -1,15 +1,4 @@
-﻿/*using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Gest_Incidencias.Helpers
-{
-    internal class FontAwesome
-    {
-    }
-}*/
-
-using System;
+﻿using System;
 using System.ComponentModel;
 
 namespace FontAwesome

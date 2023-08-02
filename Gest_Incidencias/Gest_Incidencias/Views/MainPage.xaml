@@ -1,11 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-
-<!--<naxam:BottomTabbedPage xmlns="http://xamarin.com/schemas/2014/forms"-->
-<!-- config del navbar (no funciona bien naxam:BottomTabbedPage):
-    https://learn.microsoft.com/es-es/xamarin/xamarin-forms/platform/android/tabbedpage-toolbar-placement-color
-    https://learn.microsoft.com/es-es/xamarin/xamarin-forms/platform/android/tabbedpage-page-swiping
--->
-<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+<TabbedPage
+	xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:tareas="clr-namespace:Gest_Incidencias.Views"
     x:Class="Gest_Incidencias.Views.MainPage"
@@ -18,11 +13,9 @@
     android:TabbedPage.IsSwipePagingEnabled="true"
     NavigationPage.HasNavigationBar="true" >
 
-
     <!-- https://stackoverflow.com/questions/72922974/center-text-on-navigationpages-titleview-it-is-slightly-offset-due-to-back-but -->
     <NavigationPage.TitleView Padding="0">
         <AbsoluteLayout BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Margin="0" Padding="0">
-            <!--<Label Text="Gestor de Incidencias" FontSize="18" FontFamily="V4" TextColor="#D41167" TextTransform="Uppercase"-->
             <Label Text="Gestor de Incidencias" FontSize="18" FontFamily="V4" TextColor="#D41167" TextTransform="Uppercase"
                    AbsoluteLayout.LayoutBounds="0.5, 0.5"
                    AbsoluteLayout.LayoutFlags="PositionProportional"/>
@@ -33,7 +26,7 @@
                     <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" CommandParameter="Value"/>
                 </Image.GestureRecognizers>
             </Image>
-            
+
         </AbsoluteLayout>
     </NavigationPage.TitleView>
 
@@ -42,20 +35,7 @@
     <tareas:Page_List_Incidencias Title="Todas" Icon="hogar.png" Tipo="All"/>
     <tareas:Page_List_Incidencias Title="Borradas" Icon="basura.png" Tipo="Deleted"/>
     <tareas:Page_List_Incidencias Title="En Curso" Icon="play.png" Tipo="InProgress"/>
-    <tareas:Page_List_Incidencias Title="Finalizadas" Icon="report.png" Tipo="Finished">
-    </tareas:Page_List_Incidencias>
+    <tareas:Page_List_Incidencias Title="Finalizadas" Icon="report.png" Tipo="Finished"/>
 
-    <!--
-    <tareas:Page_List_Incidencias Title="{Binding Tareas}" Icon="hogar.png"/>
-    <tareas:Page_List_Incidencias Title="{Binding EnCurso}" Icon="alinearJustificar.png"/>
-    <tareas:Page_List_Incidencias Title="{Binding Finalizadas}" Icon="lista.png"/>
-    -->
-    
-<!--<Tab Title="Profile" Route="profile">
-<Tab.Icon>
-<FontImageSource Glyph="{StaticResource IconCoffee}" FontFamily="FA-S" />
-</Tab.Icon>
-<ShellContent ContentTemplate="{DataTemplate view:ProfilePage}"/>
-</Tab>
--->
+
 </TabbedPage>

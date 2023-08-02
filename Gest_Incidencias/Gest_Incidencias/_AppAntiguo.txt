@@ -1,16 +1,14 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<prism:PrismApplication xmlns="http://xamarin.com/schemas/2014/forms"
+﻿
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-            xmlns:prism="http://prismlibrary.com"
             x:Class="Gest_Incidencias.App">
-            <!--xmlns:prism1="clr-namespace:Prism.DryIoc;assembly=Prism.DryIoc.Forms"-->
-
+    
     <Application.Resources>
         <ResourceDictionary>
             <!-- icono estatico -->
             <x:String x:Key="IconCoffee">&#xf0f4;</x:String>
             <!-- cambiado al uso de FontAwesome con https://montemagno.com/xamarin-forms-custom-fonts-everywhere/-->
-
+        
             <!-- ESTILOS PAR ALA APLICACION -->
             <Thickness x:Key="PageMarginListItem">4,6</Thickness>
             <Thickness x:Key="PageMarginList">8, 4</Thickness>
@@ -56,6 +54,4 @@
 
         </ResourceDictionary>
     </Application.Resources>
-</prism:PrismApplication>
-
-
+</Application>

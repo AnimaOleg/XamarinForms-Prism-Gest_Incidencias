@@ -1,6 +1,7 @@
 ﻿using Gest_Incidencias.Models;
 using Gest_Incidencias.ViewModels;
 using Prism.Ioc;
+using Prism.Navigation;
 using SQLitePCL;
 using System;
 using System.Collections;
@@ -16,17 +17,22 @@ using Xamarin.Forms.Xaml;
 
 namespace Gest_Incidencias.Views
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
+    //[XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Page_List_Incidencias : ContentPage
     {
+        private /*readonly*/ INavigationService _navigationService;
+
         public string Tipo { get; set; }
+
         public Page_List_Incidencias()
         {
             InitializeComponent();            
         }
+
         protected override void OnAppearing()
         {
-            BindingContext = new Page_List_IncidenciasViewModel(Navigation, this.Tipo);
+            Console.WriteLine(" ON APPEARING Page_List_Incidencias, TIPO: " + Tipo); // DEBUGEAR
+            BindingContext = new Page_List_IncidenciasViewModel(_navigationService, this.Tipo);
             base.OnAppearing();
         }
 
