@@ -11,12 +11,5 @@
     <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
         <Label Text="{Binding Title}"/>
         <Button Text="Navigate to B" Command="{Binding NavigateCommand}"/>
-        
-        
-<!--
-<Button Text="Go Back"
-        Command="{prism:GoBack}"
-        CommandParameter="{prism:Parameter Key='message', Value='Hello from ViewA'}"/>
--->
     </StackLayout>
 </ContentPage>

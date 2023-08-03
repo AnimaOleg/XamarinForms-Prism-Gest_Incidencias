@@ -41,6 +41,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\Estados\Todas_Page_List_Incidencias.xaml.cs">
+      <DependentUpon>Todas_Page_List_Incidencias.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Page_Item_Detail.xaml.cs">
       <DependentUpon>Page_Item_Detail.xaml</DependentUpon>
     </Compile>
@@ -59,5 +62,10 @@
     <EmbeddedResource Update="Views\ViewA.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ViewModels\Page_Item\" />
+    <Folder Include="Views\Page_Item\" />
   </ItemGroup>
 </Project>

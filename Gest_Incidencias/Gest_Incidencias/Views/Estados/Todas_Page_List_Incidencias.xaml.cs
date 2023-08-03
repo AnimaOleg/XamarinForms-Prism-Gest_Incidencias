@@ -1,5 +1,6 @@
 ﻿using Gest_Incidencias.Models;
-using Gest_Incidencias.ViewModels;
+//using Gest_Incidencias.ViewModels;
+using Gest_Incidencias.ViewModels.Estados;
 using Prism.Ioc;
 using Prism.Navigation;
 using SQLitePCL;
@@ -15,16 +16,16 @@ using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
 
-namespace Gest_Incidencias.Views
+namespace Gest_Incidencias.Views.Estados
 {
     //[XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class Page_List_Incidencias : ContentPage
+    public partial class Todas_Page_List_Incidencias : ContentPage
     {
         private /*readonly*/ INavigationService _navigationService;
 
         public string Tipo { get; set; }
 
-        public Page_List_Incidencias()
+        public Todas_Page_List_Incidencias()
         {
             InitializeComponent();            
         }
@@ -34,7 +35,7 @@ namespace Gest_Incidencias.Views
             Console.WriteLine(" ON APPEARING Page_List_Incidencias, TIPO: " + Tipo); // DEBUGEAR
             Console.WriteLine(" AQUI FALLO, _navigationService = null");
 
-            BindingContext = new Page_List_IncidenciasViewModel(_navigationService, this.Tipo);
+            BindingContext = new Todas_Page_List_IncidenciasViewModel(_navigationService, this.Tipo);
             base.OnAppearing();
         }
 

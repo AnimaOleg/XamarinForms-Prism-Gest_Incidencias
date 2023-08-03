@@ -11,10 +11,6 @@ namespace Gest_Incidencias.ViewModels
 {
     public class ViewAViewModel : BaseViewModel
     {
-        /*public ViewAViewModel()
-        {
-        }*/
-
         private string _title;
 
         public string Title
@@ -41,8 +37,8 @@ namespace Gest_Incidencias.ViewModels
         }
         async void ExecuteNavigationCommand()
         {
-            Console.WriteLine("Click Boton NAVIGATE TO B");
-            await _navigationService.NavigateAsync("ViewB");
+            Console.WriteLine("Click Boton NAVIGATE");
+            await _navigationService.NavigateAsync("/MainPage");
         }
     }
 }

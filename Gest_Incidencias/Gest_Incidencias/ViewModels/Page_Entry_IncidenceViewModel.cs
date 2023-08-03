@@ -60,7 +60,7 @@ namespace Gest_Incidencias.ViewModels
         public ICommand OnTextChangedCommand { private set; get; }
         //public ICommand UnfocusedTitleCommand { private set; get; }
         public ICommand CreateNoteCommand { private set; get; }
-        public DelegateCommand CancelNoteCommand { private set; get; }
+        public DelegateCommand CancelCommand { private set; get; }
         private DelegateCommand _navigationCommand;
         public DelegateCommand NavigateCommand =>
             _navigationCommand ?? (_navigationCommand = new DelegateCommand(ExecuteNavigationCommand));
@@ -69,16 +69,15 @@ namespace Gest_Incidencias.ViewModels
 
         #region Constructor
         public Page_Entry_IncidenceViewModel(INavigationService navigationService) : base(navigationService)
-        //public Page_Entry_IncidenceViewModel(INavigationService navigationService) : base(navigationService,"")
         {
             //Title = " VISTA Page_Entry_IncidenceViewModel";
             _navigationService = navigationService;
             _messageService = DependencyService.Get<Services.IMessageService>();
 
-            CancelNoteCommand = new DelegateCommand(Cancel);
+            CancelCommand = new DelegateCommand(Cancel);
             CreateNoteCommand = new Command(CreateNote);
             OnTextChangedCommand = new Command(TextChanged);
-            //    //UnfocusedTitleCommand = new Command(UnfocusedTitle);
+            //UnfocusedTitleCommand = new Command(UnfocusedTitle);
         }
         public override void Initialize(INavigationParameters parameters)
         {

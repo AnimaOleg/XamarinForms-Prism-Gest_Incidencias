@@ -9,14 +9,9 @@ namespace Gest_Incidencias.ViewModels
 {
     public class MainPageViewModel : BaseViewModel
     {
-        //private DelegateCommand _navigationCommand;
         private /*readonly*/ INavigationService _navigationService;
 
-        //public DelegateCommand NavigateCommand =>
-        //    _navigationCommand ?? (_navigationCommand = new DelegateCommand(ExecuteNavigationCommand));
-
         public MainPageViewModel(INavigationService navigationService) : base(navigationService)
-        //public MainPageViewModel(INavigationService navigationService) : base(navigationService,"")
         {
             Title = "Main Pagee";
             _navigationService = navigationService;

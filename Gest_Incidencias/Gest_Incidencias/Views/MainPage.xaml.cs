@@ -23,7 +23,14 @@ namespace Gest_Incidencias.Views
             {
                 Console.WriteLine(" MAIN PAGE EXCEPTION: "+e.ToString());
             }
-            
+
+
+            //NavigationPage navigationPage = new NavigationPage(new MainPage());
+            //navigationPage.IconImageSource = "alinearJustificar.png";
+            //navigationPage.Title = "Pagiona Principal";
+
+            //Children.Add(new ViewA());
+            //Children.Add(navigationPage);
         }
 
 

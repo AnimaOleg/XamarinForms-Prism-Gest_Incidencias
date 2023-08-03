@@ -13,9 +13,9 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 
-namespace Gest_Incidencias.ViewModels
+namespace Gest_Incidencias.ViewModels.Estados
 {
-    public class Page_List_IncidenciasViewModel : BaseViewModel /*BindableBase*/
+    public class Todas_Page_List_IncidenciasViewModel : BaseViewModel /*BindableBase*/
     {
         #region Variables
         int contador_notas_seleccionadas = 0;
@@ -76,10 +76,10 @@ namespace Gest_Incidencias.ViewModels
 
 
         #region Constructor
-        public Page_List_IncidenciasViewModel(INavigationService navigationService) : base(navigationService)
+        public Todas_Page_List_IncidenciasViewModel(INavigationService navigationService) : base(navigationService)
         { }
 
-        public Page_List_IncidenciasViewModel(INavigationService navigationService, string tipo) : base(navigationService)
+        public Todas_Page_List_IncidenciasViewModel(INavigationService navigationService, string tipo) : base(navigationService)
         { // DEBUGEAR
             
             // Variables
