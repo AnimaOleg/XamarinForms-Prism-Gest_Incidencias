@@ -1,7 +1,6 @@
 ﻿using Gest_Incidencias.Data;
 using Gest_Incidencias.Services;
 using Gest_Incidencias.ViewModels;
-using Gest_Incidencias.ViewModels.Estados;
 using Gest_Incidencias.Views;
 using Prism;
 using Prism.Ioc;
@@ -20,7 +19,7 @@ namespace Gest_Incidencias
         static NoteDatabase database;
 
         // Nueva Navegacion
-        public INavigationService MyNavigationService => NavigationService;
+        public INavigationService MyNavigationService => NavigationService; //  llamando a MyNavigationService lo que haces es llamar a NavigationService
         public App() : this(null) { }
         public App(IPlatformInitializer initializer) : base(initializer) { }
 
@@ -36,12 +35,11 @@ namespace Gest_Incidencias
 
         protected override async void OnInitialized()
         {
-            DependencyService.Register<IMessageService, MessageService>();
             InitializeComponent();
 
-            await NavigationService.NavigateAsync("/MainPage");
-
-            //await NavigationService.NavigateAsync("/MainPage?message=Hello%20From%20PrismApplication"); // Para el ejemplo de Mensajes
+            DependencyService.Register<IMessageService, MessageService>();
+            await MyNavigationService.NavigateAsync("MainPage");
+            //await NavigationService.NavigateAsync("MainPage?message=Hello%20From%20PrismApplication"); // Para el ejemplo de Mensajes
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -50,7 +48,6 @@ namespace Gest_Incidencias
 
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
             containerRegistry.RegisterForNavigation<Page_List_Incidencias, Page_List_IncidenciasViewModel>();
-            //containerRegistry.RegisterForNavigation<Page_List_Incidencias, ViewModels.Estados.Todas_Page_List_IncidenciasViewModel>();
             containerRegistry.RegisterForNavigation<Page_Entry_Incidence, Page_Entry_IncidenceViewModel>();
             containerRegistry.RegisterForNavigation<Page_Item_Detail, Page_Item_DetailViewModel>();
             containerRegistry.RegisterForNavigation<ViewA, ViewAViewModel>();

@@ -22,10 +22,11 @@ namespace Gest_Incidencias.Views
     {
         private /*readonly*/ INavigationService _navigationService;
 
-        public string Tipo { get; set; }
+        public string Tipo { get; set; } /*= "Disponibles";*/
 
         public Page_List_Incidencias()
         {
+            //Tipo = "Disponibles";
             this._navigationService = ContainerLocator.Container.Resolve<INavigationService>();
             InitializeComponent();
         }
@@ -37,6 +38,6 @@ namespace Gest_Incidencias.Views
             base.OnAppearing();
             Console.WriteLine(" ON APPEARING Page_List_Incidencias, TIPO: " + Tipo);
         }
-
     }
+    
 }

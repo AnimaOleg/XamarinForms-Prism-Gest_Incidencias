@@ -38,7 +38,7 @@ namespace Gest_Incidencias.ViewModels
         async void ExecuteNavigationCommand()
         {
             Console.WriteLine("Click Boton NAVIGATE");
-            await _navigationService.NavigateAsync("/MainPage");
+            await _navigationService.NavigateAsync("MainPage");
         }
     }
 }

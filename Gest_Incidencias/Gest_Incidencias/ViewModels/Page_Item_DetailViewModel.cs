@@ -29,10 +29,10 @@ namespace Gest_Incidencias.ViewModels
             get { return _id; }
             set { SetProperty(ref _id, value); }
         }
-        private string _title;
-        public string Title {
-            get { return _title; }
-            set { SetProperty(ref _title, value); }
+        private string _nombre;
+        public string Name {
+            get { return _nombre; }
+            set { SetProperty(ref _nombre, value); }
         }
         private string _description;
         public string Description {
@@ -122,15 +122,11 @@ namespace Gest_Incidencias.ViewModels
 
         #region Constructor
         public Page_Item_DetailViewModel(INavigationService navigationService) : base(navigationService)
-        //public Page_Item_DetailViewModel(INavigationService navigationService) : base(navigationService,"")
         {
-            Title = " VIEW Page_Item_DetailViewModel";
+            Title = "Detalles - \"" + Parameters.EditingNote.Name + "\"";
             _navigationService = navigationService;
             _messageService = DependencyService.Get<Services.IMessageService>();
 
-            /*
-            _messageService = DependencyService.Get<Services.IMessageService>();
-
             IniciarCommand = new DelegateCommand(Iniciar);
             FinalizarCommand = new DelegateCommand(Finalizar);
             RenovarCommand = new DelegateCommand(Renovar);
@@ -138,7 +134,7 @@ namespace Gest_Incidencias.ViewModels
             CancelCommand = new DelegateCommand(Return);
             SaveCommand = new DelegateCommand(Save);
 
-            Title = Parameters.EditingNote.Title;
+            Name = Parameters.EditingNote.Name;
             Description = Parameters.EditingNote.Description;
             IsAvailable = Parameters.EditingNote.IsAvailable;
             DateCreation = Parameters.EditingNote.DateCreation;
@@ -149,32 +145,7 @@ namespace Gest_Incidencias.ViewModels
 
             Tipo = Tipo;
             Parameters.EditingNote.IsSelected = false;
-            */
         }
-        /*public Page_Item_DetailViewModel(INavigation navigation)
-        {
-            Navigation = navigation;
-            _messageService = DependencyService.Get<Services.IMessageService>();
-
-            IniciarCommand = new DelegateCommand(Iniciar);
-            FinalizarCommand = new DelegateCommand(Finalizar);
-            RenovarCommand = new DelegateCommand(Renovar);
-            DeleteCommand = new DelegateCommand(Delete);
-            CancelCommand = new DelegateCommand(Return);
-            SaveCommand = new DelegateCommand(Save);
-
-            Title = Parameters.EditingNote.Title;
-            Description = Parameters.EditingNote.Description;
-            IsAvailable = Parameters.EditingNote.IsAvailable;
-            DateCreation = Parameters.EditingNote.DateCreation;
-            DateModification = Parameters.EditingNote.DateModification;
-            DateStarting = Parameters.EditingNote.DateStarting;
-            DateFinish = Parameters.EditingNote.DateFinish;
-            DateDeleted = Parameters.EditingNote.DateDeleted;
-
-            Tipo = Tipo;
-            Parameters.EditingNote.IsSelected = false;
-        }*/
         public override void Initialize(INavigationParameters parameters)
         {
             Console.WriteLine(" VIEW Page_Item_DetailViewModel");
@@ -247,7 +218,7 @@ namespace Gest_Incidencias.ViewModels
         {
             try
             {
-                if (!string.IsNullOrWhiteSpace(Parameters.EditingNote.Title) && !string.IsNullOrWhiteSpace(Parameters.EditingNote.Description))
+                if (!string.IsNullOrWhiteSpace(Parameters.EditingNote.Name) && !string.IsNullOrWhiteSpace(Parameters.EditingNote.Description))
                 {
                     Parameters.EditingNote.IsAvailable = true;
                     Parameters.EditingNote.IsDeleted = false;
@@ -267,7 +238,7 @@ namespace Gest_Incidencias.ViewModels
                     }
                 }
                 else
-                    await _messageService.ShowAsync(message: "Rellene Titulo y Descripcion");
+                    await _messageService.ShowAsync("Renovar: Rellene Titulo y Descripcion");
             }
             catch (Exception ex)
             {
@@ -279,7 +250,7 @@ namespace Gest_Incidencias.ViewModels
 
         async void Delete()
         {
-            Console.WriteLine("BORRAR: " + Parameters.EditingNote.Title);
+            Console.WriteLine("BORRAR: " + Parameters.EditingNote.Name);
 
             Parameters.EditingNote.IsAvailable = false;
             Parameters.EditingNote.IsDeleted = true;
@@ -288,7 +259,7 @@ namespace Gest_Incidencias.ViewModels
             Parameters.EditingNote.DateDeleted = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
 
             try {
-                if (!string.IsNullOrWhiteSpace(Parameters.EditingNote.Title) && !string.IsNullOrWhiteSpace(Parameters.EditingNote.Description)) {
+                if (!string.IsNullOrWhiteSpace(Parameters.EditingNote.Name) && !string.IsNullOrWhiteSpace(Parameters.EditingNote.Description)) {
                     try {
                         await App.Database.SaveNoteAsync(Parameters.EditingNote);
                         await NavigationService.NavigateAsync("MainPage");
@@ -298,7 +269,7 @@ namespace Gest_Incidencias.ViewModels
                     }
                 }
                 else
-                    await _messageService.ShowAsync(message: "Titulo o Descripcion vacios");
+                    await _messageService.ShowAsync(message: "Borrar: Titulo o Descripcion vacios");
             }
             catch (Exception ex)
             {
@@ -317,9 +288,9 @@ namespace Gest_Incidencias.ViewModels
 
         async void Save()
         {
-            Console.WriteLine("Guardar: " + Title);
+            Console.WriteLine("Guardar: " + Name);
 
-            Parameters.EditingNote.Title = Title;
+            Parameters.EditingNote.Name = Name;
             Parameters.EditingNote.Description = Description;
             Parameters.EditingNote.IsAvailable = IsAvailable;
             //Parameters.EditingNote.DateCreation = DateCreation;
@@ -329,7 +300,7 @@ namespace Gest_Incidencias.ViewModels
             Parameters.EditingNote.IsSelected = false; //ConstructorLista=> Notes.ForEach(note => note.IsSelected = false);
 
             try {
-                if (!string.IsNullOrWhiteSpace(Parameters.EditingNote.Title) &&
+                if (!string.IsNullOrWhiteSpace(Parameters.EditingNote.Name) &&
                     !string.IsNullOrWhiteSpace(Parameters.EditingNote.Description)) {
                     try {
                         await App.Database.SaveNoteAsync(Parameters.EditingNote);
@@ -339,7 +310,7 @@ namespace Gest_Incidencias.ViewModels
                     }
                 }
                 else
-                    await _messageService.ShowAsync(message: "Titulo o Descripcion vacios");
+                    await _messageService.ShowAsync(message: "Guardar: Titulo o Descripcion vacios");
             }
             catch (Exception ex)
             {

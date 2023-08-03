@@ -1,5 +1,6 @@
 ﻿using Gest_Incidencias.Models;
 using Gest_Incidencias.Views;
+using Gest_Incidencias.Services;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -20,7 +21,7 @@ namespace Gest_Incidencias.ViewModels
     public class Page_Entry_IncidenceViewModel : /*BindableBase*/ BaseViewModel
     {
         #region Variables
-        private readonly Services.IMessageService _messageService;
+        private /*readonly*/ IMessageService _messageService;
         private /*readonly*/ INavigationService _navigationService; //public INavigation Navigation { get; set; }
         #endregion
 
@@ -31,10 +32,10 @@ namespace Gest_Incidencias.ViewModels
             get => _id;
             set => SetProperty(ref _id, value);
         }
-        private string _title;
-        public string Title {
-            get => _title;
-            set => SetProperty(ref _title, value);
+        private string _name;
+        public string Name {
+            get => _name;
+            set => SetProperty(ref _name, value);
         }
         private string _description;
         public string Description {
@@ -61,22 +62,13 @@ namespace Gest_Incidencias.ViewModels
         public DelegateCommand Command_TextChanged { private set; get; }
         public DelegateCommand Command_Cancel { private set; get; }
         public DelegateCommand Command_Create { private set; get; }
-
-        /*private DelegateCommand _cancelCommand;
-        public DelegateCommand CancelCommand =>
-            _cancelCommand ?? (_cancelCommand = new DelegateCommand(Execute_Cancel_Command));*/
-
-        private DelegateCommand _navigationCommand;
-        public DelegateCommand NavigateCommand =>
-            _navigationCommand ?? (_navigationCommand = new DelegateCommand(ExecuteNavigationCommand));
-
         #endregion
 
 
         #region Constructor
         public Page_Entry_IncidenceViewModel(INavigationService navigationService) : base(navigationService)
         {
-            //Title = " VISTA Page_Entry_IncidenceViewModel";
+            Title = "Nueva Entrada";
             _navigationService = navigationService;
             _messageService = DependencyService.Get<Services.IMessageService>();
 
@@ -95,15 +87,10 @@ namespace Gest_Incidencias.ViewModels
 
 
         #region CommandsFunctions
-        async void ExecuteNavigationCommand()
-        {
-            Console.WriteLine("Click Boton NAVIGATE A");
-            await _navigationService.NavigateAsync("ViewA");
-        }
 
         void Execute_TextChanged()
         {
-            if (Title == "")
+            if (Name == "")
             {
                 IsAvailable = false;
             } else if(Description == ""){
@@ -119,7 +106,7 @@ namespace Gest_Incidencias.ViewModels
             Console.WriteLine("Dentro");
             //var note = (Note)BindingContext;
             Note note = new Note {
-                Title = Title,
+                Name = Name,
                 Description = Description,
                 IsAvailable = IsAvailable,
                 DateCreation = DateTime.UtcNow,
@@ -127,13 +114,13 @@ namespace Gest_Incidencias.ViewModels
             };
 
             try {
-                if (!string.IsNullOrWhiteSpace(note.Title) || !string.IsNullOrWhiteSpace(note.Description)) {
+                if (!string.IsNullOrWhiteSpace(note.Name) || !string.IsNullOrWhiteSpace(note.Description)) {
                     try {
                         await App.Database.SaveNoteAsync(note);
-                        await NavigationService.NavigateAsync("MainPage");
+                        await _navigationService.NavigateAsync("MainPage");
                     }
                     catch (Exception ex) {
-                        await _messageService.ShowAsync("Error: " + ex.Message);
+                        await _messageService.ShowAsync("Error Execute_Create_Command(): " + ex.Message);
                     }
                 }
                 else
@@ -148,10 +135,11 @@ namespace Gest_Incidencias.ViewModels
 
         async void Execute_Cancel_Command() {
             //await Navigation.PopAsync();
-            //await NavigationService.GoBackAsync();
-            await NavigationService.NavigateAsync("ViewA");
+            //await _navigationService.GoBackAsync();
+            Console.WriteLine(" Execute_Cancel_Command");
+            await _navigationService.NavigateAsync("ViewA");
 
-            //await NavigationService.NavigateAsync("MainPage");
+            //await _navigationService.NavigateAsync("MainPage");
         }
         #endregion
     }

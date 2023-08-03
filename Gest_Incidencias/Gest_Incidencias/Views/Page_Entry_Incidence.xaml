@@ -4,11 +4,13 @@
             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
             mc:Ignorable="d"
+            x:Class="Gest_Incidencias.Views.Page_Entry_Incidence"
                 xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
                 xmlns:fontAwesome="clr-namespace:FontAwesome"
                 xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
                 prism:ViewModelLocator.AutowireViewModel="True"
-            x:Class="Gest_Incidencias.Views.Page_Entry_Incidence">
+                NavigationPage.HasNavigationBar="true"
+             Title="{Binding Title}">
     <!-- añadir ¿?  xmlns:vm="clr-namespace:Gest_Incidencias.ViewModels" -->
     <!--xmlns:prism="http://prismlibrary.com"-->
 
@@ -46,7 +48,6 @@
             </StackLayout>
         </Frame>
 
-      
         <Frame BorderColor="Orange" CornerRadius="5" HasShadow="True" Padding="0" Margin="100,8">
             <StackLayout Orientation="Horizontal">
                 <Grid ColumnDefinitions="0.75*,0.25*" BackgroundColor="{StaticResource SecondaryColor}" Padding="8" Margin="8">
@@ -58,7 +59,6 @@
         </Frame>
 
         <Grid ColumnDefinitions="*,*" Margin="0,20,0,0">
-
             <Button Command="{Binding Command_Cancel}" Grid.Column="0"
                 Text="{x:Static fontAwesome:FontAwesomeIcons.SquareXmark}" FontFamily="FAS"
                 FontSize="50" TextColor="Red" BackgroundColor="{StaticResource SecondaryColor}" BorderColor="Red" BorderWidth="2"/>
@@ -67,8 +67,6 @@
                 FontSize="50" TextColor="Green" BackgroundColor="{StaticResource SecondaryColor}" BorderColor="Green" BorderWidth="2"/>
 
         </Grid>
-        <Button Text="Navigate to A" Command="{Binding NavigateCommand}"
-                    Grid.Column="1"/>
     </StackLayout>
 </ContentPage>
         

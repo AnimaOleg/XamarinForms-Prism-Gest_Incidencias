@@ -11,7 +11,7 @@ namespace Gest_Incidencias.Models
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
-        public string Title { get; set; }
+        public string Name { get; set; }
         public string Description { get; set; }
         public DateTime DateCreation { get; set; }
         public string DateModification { get; set; }
@@ -20,6 +20,7 @@ namespace Gest_Incidencias.Models
         public string DateDeleted { get; set; }
         public bool IsAvailable { get; set; }
         public bool IsSelected { get; set; } = false; // checkbox del listado
+        public bool IsChecked { get; set; } = false;
         public bool IsDeleted { get; set; } = false;
         public bool IsFinished { get; set; } = false;
         public bool InProgress { get; set; } = false;
@@ -43,11 +44,6 @@ namespace Gest_Incidencias.Models
                 else return Color.Gray;
             }
         }
-        public bool IsChecked
-        {
-            get;
-            set;
-        } = false;
 
         //[Ignore]
         //public Color SelectedItemColor

@@ -13,7 +13,7 @@ namespace Gest_Incidencias.ViewModels
 
         public MainPageViewModel(INavigationService navigationService) : base(navigationService)
         {
-            Title = "Main Pagee";
+            Title = "Pagina Princial";
             _navigationService = navigationService;
         }
         public override void Initialize(INavigationParameters parameters)

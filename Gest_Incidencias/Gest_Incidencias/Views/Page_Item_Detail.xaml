@@ -4,12 +4,13 @@
             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
             mc:Ignorable="d"
-            xmlns:prism="http://prismlibrary.com"
-             prism:ViewModelLocator.AutowireViewModel="True"
             xmlns:vm="clr-namespace:Gest_Incidencias.ViewModels"
             x:Class="Gest_Incidencias.Views.Page_Item_Detail"
-            xmlns:fontAwesome="clr-namespace:FontAwesome"
-            Title="Detalles">
+                xmlns:fontAwesome="clr-namespace:FontAwesome"
+                xmlns:prism="http://prismlibrary.com"
+                prism:ViewModelLocator.AutowireViewModel="True"
+            NavigationPage.HasNavigationBar="true"
+            Title="{Binding Title}">
     <!--xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"-->
 
     <ScrollView>

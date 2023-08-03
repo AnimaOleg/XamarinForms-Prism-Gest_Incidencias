@@ -41,9 +41,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\Estados\Todas_Page_List_Incidencias.xaml.cs">
-      <DependentUpon>Todas_Page_List_Incidencias.xaml</DependentUpon>
-    </Compile>
     <Compile Update="Views\Page_Item_Detail.xaml.cs">
       <DependentUpon>Page_Item_Detail.xaml</DependentUpon>
     </Compile>

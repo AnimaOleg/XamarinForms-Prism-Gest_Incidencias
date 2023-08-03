@@ -6,18 +6,19 @@
             mc:Ignorable="d"
             xmlns:local="clr-namespace:Gest_Incidencias.Views"
             xmlns:vm="clr-namespace:Gest_Incidencias.ViewModels"
-            xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-            xmlns:fontAwesome="clr-namespace:FontAwesome"
-             
-                xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+            x:Class="Gest_Incidencias.Views.Page_List_Incidencias"
+                xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+                xmlns:fontAwesome="clr-namespace:FontAwesome"
+                xmlns:prism="http://prismlibrary.com"
                 prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="Gest_Incidencias.Views.Page_List_Incidencias"
-             x:Name="oThis"
-             Title="{Binding Tipo}">
+                x:Name="oThis"
+    NavigationPage.HasNavigationBar="true"
+                Title="{Binding Title}">
 
-    <!--xmlns:prism="http://prismlibrary.com"
-             prism:ViewModelLocator.AutowireViewModel="True"-->
-
+    <!--NavigationPage.HasNavigationBar="true"
+                Title="{Binding Tipo}"-->
+    
+    
     <!--<NavigationPage.TitleView>
         <AbsoluteLayout>
             <Label Text="This is my Title" FontSize="12" TextColor="Pink" />
@@ -51,7 +52,7 @@
                         FontFamily="FAS" FontSize="30" BackgroundColor="{StaticResource SecondaryColor}"
                         TextColor="DarkBlue" BorderColor="DarkBlue"/>
                 <StackLayout Grid.Column="1" Orientation="Vertical" Padding="0" Margin="0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-                    <Label Text="{Binding Cantidad_Items}" TextColor="DarkBlue" FontSize="16" FontFamily="FAS"
+                    <Label Text="{Binding Cantidad_Items}" TextColor="DarkBlue" FontSize="24" FontFamily="FAS"
                            Padding="0" Margin="0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
                     <Label Text="{Binding Tipo}" TextColor="DarkBlue" FontSize="13" FontFamily="V4"
                            Padding="0" Margin="0"/>
@@ -120,7 +121,8 @@
                                                     <xct:EventToCommandBehavior
                                                         EventName="CheckedChanged"
                                                         x:TypeArguments="CheckedChangedEventArgs"
-                                                        Command="{Binding BindingContext.Command_CheckedChanged, Source={x:Reference oThis}}"/>
+                                                        Command="{Binding BindingContext.Command_CheckedChanged,
+                                                        Source={x:Reference oThis}}"/>
                                                 </CheckBox.Behaviors>
                                             </CheckBox>
                                                 <!-- https://learn.microsoft.com/en-us/xamarin/xamarin-forms/app-fundamentals/data-binding/relative-bindings
@@ -176,20 +178,13 @@
         </Grid>
 
 
-        <!--<BoxView Color="Transparent" Grid.Row="2"/>-->
         <Grid RowDefinitions="*" Padding="6,0,6,4" Grid.Row="2">
-            <Grid ColumnDefinitions="*,*">
-
-                <!--<Button Command="{Binding NavigateCommand}"-->
+            <Grid ColumnDefinitions="*">
                 <Button Command="{Binding Command_CreateItem}"
                     Grid.Column="0" HorizontalOptions="EndAndExpand"
                     Text="{x:Static fontAwesome:FontAwesomeIcons.Plus}"
                     FontFamily="FAS" FontSize="40" BackgroundColor="LightGreen"
                     TextColor="DarkBlue" BorderColor="DarkBlue" BorderWidth="2" />
-
-                <Button Text="Navigate to A" Command="{Binding NavigateCommand}"
-                    Grid.Column="1"/>
-                    
             </Grid>
         </Grid>
 

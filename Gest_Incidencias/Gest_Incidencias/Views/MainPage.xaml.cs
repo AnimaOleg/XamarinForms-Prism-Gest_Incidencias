@@ -15,15 +15,8 @@ namespace Gest_Incidencias.Views
     {
         public MainPage()
         {
-            try
-            {
-                InitializeComponent();
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine(" MAIN PAGE EXCEPTION: "+e.ToString());
-            }
-
+            try { InitializeComponent(); }
+            catch(Exception e) { Console.WriteLine(" MAIN PAGE EXCEPTION: "+e.ToString()); }
 
             //NavigationPage navigationPage = new NavigationPage(new MainPage());
             //navigationPage.IconImageSource = "alinearJustificar.png";

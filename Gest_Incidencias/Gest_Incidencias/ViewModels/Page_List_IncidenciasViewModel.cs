@@ -1,5 +1,6 @@
 ﻿using Gest_Incidencias.Models;
 using Gest_Incidencias.Views;
+using Gest_Incidencias.Services;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -20,7 +21,7 @@ namespace Gest_Incidencias.ViewModels
         #region Variables
         int contador_notas_seleccionadas = 0;
 
-        private /*readonly*/ Services.IMessageService _messageService;
+        private /*readonly*/ IMessageService _messageService;
         private /*readonly*/ INavigationService _navigationService; /*=> NavigationService;*/ // AÑADIDO A MANO; //public INavigation Navigation { get; set; }
         #endregion
 
@@ -80,17 +81,16 @@ namespace Gest_Incidencias.ViewModels
         { }
 
         public Page_List_IncidenciasViewModel(INavigationService navigationService, string tipo) : base(navigationService)
-        { // DEBUGEAR
+        {
             
             // Variables
             this.Tipo = tipo;
-            Title = "Page_List_IncidenciasViewModel 2";
+            //Title = "Listado";
             _messageService = DependencyService.Get<Services.IMessageService>();
             _navigationService = navigationService; //Navigation = navigation;
             Console.WriteLine(" MODEL 1 Page_List_IncidenciasViewModel, TIPO: " + tipo);
 
             /// Commands
-            //OnCheckedChangedCommand = new Command<CheckedChangedEventArgs>(OnCheckedChanged);
             Command_CheckedChanged = new Command<CheckedChangedEventArgs>(Execute_OnCheckedChanged);
             Command_GetReports = new DelegateCommand(Execute_GetReports);
             Command_DeleteItem = new DelegateCommand(Execute_DeleteItem);
@@ -124,7 +124,7 @@ namespace Gest_Incidencias.ViewModels
         {
             try
             {
-                await _navigationService.NavigateAsync("/Page_Entry_Incidence");
+                await _navigationService.NavigateAsync("Page_Entry_Incidence");
             }
             catch (Exception ex)
             {
@@ -162,14 +162,14 @@ namespace Gest_Incidencias.ViewModels
                             Parameters.EditingNote.IsSelected = false;
                             //Parameters.EditingNote.IsSelected2 = true;
 
-                            Console.WriteLine("NOTA: " + Notes[i].Title);
+                            Console.WriteLine("NOTA: " + Notes[i].Name);
                             //Console.WriteLine("COLOR: " + SelectedItemColor);
                             break;
                         }
                     }
                     break;
                 default:
-                    //Console.WriteLine(" PARAMETERS.NOTA:"+ Parameters.EditingNote.Title);
+                    //Console.WriteLine(" PARAMETERS.NOTA:"+ Parameters.EditingNote.Name);
                     IsAvailableProperty = false;
                     //IsCheckedChanged = false;
                     Parameters.EditingNote = null;
@@ -181,17 +181,13 @@ namespace Gest_Incidencias.ViewModels
             //if (Notes.Any(x => x.IsSelected)) {
             //    notaSeleccionada = Notes.First(x => x.IsSelected);
             //    int n = Notes.IndexOf(x => x.IsSelected);
-            //    Console.WriteLine("nota: "+Notes[n].Title);
+            //    Console.WriteLine("nota: "+Notes[n].Name);
             //}
         }
 
         async void Execute_GetReports()
         {
-            // https://www.google.com/search?q=xamarin+generar+reporte+con+pdf&rlz=1C1GCEU_esES1064ES1064&sxsrf=AB5stBjR1xYSV5FLdhD7ATVklfuycQf8Qg%3A1690541030546&ei=5pvDZPvxIOqrkdUP-IipiAU&ved=0ahUKEwj7_OmMnLGAAxXqVaQEHXhEClEQ4dUDCA8&uact=5&oq=xamarin+generar+reporte+con+pdf&gs_lp=Egxnd3Mtd2l6LXNlcnAiH3hhbWFyaW4gZ2VuZXJhciByZXBvcnRlIGNvbiBwZGYyBRAhGKABMgUQIRigATIFECEYoAFInRBQyQlYtQ9wAXgBkAEAmAHGAaABhweqAQMxLja4AQPIAQD4AQHCAgoQABhHGNYEGLADwgIEECEYFeIDBBgAIEGIBgGQBgg&sclient=gws-wiz-serp
-            // https://medium.com/@nekszerlopezespinoza/como-crear-un-pdf-y-compartirlo-xamarin-forms-dd702f7fcf60
-            // https://www.youtube.com/watch?v=FqetV1Lh-9c
-            //await Navigation.PushAsync(new Page_List_Incidencias());
-            //await Navigation.PushAsync(new MainPage());
+            //await _navigationService.NavigateAsync("Page_Reports");
         }
 
         async void Execute_DeleteItem()
@@ -208,17 +204,15 @@ namespace Gest_Incidencias.ViewModels
                 Parameters.EditingNote.DateDeleted = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
 
                 await App.Database.SaveNoteAsync(Parameters.EditingNote);
-                await NavigationService.NavigateAsync("MainPage");
+                await _navigationService.NavigateAsync("MainPage");
             }
-
-            //await Navigation.PushAsync(new Page_List_Incidencias());
         }
 
         async void Execute_ModifyItem()
         {
             if (Parameters.EditingNote != null) {
                 Parameters.EditingNote.IsSelected = false;
-                await NavigationService.NavigateAsync("/Page_Item_Detail");
+                await _navigationService.NavigateAsync("Page_Item_Detail");
             }
             else {
                 await _messageService.ShowAsync(message: "Elige una Incidencia para Modificar");
@@ -229,7 +223,7 @@ namespace Gest_Incidencias.ViewModels
         {
             if (Parameters.EditingNote != null)
             {
-                Console.WriteLine("NOTA Finalizar - Finalizada:" + Parameters.EditingNote.Title);
+                Console.WriteLine("NOTA Finalizar - Finalizada:" + Parameters.EditingNote.Name);
 
                 //Parameters.EditingNote.IsEnabled = false;
                 Parameters.EditingNote.IsSelected = false;
@@ -250,7 +244,7 @@ namespace Gest_Incidencias.ViewModels
                     //VisibleFecha = true
                 }
                 await App.Database.SaveNoteAsync(Parameters.EditingNote);
-                await NavigationService.NavigateAsync("MainPage");
+                await _navigationService.NavigateAsync("MainPage");
             }
             else
             {
