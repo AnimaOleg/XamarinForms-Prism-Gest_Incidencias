@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -55,7 +56,8 @@ namespace Gest_Incidencias.ViewModels.Estados
 
 
         #region Commands
-        public ICommand OnCheckedChangedCommand { private set; get; }
+        //public ICommand OnCheckedChangedCommand { private set; get; }
+        public Command OnCheckedChangedCommand { private set; get; }
         public DelegateCommand GetReportsItemCommand { private set; get; }
         public DelegateCommand DeleteItemCommand { private set; get; }
         public DelegateCommand ModifyItemCommand { private set; get; }
@@ -91,7 +93,7 @@ namespace Gest_Incidencias.ViewModels.Estados
 
             /// Commands
             //OnCheckedChangedCommand = new Command<CheckedChangedEventArgs>(OnCheckedChanged);
-            OnCheckedChangedCommand = new DelegateCommand<CheckedChangedEventArgs>(OnCheckedChanged);
+            OnCheckedChangedCommand = new Command<CheckedChangedEventArgs>(OnCheckedChanged);
             DeleteItemCommand = new DelegateCommand(DeleteItem);
             ModifyItemCommand = new DelegateCommand(ModifyItem);
             GetReportsItemCommand = new DelegateCommand(GetReportsItem);
@@ -104,7 +106,7 @@ namespace Gest_Incidencias.ViewModels.Estados
         async void Load_Data()
         {
             Notes = new ObservableCollection<Note>(await App.Database.GetNotesAsync(Tipo)); //Notes.ForEach(note => note.IsSelected = false);
-            Summary = Notes.Count() + ""; /* + " " + Tipo*/
+            Summary = Notes.Count() + " " + this.Tipo;
         }
         public override void Initialize(INavigationParameters parameters)
         {
@@ -127,22 +129,6 @@ namespace Gest_Incidencias.ViewModels.Estados
                 Console.WriteLine("EXCEPTION ExecuteNavigationCommand: " + ex.Message);
             }
         }
-        async void CreateItem()
-        {
-            try
-            {
-                await _navigationService.NavigateAsync("Page_Entry_Incidence");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(" EXCEPTION CreateItem: " + ex);
-            }
-            //await _navigationService.NavigateAsync("Page_Entry_Incidence");
-            //await Navigation.PushAsync(new Page_Entry_Incidence());
-        }
-
-
-
 
         async void OnCheckedChanged(CheckedChangedEventArgs arg)
         {
@@ -211,7 +197,7 @@ namespace Gest_Incidencias.ViewModels.Estados
                 Parameters.EditingNote.IsAvailable = false;
                 Parameters.EditingNote.IsSelected = false;
                 Parameters.EditingNote.IsDeleted = true;
-                Parameters.EditingNote.Tipo = "Deleted";
+                Parameters.EditingNote.Tipo = "Borradas";
                 Parameters.EditingNote.DateDeleted = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
 
                 await App.Database.SaveNoteAsync(Parameters.EditingNote);
@@ -245,14 +231,14 @@ namespace Gest_Incidencias.ViewModels.Estados
                 {
                     Parameters.EditingNote.IsFinished = true;
                     Parameters.EditingNote.IsAvailable = false;
-                    Parameters.EditingNote.Tipo = "Finished";
+                    Parameters.EditingNote.Tipo = "Finalizadas";
                     Parameters.EditingNote.DateFinish = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
                 }
                 else
                 {
                     Parameters.EditingNote.IsFinished = false;
                     Parameters.EditingNote.IsAvailable = true;
-                    Parameters.EditingNote.Tipo = "Enabled";
+                    Parameters.EditingNote.Tipo = "Disponibles";
                     Parameters.EditingNote.DateFinish = "";
                     //VisibleFecha = true
                 }
@@ -264,7 +250,19 @@ namespace Gest_Incidencias.ViewModels.Estados
                 Console.WriteLine("NOTA Finalizar - Parameters.EditingNote == NULL ");
             }
         }
-
+        async void CreateItem()
+        {
+            try
+            {
+                await _navigationService.NavigateAsync("Page_Entry_Incidence");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(" EXCEPTION CreateItem: " + ex);
+            }
+            //await _navigationService.NavigateAsync("Page_Entry_Incidence");
+            //await Navigation.PushAsync(new Page_Entry_Incidence());
+        }
         #endregion
 
     }

@@ -1,10 +1,19 @@
-﻿using System;
-using System.IO;
-using Gest_Incidencias;
-using Gest_Incidencias.Models;
+﻿using Gest_Incidencias.Models;
 using Gest_Incidencias.ViewModels;
+using Prism.Ioc;
 using Prism.Navigation;
+using SQLitePCL;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
+using Xamarin.Forms.Xaml;
 
 namespace Gest_Incidencias.Views
 {
@@ -14,16 +23,15 @@ namespace Gest_Incidencias.Views
 
         public Page_Entry_Incidence()
         {
+            this._navigationService = ContainerLocator.Container.Resolve<INavigationService>();
             InitializeComponent();
-            //BindingContext = new Page_Entry_IncidenceViewModel(Navigation); // funciona sin ponerlo
         }
-
 
         protected override void OnAppearing()
         {
             Console.WriteLine(" ON APPEARING Page_Entry_IncidenceViewModel"); // DEBUGEAR
-            //BindingContext = new Page_Entry_IncidenceViewModel(_navigationService);
-            //base.OnAppearing();
+            BindingContext = new Page_Entry_IncidenceViewModel(_navigationService);
+            base.OnAppearing();
         }
 
 

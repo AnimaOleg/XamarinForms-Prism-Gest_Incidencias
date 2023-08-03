@@ -7,13 +7,17 @@
             xmlns:local="clr-namespace:Gest_Incidencias.Views"
             xmlns:vm="clr-namespace:Gest_Incidencias.ViewModels"
             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             xmlns:prism="http://prismlibrary.com"
-             prism:ViewModelLocator.AutowireViewModel="True"
             xmlns:fontAwesome="clr-namespace:FontAwesome"
+             
+                xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+                prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="Gest_Incidencias.Views.Page_List_Incidencias"
              x:Name="oThis"
              Title="{Binding Tipo}">
-    
+
+    <!--xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"-->
+
     <!--<NavigationPage.TitleView>
         <AbsoluteLayout>
             <Label Text="This is my Title" FontSize="12" TextColor="Pink" />
@@ -42,25 +46,25 @@
         <Grid RowDefinitions="*" Padding="12,4,12,0" >
             <Grid ColumnDefinitions="*">
 
-                <Button Command="{Binding GetReportsItemCommand}"
+                <Button Command="{Binding Command_GetReports}"
                         Grid.Column="0" BorderWidth="2" Text="{x:Static fontAwesome:FontAwesomeIcons.Newspaper}"
                         FontFamily="FAS" FontSize="30" BackgroundColor="{StaticResource SecondaryColor}"
                         TextColor="DarkBlue" BorderColor="DarkBlue"/>
                 <StackLayout Grid.Column="1" Orientation="Vertical" Padding="0" Margin="0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-                    <Label Text="{Binding Summary}" TextColor="DarkBlue" FontSize="16" FontFamily="FAS"
+                    <Label Text="{Binding Cantidad_Items}" TextColor="DarkBlue" FontSize="16" FontFamily="FAS"
                            Padding="0" Margin="0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
-                    <Label Text="Incidencias" TextColor="DarkBlue" FontSize="13" FontFamily="V4"
+                    <Label Text="{Binding Tipo}" TextColor="DarkBlue" FontSize="13" FontFamily="V4"
                            Padding="0" Margin="0"/>
                 </StackLayout>
-                <Button Command="{Binding DeleteItemCommand}" IsEnabled="{Binding IsAvailableProperty}"
+                <Button Command="{Binding Command_DeleteItem}" IsEnabled="{Binding IsAvailableProperty}"
                         Grid.Column="2" Text="{x:Static fontAwesome:FontAwesomeIcons.Trash}"
                         FontFamily="FAS" FontSize="30" BackgroundColor="{StaticResource SecondaryColor}"
                         TextColor="DarkBlue" BorderColor="DarkBlue" BorderWidth="2"/>
-                <Button Command="{Binding ModifyItemCommand}" IsEnabled="{Binding IsAvailableProperty}"
+                <Button Command="{Binding Command_ModifyItem}" IsEnabled="{Binding IsAvailableProperty}"
                         Grid.Column="3" Text="{x:Static fontAwesome:FontAwesomeIcons.Pen}"
                         FontFamily="FAS" FontSize="30" BackgroundColor="{StaticResource SecondaryColor}"
                         TextColor="DarkBlue" BorderColor="DarkBlue" BorderWidth="2"/>
-                <Button Command="{Binding SetFinishedItemCommand}" IsEnabled="{Binding IsAvailableProperty}"
+                <Button Command="{Binding Command_FinishItem}" IsEnabled="{Binding IsAvailableProperty}"
                         Grid.Column="4" HeightRequest="50" Text="{x:Static fontAwesome:FontAwesomeIcons.Flag}"
                         FontFamily="FAS" FontSize="30" BackgroundColor="{StaticResource SecondaryColor}"
                         TextColor="DarkBlue" BorderColor="DarkBlue" BorderWidth="2"/>
@@ -116,17 +120,17 @@
                                                     <xct:EventToCommandBehavior
                                                         EventName="CheckedChanged"
                                                         x:TypeArguments="CheckedChangedEventArgs"
-                                                        Command="{Binding BindingContext.OnCheckedChangedCommand, Source={x:Reference oThis}}"/>
+                                                        Command="{Binding BindingContext.Command_CheckedChanged, Source={x:Reference oThis}}"/>
                                                 </CheckBox.Behaviors>
                                             </CheckBox>
                                                 <!-- https://learn.microsoft.com/en-us/xamarin/xamarin-forms/app-fundamentals/data-binding/relative-bindings
                                                     - PETA
-                                                BASE: Command="{Binding Source={RelativeSource AncestorType={x:Type <vm> }}, Path=<OnCheckedChangedCommand>}" />
+                                                BASE: Command="{Binding Source={RelativeSource AncestorType={x:Type <vm> }}, Path=<Command_CheckedChanged>}" />
                                                         Command="{Binding Source={RelativeSource AncestorType={x:Type local:PeopleViewModel}}, Path=DeleteEmployeeCommand}
-                                                USO:  Command="{Binding Source={RelativeSource AncestorType={x:Type vm:Page_List_IncidenciasViewModel}}, Path=OnCheckedChangedCommand}"
+                                                USO:  Command="{Binding Source={RelativeSource AncestorType={x:Type vm:Page_List_IncidenciasViewModel}}, Path=Command_CheckedChanged}"
                                                     - FUNCIONA
                                                 BASE: Command="{Binding BindingContext.FooCommand, Source={x:Reference page}}"
-                                                USO:  Command="{Binding BindingContext.OnCheckedChangedCommand, Source={x:Reference oThis}}"
+                                                USO:  Command="{Binding BindingContext.Command_CheckedChanged, Source={x:Reference oThis}}"
                                                 -->
                                         </StackLayout>
                                     </Frame>
@@ -177,7 +181,7 @@
             <Grid ColumnDefinitions="*,*">
 
                 <!--<Button Command="{Binding NavigateCommand}"-->
-                <Button Command="{Binding CreateItemCommand}"
+                <Button Command="{Binding Command_CreateItem}"
                     Grid.Column="0" HorizontalOptions="EndAndExpand"
                     Text="{x:Static fontAwesome:FontAwesomeIcons.Plus}"
                     FontFamily="FAS" FontSize="40" BackgroundColor="LightGreen"

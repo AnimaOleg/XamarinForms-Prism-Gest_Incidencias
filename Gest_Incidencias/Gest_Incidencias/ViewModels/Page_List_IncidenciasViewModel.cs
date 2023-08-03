@@ -45,23 +45,23 @@ namespace Gest_Incidencias.ViewModels
             get => _selectedItemColor;
             set => SetProperty(ref _selectedItemColor, value);
         }*/
-        private string _summary;
-        public string Summary {
-            get => _summary;
-            set => SetProperty(ref _summary, value);
+        private int _cantidad_Items;
+        public int Cantidad_Items {
+            get => _cantidad_Items;
+            set => SetProperty(ref _cantidad_Items, value);
 
         }
         #endregion
 
 
         #region Commands
-        public ICommand OnCheckedChangedCommand { private set; get; }
-        public DelegateCommand GetReportsItemCommand { private set; get; }
-        public DelegateCommand DeleteItemCommand { private set; get; }
-        public DelegateCommand ModifyItemCommand { private set; get; }
-        public DelegateCommand SetFinishedItemCommand { private set; get; }
-        public DelegateCommand CreateItemCommand { private set; get; }
-        public DelegateCommand GoToDetailsCommand { private set; get; }
+        public Command Command_CheckedChanged { private set; get; }
+        public DelegateCommand Command_GetReports { private set; get; }
+        public DelegateCommand Command_DeleteItem { private set; get; }
+        public DelegateCommand Command_ModifyItem { private set; get; }
+        public DelegateCommand Command_FinishItem { private set; get; }
+        public DelegateCommand Command_CreateItem { private set; get; }
+        //public DelegateCommand CommandGoToDetailsCommand { private set; get; }
 
         private DelegateCommand _navigationCommand;
         public DelegateCommand NavigateCommand =>
@@ -91,12 +91,12 @@ namespace Gest_Incidencias.ViewModels
 
             /// Commands
             //OnCheckedChangedCommand = new Command<CheckedChangedEventArgs>(OnCheckedChanged);
-            OnCheckedChangedCommand = new DelegateCommand<CheckedChangedEventArgs>(OnCheckedChanged);
-            DeleteItemCommand = new DelegateCommand(DeleteItem);
-            ModifyItemCommand = new DelegateCommand(ModifyItem);
-            GetReportsItemCommand = new DelegateCommand(GetReportsItem);
-            SetFinishedItemCommand = new DelegateCommand(Finalizar);
-            CreateItemCommand = new DelegateCommand(CreateItem);
+            Command_CheckedChanged = new Command<CheckedChangedEventArgs>(Execute_OnCheckedChanged);
+            Command_GetReports = new DelegateCommand(Execute_GetReports);
+            Command_DeleteItem = new DelegateCommand(Execute_DeleteItem);
+            Command_ModifyItem = new DelegateCommand(Execute_ModifyItem);
+            Command_FinishItem = new DelegateCommand(Execute_FinishItem);
+            Command_CreateItem = new DelegateCommand(Execute_CreateItem);
 
             Load_Data();
         }
@@ -104,7 +104,7 @@ namespace Gest_Incidencias.ViewModels
         async void Load_Data()
         {
             Notes = new ObservableCollection<Note>(await App.Database.GetNotesAsync(Tipo)); //Notes.ForEach(note => note.IsSelected = false);
-            Summary = Notes.Count() + ""; /* + " " + Tipo*/
+            Cantidad_Items = Notes.Count();
         }
         public override void Initialize(INavigationParameters parameters)
         {
@@ -118,20 +118,13 @@ namespace Gest_Incidencias.ViewModels
         #region CommandsFunctions
         async void ExecuteNavigationCommand()
         {
-            Console.WriteLine("Click Boton NAVIGATE TO B");
-            try
-            {
-                await _navigationService.NavigateAsync("ViewA");
-            }catch (Exception ex)
-            {
-                Console.WriteLine("EXCEPTION ExecuteNavigationCommand: " + ex.Message);
-            }
+            await _navigationService.NavigateAsync("ViewA");
         }
-        async void CreateItem()
+        async void Execute_CreateItem()
         {
             try
             {
-                await _navigationService.NavigateAsync("Page_Entry_Incidence");
+                await _navigationService.NavigateAsync("/Page_Entry_Incidence");
             }
             catch (Exception ex)
             {
@@ -144,7 +137,7 @@ namespace Gest_Incidencias.ViewModels
 
 
 
-        async void OnCheckedChanged(CheckedChangedEventArgs arg)
+        async void Execute_OnCheckedChanged(CheckedChangedEventArgs arg)
         {
             // Contador de Checks Marcados
             if (arg.Value == true)
@@ -192,7 +185,7 @@ namespace Gest_Incidencias.ViewModels
             //}
         }
 
-        async void GetReportsItem()
+        async void Execute_GetReports()
         {
             // https://www.google.com/search?q=xamarin+generar+reporte+con+pdf&rlz=1C1GCEU_esES1064ES1064&sxsrf=AB5stBjR1xYSV5FLdhD7ATVklfuycQf8Qg%3A1690541030546&ei=5pvDZPvxIOqrkdUP-IipiAU&ved=0ahUKEwj7_OmMnLGAAxXqVaQEHXhEClEQ4dUDCA8&uact=5&oq=xamarin+generar+reporte+con+pdf&gs_lp=Egxnd3Mtd2l6LXNlcnAiH3hhbWFyaW4gZ2VuZXJhciByZXBvcnRlIGNvbiBwZGYyBRAhGKABMgUQIRigATIFECEYoAFInRBQyQlYtQ9wAXgBkAEAmAHGAaABhweqAQMxLja4AQPIAQD4AQHCAgoQABhHGNYEGLADwgIEECEYFeIDBBgAIEGIBgGQBgg&sclient=gws-wiz-serp
             // https://medium.com/@nekszerlopezespinoza/como-crear-un-pdf-y-compartirlo-xamarin-forms-dd702f7fcf60
@@ -201,7 +194,7 @@ namespace Gest_Incidencias.ViewModels
             //await Navigation.PushAsync(new MainPage());
         }
 
-        async void DeleteItem()
+        async void Execute_DeleteItem()
         {
             if (Parameters.EditingNote == null) {
                 await _messageService.ShowAsync(message: "Elige una Incidencia para Eliminar");
@@ -211,7 +204,7 @@ namespace Gest_Incidencias.ViewModels
                 Parameters.EditingNote.IsAvailable = false;
                 Parameters.EditingNote.IsSelected = false;
                 Parameters.EditingNote.IsDeleted = true;
-                Parameters.EditingNote.Tipo = "Deleted";
+                Parameters.EditingNote.Tipo = "Borradas";
                 Parameters.EditingNote.DateDeleted = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
 
                 await App.Database.SaveNoteAsync(Parameters.EditingNote);
@@ -221,18 +214,18 @@ namespace Gest_Incidencias.ViewModels
             //await Navigation.PushAsync(new Page_List_Incidencias());
         }
 
-        async void ModifyItem()
+        async void Execute_ModifyItem()
         {
             if (Parameters.EditingNote != null) {
                 Parameters.EditingNote.IsSelected = false;
-                await NavigationService.NavigateAsync("Page_Item_Detail");
+                await NavigationService.NavigateAsync("/Page_Item_Detail");
             }
             else {
                 await _messageService.ShowAsync(message: "Elige una Incidencia para Modificar");
             }
         }
 
-        async void Finalizar()
+        async void Execute_FinishItem()
         {
             if (Parameters.EditingNote != null)
             {
@@ -245,14 +238,14 @@ namespace Gest_Incidencias.ViewModels
                 {
                     Parameters.EditingNote.IsFinished = true;
                     Parameters.EditingNote.IsAvailable = false;
-                    Parameters.EditingNote.Tipo = "Finished";
+                    Parameters.EditingNote.Tipo = "Finalizadas";
                     Parameters.EditingNote.DateFinish = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
                 }
                 else
                 {
                     Parameters.EditingNote.IsFinished = false;
                     Parameters.EditingNote.IsAvailable = true;
-                    Parameters.EditingNote.Tipo = "Enabled";
+                    Parameters.EditingNote.Tipo = "Disponibles";
                     Parameters.EditingNote.DateFinish = "";
                     //VisibleFecha = true
                 }

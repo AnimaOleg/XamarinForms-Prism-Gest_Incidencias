@@ -12,7 +12,6 @@
     <!-- añadir ¿?  xmlns:vm="clr-namespace:Gest_Incidencias.ViewModels" -->
     <!--xmlns:prism="http://prismlibrary.com"-->
 
-
     <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Spacing="4" Orientation="Vertical" Padding="10">
 
         <Frame BorderColor="Orange" CornerRadius="5" HasShadow="True" Padding="12" Margin="8">
@@ -20,14 +19,14 @@
                 <Label Text="Titulo" FontSize="Medium" HeightRequest="20"/>
                 <BoxView Color="white" HeightRequest="1" HorizontalOptions="Fill" />
                 <Entry Text="{Binding Title}" FontSize="Large">
-                    <!--<Entry.Behaviors>
+                    <Entry.Behaviors>
                         <xct:EventToCommandBehavior
                             EventName="TextChanged"
-                            Command="{Binding OnTextChangedCommand}" />
+                            Command="{Binding Command_TextChanged}" />
                         <xct:EventToCommandBehavior
                             EventName="Unfocused"
                             Command="{Binding UnfocusedTitle}" />
-                    </Entry.Behaviors>-->
+                    </Entry.Behaviors>
 
                 </Entry>
             </StackLayout>
@@ -38,13 +37,11 @@
                 <Label Text="Descripción" FontSize="Medium" />
                 <BoxView Color="white" HeightRequest="1" HorizontalOptions="Fill" />
                 <Editor Text="{Binding Description}" FontSize="Large" HeightRequest="120" Placeholder="Write here">
-
-                    <!--<Editor.Behaviors>
+                    <Editor.Behaviors>
                         <xct:EventToCommandBehavior
                             EventName="TextChanged"
-                            Command="{Binding OnTextChangedCommand}" />
-                    </Editor.Behaviors>-->
-
+                            Command="{Binding Command_TextChanged}" />
+                    </Editor.Behaviors>
                 </Editor>
             </StackLayout>
         </Frame>
@@ -60,23 +57,18 @@
             </StackLayout>
         </Frame>
 
-
-
         <Grid ColumnDefinitions="*,*" Margin="0,20,0,0">
 
-            <Button Command="{Binding CancelCommand}" Grid.Column="0"
+            <Button Command="{Binding Command_Cancel}" Grid.Column="0"
                 Text="{x:Static fontAwesome:FontAwesomeIcons.SquareXmark}" FontFamily="FAS"
                 FontSize="50" TextColor="Red" BackgroundColor="{StaticResource SecondaryColor}" BorderColor="Red" BorderWidth="2"/>
-            <Button Command="{Binding CreateNoteCommand}"  Grid.Column="1"
+            <Button Command="{Binding Command_Create}"  Grid.Column="1"
                 Text="{x:Static fontAwesome:FontAwesomeIcons.SquareCheck}" FontFamily="FAS"
                 FontSize="50" TextColor="Green" BackgroundColor="{StaticResource SecondaryColor}" BorderColor="Green" BorderWidth="2"/>
 
         </Grid>
-
-
-
-        <Label Text="{Binding Title}"/>
-        <Button Text="Navigate to A" Command="{Binding NavigateCommand}"/>
+        <Button Text="Navigate to A" Command="{Binding NavigateCommand}"
+                    Grid.Column="1"/>
     </StackLayout>
 </ContentPage>
         
@@ -109,7 +101,7 @@
                     --><!--<Entry.Behaviors>
                         <xct:EventToCommandBehavior
                             EventName="TextChanged"
-                            Command="{Binding OnTextChangedCommand}" />
+                            Command="{Binding Command_TextChanged}" />
                         <xct:EventToCommandBehavior
                             EventName="Unfocused"
                             Command="{Binding UnfocusedTitle}" />
@@ -126,7 +118,7 @@
                     --><!--<Editor.Behaviors>
                         <xct:EventToCommandBehavior
                             EventName="TextChanged"
-                            Command="{Binding OnTextChangedCommand}" />
+                            Command="{Binding Command_TextChanged}" />
                     </Editor.Behaviors>--><!--
                 </Editor>
             </StackLayout>

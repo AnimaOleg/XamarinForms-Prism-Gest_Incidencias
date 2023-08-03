@@ -2,7 +2,7 @@
 <TabbedPage
 	xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:tareas="clr-namespace:Gest_Incidencias.Views"
+    xmlns:lista="clr-namespace:Gest_Incidencias.Views"
     x:Class="Gest_Incidencias.Views.MainPage"
     xmlns:fontAwesome="clr-namespace:FontAwesome"
              xmlns:prism="http://prismlibrary.com"
@@ -35,12 +35,12 @@
         </AbsoluteLayout>
     </NavigationPage.TitleView>
 
-    <!--<tareas:Page_List_Incidencias Title="Todas" Icon="alinearJustificar.png" Tipo="All"/>-->
-    <tareas:Page_List_Incidencias Title="Disponibles" Icon="lista.png" Tipo="Enabled"/>
-    <tareas:Page_List_Incidencias Title="Todas" Icon="hogar.png" Tipo="All"/>
-    <tareas:Page_List_Incidencias Title="Borradas" Icon="basura.png" Tipo="Deleted"/>
-    <tareas:Page_List_Incidencias Title="En Curso" Icon="play.png" Tipo="InProgress"/>
-    <tareas:Page_List_Incidencias Title="Finalizadas" Icon="report.png" Tipo="Finished"/>
+    <lista:Page_List_Incidencias Title="Todas" Icon="alinearJustificar.png" Tipo="All"/>-->
+    <lista:Page_List_Incidencias Title="Disponibles" Icon="lista.png" Tipo="Enabled"/>
+    <lista:Page_List_Incidencias Title="Todas" Icon="hogar.png" Tipo="All"/>
+    <lista:Page_List_Incidencias Title="Borradas" Icon="basura.png" Tipo="Deleted"/>
+    <lista:Page_List_Incidencias Title="En Curso" Icon="play.png" Tipo="InProgress"/>
+    <lista:Page_List_Incidencias Title="Finalizadas" Icon="report.png" Tipo="Finished"/>
 
 
 </TabbedPage>

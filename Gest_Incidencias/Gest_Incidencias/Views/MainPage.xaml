@@ -11,14 +11,44 @@
             android:TabbedPage.BarBackgroundColor ="Pink"
             android:TabbedPage.OffscreenPageLimit="2"
             android:TabbedPage.IsSwipePagingEnabled="true">
-    <!--xmlns:local="clr-namespace:TabbedPageWithNavigationPage;assembly=TabbedPageWithNavigationPage"-->
-
+    
+<!--xmlns:local="clr-namespace:TabbedPageWithNavigationPage;assembly=TabbedPageWithNavigationPage"-->
 
     <local:Page_List_Incidencias />
 
-    <NavigationPage Title="Disponibles" Icon="lista.png">
+    <NavigationPage Title="Disponibles" IconImageSource="lista.png">
         <x:Arguments>
-            <local:Page_List_Incidencias />
+            <local:Page_List_Incidencias Tipo="Disponibles"/>
+        </x:Arguments>
+    </NavigationPage>
+
+    <NavigationPage Title="Todas" IconImageSource="hogar.png">
+        <x:Arguments>
+            <local:Page_List_Incidencias Tipo="Todas"/>
+        </x:Arguments>
+    </NavigationPage>
+
+    <NavigationPage Title="Iniciadas" IconImageSource="play.png">
+        <x:Arguments>
+            <local:Page_List_Incidencias Tipo="Iniciadas"/>
+        </x:Arguments>
+    </NavigationPage>
+
+    <NavigationPage Title="Finalizadas" IconImageSource="report.png">
+        <x:Arguments>
+            <local:Page_List_Incidencias Tipo="Finalizadas"/>
+        </x:Arguments>
+    </NavigationPage>
+
+    <NavigationPage Title="Borradas" IconImageSource="basura.png">
+        <x:Arguments>
+            <local:Page_List_Incidencias Tipo="Borradas"/>
+        </x:Arguments>
+    </NavigationPage>
+
+<!--<NavigationPage Title="Deleted" Icon="lista.png">
+        <x:Arguments>
+            <local:Page_List_Incidencias Tipo="Deleted" />
         </x:Arguments>
     </NavigationPage>
     
@@ -32,66 +62,51 @@
         <x:Arguments>
             <local2:Todas_Page_List_Incidencias />
         </x:Arguments>
-    </NavigationPage>
-    
-    <!--<NavigationPage Title="Todas" IconImageSource="hogar.png">
-        <x:Arguments>
-            <local:Page_Item_Detail />
-        </x:Arguments>
     </NavigationPage>-->
-
-    <!--<NavigationPage Title="En Curso" IconImageSource="play.png">
-        <x:Arguments>
-            <local:Page_Entry_Incidence />
-        </x:Arguments>
-    </NavigationPage>
-
-    <NavigationPage Title="Finalizadas" IconImageSource="report.png">
-        <x:Arguments>
-            <local:Page_Entry_Incidence />
-        </x:Arguments>
-    </NavigationPage>
-
-    <NavigationPage Title="Borradas" IconImageSource="basura.png">
-        <x:Arguments>
-            <local:Page_Entry_Incidence />
-        </x:Arguments>
-    </NavigationPage>-->
-    
-
 </TabbedPage>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-<!--<TabbedPage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--Metodo Antiguo, correcto, funcional y más sencillo  (<listado:Page_List_Incidencias/> )--><!--
+<TabbedPage
 	xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:tareas="clr-namespace:Gest_Incidencias.Views"
+    xmlns:listado="clr-namespace:Gest_Incidencias.Views"
     x:Class="Gest_Incidencias.Views.MainPage"
     xmlns:fontAwesome="clr-namespace:FontAwesome"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
     NavigationPage.HasNavigationBar="true">
-    
-    -->
-<!--xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+
+
+    --><!--xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
     android:TabbedPage.ToolbarPlacement="Bottom"
     android:TabbedPage.BarItemColor="Black"
     android:TabbedPage.BarSelectedItemColor="Red"
     android:TabbedPage.OffscreenPageLimit="2"
-    android:TabbedPage.IsSwipePagingEnabled="true"-->
+    android:TabbedPage.IsSwipePagingEnabled="true"
     
 
-    <!-- https://stackoverflow.com/questions/72922974/center-text-on-navigationpages-titleview-it-is-slightly-offset-due-to-back-but --><!--
+     https://stackoverflow.com/questions/72922974/center-text-on-navigationpages-titleview-it-is-slightly-offset-due-to-back-but--><!--
     <NavigationPage.TitleView Padding="0">
         <AbsoluteLayout BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Margin="0" Padding="0">
             <Label Text="Gestor de Incidencias" FontSize="18" FontFamily="V4" TextColor="#D41167" TextTransform="Uppercase"
@@ -108,12 +123,11 @@
         </AbsoluteLayout>
     </NavigationPage.TitleView>
 
-    --><!--<tareas:Page_List_Incidencias Title="Todas" Icon="alinearJustificar.png" Tipo="All"/>--><!--
-    <tareas:Page_List_Incidencias Title="Disponibles" Icon="lista.png" Tipo="Enabled"/>
-    <tareas:Page_List_Incidencias Title="Todas" Icon="hogar.png" Tipo="All"/>
-    <tareas:Page_List_Incidencias Title="Borradas" Icon="basura.png" Tipo="Deleted"/>
-    <tareas:Page_List_Incidencias Title="En Curso" Icon="play.png" Tipo="InProgress"/>
-    <tareas:Page_List_Incidencias Title="Finalizadas" Icon="report.png" Tipo="Finished"/>
+    <listado:Page_List_Incidencias Title="Disponibles" Icon="lista.png" Tipo="Disponibles"/>
+    <listado:Page_List_Incidencias Title="Todas" Icon="hogar.png" Tipo="Todas"/>
+    <listado:Page_List_Incidencias Title="Iniciadas" Icon="play.png" Tipo="Iniciadas"/>
+    <listado:Page_List_Incidencias Title="Finalizadas" Icon="report.png" Tipo="Finalizadas"/>
+    <listado:Page_List_Incidencias Title="Borradas" Icon="basura.png" Tipo="Borradas"/>
 
 
 </TabbedPage>-->

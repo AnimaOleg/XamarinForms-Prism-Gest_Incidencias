@@ -49,8 +49,8 @@ namespace Gest_Incidencias
             containerRegistry.RegisterForNavigation<NavigationPage>();
 
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
-            containerRegistry.RegisterForNavigation<Page_List_Incidencias, ViewModels.Page_List_IncidenciasViewModel>();
-            containerRegistry.RegisterForNavigation<Page_List_Incidencias, ViewModels.Estados.Todas_Page_List_IncidenciasViewModel>();
+            containerRegistry.RegisterForNavigation<Page_List_Incidencias, Page_List_IncidenciasViewModel>();
+            //containerRegistry.RegisterForNavigation<Page_List_Incidencias, ViewModels.Estados.Todas_Page_List_IncidenciasViewModel>();
             containerRegistry.RegisterForNavigation<Page_Entry_Incidence, Page_Entry_IncidenceViewModel>();
             containerRegistry.RegisterForNavigation<Page_Item_Detail, Page_Item_DetailViewModel>();
             containerRegistry.RegisterForNavigation<ViewA, ViewAViewModel>();

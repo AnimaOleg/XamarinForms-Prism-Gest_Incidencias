@@ -26,16 +26,16 @@ namespace Gest_Incidencias.Views
 
         public Page_List_Incidencias()
         {
-            InitializeComponent();            
+            this._navigationService = ContainerLocator.Container.Resolve<INavigationService>();
+            InitializeComponent();
         }
 
         protected override void OnAppearing()
         {
-            Console.WriteLine(" ON APPEARING Page_List_Incidencias, TIPO: " + Tipo); // DEBUGEAR
-            Console.WriteLine(" AQUI FALLO, _navigationService = null");
-
+            Tipo = Tipo;
             BindingContext = new Page_List_IncidenciasViewModel(_navigationService, this.Tipo);
             base.OnAppearing();
+            Console.WriteLine(" ON APPEARING Page_List_Incidencias, TIPO: " + Tipo);
         }
 
     }

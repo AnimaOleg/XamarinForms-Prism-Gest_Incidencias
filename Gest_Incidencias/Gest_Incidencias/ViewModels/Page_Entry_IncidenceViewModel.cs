@@ -57,13 +57,19 @@ namespace Gest_Incidencias.ViewModels
 
 
         #region Commands
-        public ICommand OnTextChangedCommand { private set; get; }
-        //public ICommand UnfocusedTitleCommand { private set; get; }
-        public ICommand CreateNoteCommand { private set; get; }
-        public DelegateCommand CancelCommand { private set; get; }
+        //public DelegateCommand UnfocusedTitleCommand { private set; get; }
+        public DelegateCommand Command_TextChanged { private set; get; }
+        public DelegateCommand Command_Cancel { private set; get; }
+        public DelegateCommand Command_Create { private set; get; }
+
+        /*private DelegateCommand _cancelCommand;
+        public DelegateCommand CancelCommand =>
+            _cancelCommand ?? (_cancelCommand = new DelegateCommand(Execute_Cancel_Command));*/
+
         private DelegateCommand _navigationCommand;
         public DelegateCommand NavigateCommand =>
             _navigationCommand ?? (_navigationCommand = new DelegateCommand(ExecuteNavigationCommand));
+
         #endregion
 
 
@@ -74,11 +80,12 @@ namespace Gest_Incidencias.ViewModels
             _navigationService = navigationService;
             _messageService = DependencyService.Get<Services.IMessageService>();
 
-            CancelCommand = new DelegateCommand(Cancel);
-            CreateNoteCommand = new Command(CreateNote);
-            OnTextChangedCommand = new Command(TextChanged);
+            Command_Cancel = new DelegateCommand(Execute_Cancel_Command);
+            Command_Create = new DelegateCommand(Execute_Create_Command);
+            Command_TextChanged = new DelegateCommand(Execute_TextChanged);
             //UnfocusedTitleCommand = new Command(UnfocusedTitle);
         }
+
         public override void Initialize(INavigationParameters parameters)
         {
             Console.WriteLine(" INITIALIZE Page_Entry_IncidenceViewModel");
@@ -90,11 +97,11 @@ namespace Gest_Incidencias.ViewModels
         #region CommandsFunctions
         async void ExecuteNavigationCommand()
         {
-            Console.WriteLine("Click Boton NAVIGATEB");
-            await _navigationService.NavigateAsync("ViewB");
+            Console.WriteLine("Click Boton NAVIGATE A");
+            await _navigationService.NavigateAsync("ViewA");
         }
 
-        void TextChanged()
+        void Execute_TextChanged()
         {
             if (Title == "")
             {
@@ -106,8 +113,8 @@ namespace Gest_Incidencias.ViewModels
                 IsAvailable = true;
             }
         }
-
-        async void CreateNote()
+        
+        async void Execute_Create_Command()
         {
             Console.WriteLine("Dentro");
             //var note = (Note)BindingContext;
@@ -116,8 +123,8 @@ namespace Gest_Incidencias.ViewModels
                 Description = Description,
                 IsAvailable = IsAvailable,
                 DateCreation = DateTime.UtcNow,
-                Tipo = "Enabled"
-        };
+                Tipo = "Disponibles"
+            };
 
             try {
                 if (!string.IsNullOrWhiteSpace(note.Title) || !string.IsNullOrWhiteSpace(note.Description)) {
@@ -139,9 +146,10 @@ namespace Gest_Incidencias.ViewModels
             //await Navigation.PopAsync(); // no deja la lista actualizada
         }
 
-        async void Cancel() {
+        async void Execute_Cancel_Command() {
             //await Navigation.PopAsync();
-            await NavigationService.GoBackAsync();
+            //await NavigationService.GoBackAsync();
+            await NavigationService.NavigateAsync("ViewA");
 
             //await NavigationService.NavigateAsync("MainPage");
         }

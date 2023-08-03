@@ -203,7 +203,7 @@ namespace Gest_Incidencias.ViewModels
                 Parameters.EditingNote.IsAvailable = false;
                 Parameters.EditingNote.IsFinished = false;
                 Parameters.EditingNote.InProgress = true;
-                Parameters.EditingNote.Tipo = "InProgress";
+                Parameters.EditingNote.Tipo = "Iniciadas";
                 Parameters.EditingNote.DateStarting = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
                 Console.WriteLine(Parameters.EditingNote.DateStarting);
 
@@ -231,7 +231,7 @@ namespace Gest_Incidencias.ViewModels
                 Parameters.EditingNote.InProgress = false;
                 Parameters.EditingNote.IsFinished = true;
                 Parameters.EditingNote.IsDeleted = true;
-                Parameters.EditingNote.Tipo = "Finished";
+                Parameters.EditingNote.Tipo = "Finalizadas";
                 Parameters.EditingNote.DateFinish = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
 
                 await App.Database.SaveNoteAsync(Parameters.EditingNote);
@@ -254,7 +254,7 @@ namespace Gest_Incidencias.ViewModels
                     Parameters.EditingNote.IsFinished = false;
                     Parameters.EditingNote.InProgress = false;
                     Parameters.EditingNote.DateDeleted = "Renovado";
-                    Parameters.EditingNote.Tipo = "Enabled";
+                    Parameters.EditingNote.Tipo = "Disponibles";
 
                     try
                     {
@@ -283,7 +283,7 @@ namespace Gest_Incidencias.ViewModels
 
             Parameters.EditingNote.IsAvailable = false;
             Parameters.EditingNote.IsDeleted = true;
-            Parameters.EditingNote.Tipo = "Deleted";
+            Parameters.EditingNote.Tipo = "Borradas";
             //Parameters.EditingNote.IsFinished = true;
             Parameters.EditingNote.DateDeleted = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
 
@@ -323,7 +323,7 @@ namespace Gest_Incidencias.ViewModels
             Parameters.EditingNote.Description = Description;
             Parameters.EditingNote.IsAvailable = IsAvailable;
             //Parameters.EditingNote.DateCreation = DateCreation;
-            //Parameters.EditingNote.Tipo = "Enabled";
+            //Parameters.EditingNote.Tipo = "Disponibles";
             Parameters.EditingNote.DateModification = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
             ////Parameters.EditingNote.DateModification = DateTime.UtcNow.ToString();
             Parameters.EditingNote.IsSelected = false; //ConstructorLista=> Notes.ForEach(note => note.IsSelected = false);
