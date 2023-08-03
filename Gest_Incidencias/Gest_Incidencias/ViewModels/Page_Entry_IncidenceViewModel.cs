@@ -137,9 +137,7 @@ namespace Gest_Incidencias.ViewModels
             //await Navigation.PopAsync();
             //await _navigationService.GoBackAsync();
             Console.WriteLine(" Execute_Cancel_Command");
-            await _navigationService.NavigateAsync("ViewA");
-
-            //await _navigationService.NavigateAsync("MainPage");
+            await _navigationService.NavigateAsync("MainPage");
         }
         #endregion
     }
