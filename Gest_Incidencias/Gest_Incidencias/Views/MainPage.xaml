@@ -20,11 +20,11 @@
         </AbsoluteLayout>
     </NavigationPage.TitleView>
 
-    <listado:Page_List_Incidencias Title="Disponibles" Icon="lista.png" Tipo="Disponibles"/>
-    <listado:Page_List_Incidencias Title="Todas" Icon="hogar.png" Tipo="Todas"/>
-    <listado:Page_List_Incidencias Title="Iniciadas" Icon="play.png" Tipo="Iniciadas"/>
-    <listado:Page_List_Incidencias Title="Finalizadas" Icon="report.png" Tipo="Finalizadas"/>
-    <listado:Page_List_Incidencias Title="Borradas" Icon="basura.png" Tipo="Borradas"/>
+    <listado:List_Page Title="Disponibles" Icon="lista.png" Tipo="Disponibles"/>
+    <listado:List_Page Title="Todas" Icon="hogar.png" Tipo="Todas"/>
+    <listado:List_Page Title="Iniciadas" Icon="play.png" Tipo="Iniciadas"/>
+    <listado:List_Page Title="Finalizadas" Icon="report.png" Tipo="Finalizadas"/>
+    <listado:List_Page Title="Borradas" Icon="basura.png" Tipo="Borradas"/>
 </TabbedPage>
 
 

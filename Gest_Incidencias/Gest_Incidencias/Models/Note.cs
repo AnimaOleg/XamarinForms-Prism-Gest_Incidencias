@@ -9,8 +9,12 @@ namespace Gest_Incidencias.Models
 {
     public class Note
     {
+        #region PrimaryKey
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
+        #endregion
+
+        #region Atributos
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime DateCreation { get; set; }
@@ -24,6 +28,11 @@ namespace Gest_Incidencias.Models
         public bool IsDeleted { get; set; } = false;
         public bool IsFinished { get; set; } = false;
         public bool InProgress { get; set; } = false;
+        public string Tipo { get; set; }
+        #endregion
+
+
+        #region Comportamientos_Bindeados
         public string StateElement {
             get {
                 if (IsAvailable) return FontAwesome.FontAwesomeIcons.Check;
@@ -60,7 +69,8 @@ namespace Gest_Incidencias.Models
         //        else return float.Parse("0,5", CultureInfo.InvariantCulture);
         //    }
         //}
-        public string Tipo { get; set; }
+        #endregion
+
     }
 }
 

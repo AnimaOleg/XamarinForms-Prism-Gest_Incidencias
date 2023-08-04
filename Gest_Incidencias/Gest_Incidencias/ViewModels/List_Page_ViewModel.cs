@@ -16,7 +16,7 @@ using Xamarin.Forms.Internals;
 
 namespace Gest_Incidencias.ViewModels
 {
-    public class Page_List_IncidenciasViewModel : BaseViewModel /*BindableBase*/
+    public class List_Page_ViewModel : BaseViewModel /*BindableBase*/
     {
         #region Variables
         int contador_notas_seleccionadas = 0;
@@ -62,25 +62,14 @@ namespace Gest_Incidencias.ViewModels
         public DelegateCommand Command_ModifyItem { private set; get; }
         public DelegateCommand Command_FinishItem { private set; get; }
         public DelegateCommand Command_CreateItem { private set; get; }
-        //public DelegateCommand CommandGoToDetailsCommand { private set; get; }
-
-        private DelegateCommand _navigationCommand;
-        public DelegateCommand NavigateCommand =>
-            _navigationCommand ?? (_navigationCommand = new DelegateCommand(ExecuteNavigationCommand));
-
-
-        //private DelegateCommand _createItemCommand;
-        //public DelegateCommand CreateItemCommand =>
-        //    _createItemCommand ?? (_createItemCommand = new DelegateCommand(CreateItem));
-
         #endregion
 
 
         #region Constructor
-        public Page_List_IncidenciasViewModel(INavigationService navigationService) : base(navigationService)
+        public List_Page_ViewModel(INavigationService navigationService) : base(navigationService)
         { }
 
-        public Page_List_IncidenciasViewModel(INavigationService navigationService, string tipo) : base(navigationService)
+        public List_Page_ViewModel(INavigationService navigationService, string tipo) : base(navigationService)
         {
             
             // Variables
@@ -88,7 +77,7 @@ namespace Gest_Incidencias.ViewModels
             //Title = "Listado";
             _messageService = DependencyService.Get<Services.IMessageService>();
             _navigationService = navigationService; //Navigation = navigation;
-            Console.WriteLine(" MODEL 1 Page_List_IncidenciasViewModel, TIPO: " + tipo);
+            Console.WriteLine(" MODEL 1 Page_List_Incidencias_ViewModel, TIPO: " + tipo);
 
             /// Commands
             Command_CheckedChanged = new Command<CheckedChangedEventArgs>(Execute_OnCheckedChanged);
@@ -116,10 +105,6 @@ namespace Gest_Incidencias.ViewModels
 
 
         #region CommandsFunctions
-        async void ExecuteNavigationCommand()
-        {
-            await _navigationService.NavigateAsync("ViewA");
-        }
         async void Execute_CreateItem()
         {
             try
@@ -133,9 +118,6 @@ namespace Gest_Incidencias.ViewModels
             //await _navigationService.NavigateAsync("Page_Entry_Incidence");
             //await Navigation.PushAsync(new Page_Entry_Incidence());
         }
-
-
-
 
         async void Execute_OnCheckedChanged(CheckedChangedEventArgs arg)
         {
@@ -212,7 +194,7 @@ namespace Gest_Incidencias.ViewModels
         {
             if (Parameters.EditingNote != null) {
                 Parameters.EditingNote.IsSelected = false;
-                await _navigationService.NavigateAsync("Page_Item_Detail");
+                await _navigationService.NavigateAsync("Details_Page");
             }
             else {
                 await _messageService.ShowAsync(message: "Elige una Incidencia para Modificar");
@@ -223,35 +205,66 @@ namespace Gest_Incidencias.ViewModels
         {
             if (Parameters.EditingNote != null)
             {
-                Console.WriteLine("NOTA Finalizar - Finalizada:" + Parameters.EditingNote.Name);
 
-                //Parameters.EditingNote.IsEnabled = false;
                 Parameters.EditingNote.IsSelected = false;
+                Parameters.EditingNote.IsAvailable = false;
 
                 if (Parameters.EditingNote.DateFinish == "")
                 {
+                    Console.WriteLine("NOTA Finalizar - Finalizada:" + Parameters.EditingNote.Name);
                     Parameters.EditingNote.IsFinished = true;
-                    Parameters.EditingNote.IsAvailable = false;
                     Parameters.EditingNote.Tipo = "Finalizadas";
                     Parameters.EditingNote.DateFinish = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
                 }
                 else
                 {
+                    Console.WriteLine("NOTA Finalizar - Renovada:" + Parameters.EditingNote.Name);
                     Parameters.EditingNote.IsFinished = false;
-                    Parameters.EditingNote.IsAvailable = true;
+                    Parameters.EditingNote.InProgress = true;
                     Parameters.EditingNote.Tipo = "Disponibles";
                     Parameters.EditingNote.DateFinish = "";
-                    //VisibleFecha = true
                 }
                 await App.Database.SaveNoteAsync(Parameters.EditingNote);
                 await _navigationService.NavigateAsync("MainPage");
             }
             else
             {
-                Console.WriteLine("NOTA Finalizar - Parameters.EditingNote == NULL ");
+                await _messageService.ShowAsync("NOTA Finalizar - no hay nada a cambiar de estado");
             }
-        }
 
+
+
+
+
+
+            //// hay nota, y no esta ya finalizada
+            //if (Parameters.EditingNote != null
+            //    /*&& Parameters.EditingNote.IsFinished != true*/
+            //    //&& Parameters.EditingNote.IsAvailable
+            //    )
+            //{
+            //    Console.WriteLine(" FINALIZADO");
+            //    IsAvailableProperty = true;
+            //    //Parameters.EditingNote.IsSelected = false;
+            //    Parameters.EditingNote.IsAvailable = false;
+            //    Parameters.EditingNote.InProgress = false;
+            //    Parameters.EditingNote.IsFinished = true;
+            //    Parameters.EditingNote.IsDeleted = false;
+            //    Parameters.EditingNote.Tipo = "Finalizadas";
+            //    Parameters.EditingNote.DateFinish = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
+
+            //    await App.Database.SaveNoteAsync(Parameters.EditingNote);
+            //    await _navigationService.NavigateAsync("MainPage");
+            //}
+            //else
+            //{
+            //    Console.WriteLine("NOTA Finalizar - Parameters.EditingNote == NULL ");
+            //}
+
+
+
+
+        }
         #endregion
 
     }

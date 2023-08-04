@@ -5,7 +5,7 @@
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
             mc:Ignorable="d"
             xmlns:vm="clr-namespace:Gest_Incidencias.ViewModels"
-            x:Class="Gest_Incidencias.Views.Page_Item_Detail"
+            x:Class="Gest_Incidencias.Views.Details_Page"
                 xmlns:fontAwesome="clr-namespace:FontAwesome"
                 xmlns:prism="http://prismlibrary.com"
                 prism:ViewModelLocator.AutowireViewModel="True"
@@ -35,12 +35,11 @@
                         TextColor="Red" BackgroundColor="{StaticResource SecondaryColor}" BorderColor="Red" BorderWidth="3"/>
             </Grid>
 
-
             <Frame BorderColor="Orange" CornerRadius="10" HasShadow="True" Padding="12" Margin="8,2">
                 <StackLayout Orientation="Vertical">
                     <Label Text="Titulo" FontSize="Medium" HeightRequest="20"/>
                     <!--<BoxView Color="White" HeightRequest="1" HorizontalOptions="Fill" />-->
-                    <Entry Text="{Binding Title}" FontSize="Large"/>
+                    <Entry Text="{Binding Name}" FontSize="Large"/>
                 </StackLayout>
             </Frame>
 
@@ -52,14 +51,13 @@
                 </StackLayout>
             </Frame>
 
-
             <Grid ColumnDefinitions="0.5*, 0.5*">
                 <Frame Grid.Column="0"
                        BorderColor="Orange" CornerRadius="0" HasShadow="True" Padding="0" Margin="0,2">
                     <StackLayout Orientation="Horizontal">
                         <Grid ColumnDefinitions="0.5*,0.5*" BackgroundColor="{StaticResource SecondaryColor}" Padding="4" Margin="8">
                             <Label Text="Estado" FontSize="Medium" Grid.Column="0"/>
-                            <Label Text="{Binding Tipo}" FontSize="Medium" Grid.Column="0"/>
+                            <Label Text="{Binding Tipo}" FontSize="Medium" Grid.Column="1"/>
                         </Grid>
                     </StackLayout>
                 </Frame>
@@ -69,23 +67,22 @@
                         <Grid ColumnDefinitions="0.75*,0.25*" BackgroundColor="{StaticResource SecondaryColor}" Padding="4" Margin="8">
                             <Label Text="Disponible" FontSize="Medium" Grid.Column="0"/>
                             <CheckBox IsChecked="{Binding IsAvailable}" Grid.Column="1" ScaleX="2" ScaleY="2" Scale="1"
-                                  HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Color="Red"/>
+                                  HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Color="Red" IsEnabled="false"/>
                         </Grid>
                     </StackLayout>
                 </Frame>
             </Grid>
-
 
             <Frame BorderColor="Gray"  CornerRadius="0" HasShadow="True" Margin="0,8,0,0" Padding="0">
                 <StackLayout Orientation="Vertical" Padding="0" Margin="0">
 
                     <Grid ColumnDefinitions="0.4*,0.6*" BackgroundColor="{StaticResource SecondaryColor}" Padding="12,4,12,0" Margin="1">
                         <Label Text="Fecha Inicio:" FontSize="16" Grid.Column="0" TextColor="DarkBlue"/>
-                        <Label Text="{Binding DateStarting}" FontSize="16" Grid.Column="1" TextColor="DarkBlue"/>
+                        <Label Text="{Binding DateStarting}" FontSize="20" Grid.Column="1" TextColor="DarkBlue"/>
                     </Grid>
                     <Grid ColumnDefinitions="0.4*,0.6*" BackgroundColor="{StaticResource SecondaryColor}" Padding="12,0,12,4" Margin="1">
                         <Label Text="Fecha Finalizacion:" FontSize="16" Grid.Column="0" TextColor="DarkBlue"/>
-                        <Label Text="{Binding DateFinish}" FontSize="16" Grid.Column="1" TextColor="DarkBlue"/>
+                        <Label Text="{Binding DateFinish}" FontSize="20" Grid.Column="1" TextColor="DarkBlue"/>
                     </Grid>
                 </StackLayout>
             </Frame>
@@ -93,21 +90,20 @@
             <Frame BorderColor="Gray" CornerRadius="0" HasShadow="True" Margin="0,0,0,8" Padding="0">
                 <StackLayout Orientation="Vertical" Padding="0" Margin="0">
 
-                    <Grid ColumnDefinitions="0.45*,0.7*" BackgroundColor="{StaticResource SecondaryColor}" Padding="12,0" Margin="1">
-                        <Label Text="Fecha Creación:" FontSize="14" Grid.Column="0"/>
-                        <Label Text="{Binding DateCreation, StringFormat='{0:dd/MM/yyyy - hh\\:mm}'}" FontSize="14" Grid.Column="1"/>
+                    <Grid ColumnDefinitions="0.45*,0.6*" BackgroundColor="{StaticResource SecondaryColor}" Padding="12,0" Margin="1">
+                        <Label Text="Fecha Creación:" FontSize="16" Grid.Column="0"/>
+                        <Label Text="{Binding DateCreation, StringFormat='{0:dd/MM/yyyy - hh\\:mm}'}" FontSize="20" Grid.Column="1"/>
                     </Grid>
-                    <Grid ColumnDefinitions="0.45*,0.7*" BackgroundColor="{StaticResource SecondaryColor}" Padding="12,0" Margin="1">
-                        <Label Text="Fecha Modificacion:" FontSize="14" Grid.Column="0"/>
-                        <Label Text="{Binding DateModification}" FontSize="14" Grid.Column="1"/>
+                    <Grid ColumnDefinitions="0.45*,0.6*" BackgroundColor="{StaticResource SecondaryColor}" Padding="12,0" Margin="1">
+                        <Label Text="Fecha Modificacion:" FontSize="16" Grid.Column="0"/>
+                        <Label Text="{Binding DateModification}" FontSize="20" Grid.Column="1"/>
                     </Grid>
-                    <Grid ColumnDefinitions="0.45*,0.7*" BackgroundColor="{StaticResource SecondaryColor}" Padding="12,0" Margin="1">
-                        <Label Text="Fecha Borrado:" FontSize="14" Grid.Column="0"/>
-                        <Label Text="{Binding DateDeleted}" FontSize="14" Grid.Column="1"/>
+                    <Grid ColumnDefinitions="0.45*,0.6*" BackgroundColor="{StaticResource SecondaryColor}" Padding="12,0" Margin="1">
+                        <Label Text="Fecha Borrado:" FontSize="16" Grid.Column="0"/>
+                        <Label Text="{Binding DateDeleted}" FontSize="20" Grid.Column="1"/>
                     </Grid>
                 </StackLayout>
             </Frame>
-
 
             <Grid RowDefinitions="*,*">
                 <Grid Grid.Row="0">

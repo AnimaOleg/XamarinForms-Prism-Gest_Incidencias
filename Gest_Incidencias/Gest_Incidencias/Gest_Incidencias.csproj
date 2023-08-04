@@ -41,28 +41,26 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\Page_Item_Detail.xaml.cs">
-      <DependentUpon>Page_Item_Detail.xaml</DependentUpon>
+    <Compile Update="Views\Details_Page.xaml.cs">
+      <DependentUpon>Details_Page.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\List_Page.xaml.cs">
+      <DependentUpon>List_Page.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Creation_Page.xaml.cs">
+      <DependentUpon>Creation_Page.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Views\Page_Item_Detail.xaml">
+    <EmbeddedResource Update="Views\Details_Page.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Page_Entry_Incidence.xaml">
+    <EmbeddedResource Update="Views\Creation_Page.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Page_List_Incidencias.xaml">
+    <EmbeddedResource Update="Views\List_Page.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\ViewA.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ViewModels\Page_Item\" />
-    <Folder Include="Views\Page_Item\" />
   </ItemGroup>
 </Project>

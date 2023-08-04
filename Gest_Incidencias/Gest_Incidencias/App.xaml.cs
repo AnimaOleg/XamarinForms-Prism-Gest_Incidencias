@@ -8,21 +8,23 @@ using Prism.Navigation;
 using System;
 using System.IO;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-using Prism.Mvvm;
-using System.Reflection;
 
 namespace Gest_Incidencias
 {
-    public partial class App /*: Application*/
+    public partial class App
     {
+        #region Variables
         static NoteDatabase database;
-
-        // Nueva Navegacion
         public INavigationService MyNavigationService => NavigationService; //  llamando a MyNavigationService lo que haces es llamar a NavigationService
+        #endregion
+
+        #region Constructor
         public App() : this(null) { }
         public App(IPlatformInitializer initializer) : base(initializer) { }
+        #endregion
 
+
+        #region Database
         public static NoteDatabase Database
         {
             get {
@@ -31,67 +33,34 @@ namespace Gest_Incidencias
                 return database;
             }
         }
+        #endregion
 
 
+        #region OnInitialized
         protected override async void OnInitialized()
         {
             InitializeComponent();
-
             DependencyService.Register<IMessageService, MessageService>();
+
             await MyNavigationService.NavigateAsync("MainPage");
             //await NavigationService.NavigateAsync("MainPage?message=Hello%20From%20PrismApplication"); // Para el ejemplo de Mensajes
         }
+        #endregion
 
+
+        #region RegisterTypes
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<NavigationPage>();
 
-            containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
-            containerRegistry.RegisterForNavigation<Page_List_Incidencias, Page_List_IncidenciasViewModel>();
-            containerRegistry.RegisterForNavigation<Page_Entry_Incidence, Page_Entry_IncidenceViewModel>();
-            containerRegistry.RegisterForNavigation<Page_Item_Detail, Page_Item_DetailViewModel>();
-            containerRegistry.RegisterForNavigation<ViewA, ViewAViewModel>();
-
-
-
-
-            // Tell the Unity ViewModelLocator to use the Unity container to resolve ViewModels
-            //ViewModelLocator.SetDefaultViewModelFactory((viewModelType) => _container.Resolve(viewModelType));
-            //ViewModelLocator.SetAutowireViewModel((viewModelType) => _container.Resolve(viewModelType));
-            //SetDefaultViewTypeToViewModelTypeResolver
-
-            //ViewModelLocator.SetAutowireViewModel(ViewAViewModel, true);
+            containerRegistry.RegisterForNavigation<MainPage, MainPage_ViewModel>();
+            containerRegistry.RegisterForNavigation<List_Page, List_Page_ViewModel>();
+            containerRegistry.RegisterForNavigation<Creation_Page, Creation_Page_ViewModel>();
+            containerRegistry.RegisterForNavigation<Details_Page, Details_Page_ViewModel>();
 
             //containerRegistry.RegisterForNavigation<MainPage>("MiAlias");
         }
+        #endregion
 
-
-        //protected override void ConfigureViewModelLocator()
-        //{
-        //    base.ConfigureViewModelLocator();
-
-        //    ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver((viewType) =>
-        //    {
-        //        var viewName = viewType.FullName.Replace(".ViewModels.", ".CustomNamespace.");
-        //        var viewAssemblyName = viewType.GetTypeInfo().Assembly.FullName;
-        //        var viewModelName = $"{viewName}ViewModel, {viewAssemblyName}";
-        //        return Type.GetType(viewModelName);
-        //    });
-        //}
-
-
-        /* Antigua Navegacion
-        public App()
-        {
-            DependencyService.Register<IMessageService, MessageService>();
-
-            InitializeComponent();
-            MainPage = new NavigationPage(new MainPage());
-        }*/
-
-        //protected override void RegistryTypes(IContainerRegistry containerRegistry) => containerRegistry.RegisterForNavigation<MainPage>();
-        /*protected override void OnStart() { }
-        protected override void OnSleep() { }
-        protected override void OnResume() { }*/
     }
 }

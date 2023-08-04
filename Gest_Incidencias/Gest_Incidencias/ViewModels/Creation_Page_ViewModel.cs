@@ -18,7 +18,7 @@ using Xamarin.Forms;
 
 namespace Gest_Incidencias.ViewModels
 {
-    public class Page_Entry_IncidenceViewModel : /*BindableBase*/ BaseViewModel
+    public class Creation_Page_ViewModel : /*BindableBase*/ BaseViewModel
     {
         #region Variables
         private /*readonly*/ IMessageService _messageService;
@@ -47,7 +47,7 @@ namespace Gest_Incidencias.ViewModels
             get { return _dateCreation; }
             set { SetProperty(ref _dateCreation, value); }
         }
-        private bool _isAvailable;
+        private bool _isAvailable = false;
         public bool IsAvailable
         {
             get { return _isAvailable; }
@@ -66,7 +66,7 @@ namespace Gest_Incidencias.ViewModels
 
 
         #region Constructor
-        public Page_Entry_IncidenceViewModel(INavigationService navigationService) : base(navigationService)
+        public Creation_Page_ViewModel(INavigationService navigationService) : base(navigationService)
         {
             Title = "Nueva Entrada";
             _navigationService = navigationService;
@@ -80,7 +80,7 @@ namespace Gest_Incidencias.ViewModels
 
         public override void Initialize(INavigationParameters parameters)
         {
-            Console.WriteLine(" INITIALIZE Page_Entry_IncidenceViewModel");
+            Console.WriteLine(" INITIALIZE Creation_Page");
             base.Initialize(parameters);
         }
         #endregion
@@ -90,13 +90,14 @@ namespace Gest_Incidencias.ViewModels
 
         void Execute_TextChanged()
         {
-            if (Name == "")
+            //IsAvailable = true;
+
+            if (Name != "")
             {
-                IsAvailable = false;
-            } else if(Description == ""){
-                IsAvailable = false;
+                IsAvailable = true;
             }
-            else {
+            if(Description != "")
+            {
                 IsAvailable = true;
             }
         }
@@ -113,9 +114,15 @@ namespace Gest_Incidencias.ViewModels
                 Tipo = "Disponibles"
             };
 
-            try {
-                if (!string.IsNullOrWhiteSpace(note.Name) || !string.IsNullOrWhiteSpace(note.Description)) {
-                    try {
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(note.Name) && !string.IsNullOrWhiteSpace(note.Description)
+                    && note.Name.Length >= 3 && note.Description.Length >= 3
+                    )
+                {
+                    try
+                    {
+                        Console.WriteLine($"Note: {note.Tipo}");    
                         await App.Database.SaveNoteAsync(note);
                         await _navigationService.NavigateAsync("MainPage");
                     }
@@ -124,7 +131,7 @@ namespace Gest_Incidencias.ViewModels
                     }
                 }
                 else
-                    await _messageService.ShowAsync(message: "Rellena el Título o la Descripción");
+                    await _messageService.ShowAsync(message: "Rellena el Título o la Descripción. Mínimo 3 carácteres");
             }
             catch (Exception ex) {
                 await _messageService.ShowAsync("Error de IsNullOrWhiteSpace: " + ex.Message);

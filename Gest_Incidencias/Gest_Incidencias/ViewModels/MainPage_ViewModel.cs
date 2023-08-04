@@ -7,11 +7,11 @@ using Xamarin.Forms;
 
 namespace Gest_Incidencias.ViewModels
 {
-    public class MainPageViewModel : BaseViewModel
+    public class MainPage_ViewModel : BaseViewModel
     {
         private /*readonly*/ INavigationService _navigationService;
 
-        public MainPageViewModel(INavigationService navigationService) : base(navigationService)
+        public MainPage_ViewModel(INavigationService navigationService) : base(navigationService)
         {
             Title = "Pagina Princial";
             _navigationService = navigationService;

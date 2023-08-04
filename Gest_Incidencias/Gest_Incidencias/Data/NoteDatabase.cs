@@ -18,38 +18,38 @@ namespace Gest_Incidencias.Data
 
         public Task<List<Note>> GetNotesAsync(string tipo)
         {
-            if (tipo == "All" || tipo == null || tipo == "Todas")
+            if (tipo == "Todas" || tipo == null)
             {
 
                 return database.Table<Note>().ToListAsync();
             }
             else
             {
-                switch(tipo)
-                {
-                    case "Todas":
-                        tipo = "All";
-                        break;
-                    case "Disponibles":
-                        tipo = "Enabled";
-                        break;
-                    case "Iniciadas":
-                        tipo = "InProgress";
-                        break;
-                    case "Finalizadas":
-                        tipo = "Finished";
-                        break;
-                    case "Borradas":
-                        tipo = "Deleted";
-                        break;
-                    default: break;
-                    }
-                    return database.Table<Note>().Where(i => i.Tipo == tipo).ToListAsync();
-                }
-                //.Where(i => i.Tipo.Equals(tipo)).ToListAsync();
-                //.FirstOrDefaultAsync();
-                //Where(x => x.drugname.Contains(pillname));
+                //    switch(tipo)
+                //    {
+                //        case "Todas":
+                //            tipo = "All";
+                //            break;
+                //        case "Disponibles":
+                //            tipo = "Enabled";
+                //            break;
+                //        case "Iniciadas":
+                //            tipo = "InProgress";
+                //            break;
+                //        case "Finalizadas":
+                //            tipo = "Finished";
+                //            break;
+                //        case "Borradas":
+                //            tipo = "Deleted";
+                //            break;
+                //        default: break;
+                //        }
             }
+            return database.Table<Note>().Where(i => i.Tipo == tipo).ToListAsync();
+            //.Where(i => i.Tipo.Equals(tipo)).ToListAsync();
+            //.FirstOrDefaultAsync();
+            //Where(x => x.drugname.Contains(pillname));
+        }
 
         public Task<Note> GetNoteAsync(int id)
         {

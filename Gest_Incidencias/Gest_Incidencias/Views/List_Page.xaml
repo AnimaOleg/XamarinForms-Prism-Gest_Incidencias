@@ -6,7 +6,7 @@
             mc:Ignorable="d"
             xmlns:local="clr-namespace:Gest_Incidencias.Views"
             xmlns:vm="clr-namespace:Gest_Incidencias.ViewModels"
-            x:Class="Gest_Incidencias.Views.Page_List_Incidencias"
+            x:Class="Gest_Incidencias.Views.List_Page"
                 xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
                 xmlns:fontAwesome="clr-namespace:FontAwesome"
                 xmlns:prism="http://prismlibrary.com"
@@ -114,7 +114,7 @@
                                                 <!--<CheckBox IsChecked="{Binding IsChecked}" BackgroundColor="{Binding SelectedItemColor}"-->
                                                 <!--<CheckBox IsChecked="{Binding IsSelected}" BackgroundColor="{Binding SelectedItemColor}"-->
                                                 <CheckBox IsChecked="{Binding IsSelected}" BackgroundColor="DarkBlue"
-                                                    Grid.Column="1" Grid.RowSpan="4" ScaleX="1" ScaleY="1" Scale="2.3" Color="Red"
+                                                    Grid.Column="1" Grid.RowSpan="4" ScaleX="1" ScaleY="1" Scale="2.3" Color="White"
                                                     Opacity="0.8" HeightRequest="120"
                                                     HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
                                                 <CheckBox.Behaviors>
@@ -145,7 +145,7 @@
                                             FontFamily="FAS" FontSize="20" Grid.Column="1"/>
                                         <!--<Label Text="{Binding IsAvailable}" BackgroundColor="{Binding StateColor}" FontSize="Small" HeightRequest="20" WidthRequest="20" Grid.Column="1"/>-->
                                       
-                                        <Label Text="{Binding Title}" Grid.Column="2"  TextColor="{Binding StateColor}"
+                                        <Label Text="{Binding Name}" Grid.Column="2"  TextColor="{Binding StateColor}"
                                             FontFamily="V4" FontSize="20" Padding="0" Margin="0"/>
                                         </Grid>
 
@@ -162,8 +162,6 @@
                                         <Grid ColumnDefinitions="0.35*,0.7*" Grid.Row="3" Padding="12,1">
                                             <Label Text="Finalización:" FontSize="Small" Grid.Column="0"/>
                                             <Label Text="{Binding DateFinish, StringFormat='{0:dd/MM/yyyy - hh\\:mm}'}" FontSize="Small" Grid.Column="1"/>
-                                            <!--<Label Text="{Binding DateFinish}" FontSize="Small" Grid.Column="1"/>-->
-                                            <!-- IsVisible="{Binding VisibleFecha}"/> -->
                                         </Grid>
                                     
                                     </Grid>
