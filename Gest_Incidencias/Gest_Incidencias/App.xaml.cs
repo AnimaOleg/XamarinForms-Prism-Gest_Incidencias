@@ -57,6 +57,7 @@ namespace Gest_Incidencias
             containerRegistry.RegisterForNavigation<List_Page, List_Page_ViewModel>();
             containerRegistry.RegisterForNavigation<Creation_Page, Creation_Page_ViewModel>();
             containerRegistry.RegisterForNavigation<Details_Page, Details_Page_ViewModel>();
+            containerRegistry.RegisterForNavigation<Settings_Page, Settings_PageViewModel>();
 
             //containerRegistry.RegisterForNavigation<MainPage>("MiAlias");
         }

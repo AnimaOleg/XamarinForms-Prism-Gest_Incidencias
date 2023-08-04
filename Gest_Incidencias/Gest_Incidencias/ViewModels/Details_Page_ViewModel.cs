@@ -99,19 +99,19 @@ namespace Gest_Incidencias.ViewModels
                 else return false;
             }
         }
-        private bool _isAvailable;
-        public bool IsAvailable
+        private bool _estado_Actual;
+        public bool Estado_Actual
         {
-            get { return _isAvailable; }
-            set { SetProperty(ref _isAvailable, value); }
+            get { return _estado_Actual; }
+            set { SetProperty(ref _estado_Actual, value); }
         }
 
-        private bool _isAvailableProperty = false;
+        /*private bool _isAvailableProperty = false;
         public bool IsAvailableProperty
         {
             get => _isAvailableProperty;
             set => SetProperty(ref _isAvailableProperty, value);
-        }
+        }*/
         #endregion
 
 
@@ -141,7 +141,7 @@ namespace Gest_Incidencias.ViewModels
 
             Name = Parameters.EditingNote.Name;
             Description = Parameters.EditingNote.Description;
-            IsAvailable = Parameters.EditingNote.IsAvailable;
+            //IsAvailable = Parameters.EditingNote.IsAvailable;
             DateCreation = Parameters.EditingNote.DateCreation;
             DateModification = Parameters.EditingNote.DateModification;
             DateStarting = Parameters.EditingNote.DateStarting;
@@ -164,16 +164,17 @@ namespace Gest_Incidencias.ViewModels
         {
             // hay nota, y no esta ya iniciada
             if (Parameters.EditingNote != null
-                && Parameters.EditingNote.InProgress != true
+                && Parameters.EditingNote.Estado_Actual == "Disponible"
+                //&& Parameters.EditingNote.InProgress != true
                 //&& Parameters.EditingNote.IsAvailable
                 )
             {
                 Console.WriteLine(" INICIADO");
-                IsAvailableProperty = false;
-                Parameters.EditingNote.IsAvailable = false;
-                Parameters.EditingNote.IsFinished = false;
-                Parameters.EditingNote.InProgress = true;
-                Parameters.EditingNote.Tipo = "Iniciadas";
+                //IsAvailableProperty = false;
+                //Parameters.EditingNote.IsAvailable = false;
+                //Parameters.EditingNote.IsFinished = false;
+                //Parameters.EditingNote.InProgress = true;
+                Parameters.EditingNote.Estado_Actual = "Iniciado";
                 Parameters.EditingNote.DateStarting = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
                 Console.WriteLine(Parameters.EditingNote.DateStarting);
 
@@ -190,18 +191,19 @@ namespace Gest_Incidencias.ViewModels
         {
             // hay nota, y no esta ya finalizada
             if (Parameters.EditingNote != null
+                && Parameters.EditingNote.Estado_Actual == "Iniciado"
                 /*&& Parameters.EditingNote.IsFinished != true*/
                 //&& Parameters.EditingNote.IsAvailable
                 )
             {
                 Console.WriteLine(" FINALIZADO");
-                IsAvailableProperty = true;
-                //Parameters.EditingNote.IsSelected = false;
-                Parameters.EditingNote.IsAvailable = false;
-                Parameters.EditingNote.InProgress = false;
-                Parameters.EditingNote.IsFinished = true;
-                Parameters.EditingNote.IsDeleted = false;
-                Parameters.EditingNote.Tipo = "Finalizadas";
+                //IsAvailableProperty = true;
+                ////Parameters.EditingNote.IsSelected = false;
+                //Parameters.EditingNote.IsAvailable = false;
+                //Parameters.EditingNote.InProgress = false;
+                //Parameters.EditingNote.IsFinished = true;
+                //Parameters.EditingNote.IsDeleted = false;
+                Parameters.EditingNote.Estado_Actual = "Iniciado";
                 Parameters.EditingNote.DateFinish = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
 
                 await App.Database.SaveNoteAsync(Parameters.EditingNote);
@@ -219,12 +221,12 @@ namespace Gest_Incidencias.ViewModels
             {
                 if (!string.IsNullOrWhiteSpace(Parameters.EditingNote.Name) && !string.IsNullOrWhiteSpace(Parameters.EditingNote.Description))
                 {
-                    Parameters.EditingNote.IsAvailable = true;
-                    Parameters.EditingNote.IsDeleted = false;
-                    Parameters.EditingNote.IsFinished = false;
-                    Parameters.EditingNote.InProgress = false;
-                    Parameters.EditingNote.DateDeleted = "Renovado";
-                    Parameters.EditingNote.Tipo = "Disponibles";
+                    //Parameters.EditingNote.IsAvailable = true;
+                    //Parameters.EditingNote.IsDeleted = false;
+                    //Parameters.EditingNote.IsFinished = false;
+                    //Parameters.EditingNote.InProgress = false;
+                    Parameters.EditingNote.DateDeleted = "Renovado " + DateTime.UtcNow;
+                    Parameters.EditingNote.Estado_Actual = "Renovado";
 
                     try
                     {
@@ -250,9 +252,9 @@ namespace Gest_Incidencias.ViewModels
         {
             Console.WriteLine("BORRAR: " + Parameters.EditingNote.Name);
 
-            Parameters.EditingNote.IsAvailable = false;
-            Parameters.EditingNote.IsDeleted = true;
-            Parameters.EditingNote.Tipo = "Borradas";
+            //Parameters.EditingNote.IsAvailable = false;
+            //Parameters.EditingNote.IsDeleted = true;
+            Parameters.EditingNote.Estado_Actual = "Borrado";
             //Parameters.EditingNote.IsFinished = true;
             Parameters.EditingNote.DateDeleted = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
 
@@ -288,9 +290,7 @@ namespace Gest_Incidencias.ViewModels
 
             Parameters.EditingNote.Name = Name;
             Parameters.EditingNote.Description = Description;
-            Parameters.EditingNote.IsAvailable = IsAvailable;
-            //Parameters.EditingNote.DateCreation = DateCreation;
-            //Parameters.EditingNote.Tipo = "Disponibles";
+            //Parameters.EditingNote.IsAvailable = IsAvailable;
             Parameters.EditingNote.DateModification = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
             ////Parameters.EditingNote.DateModification = DateTime.UtcNow.ToString();
             Parameters.EditingNote.IsSelected = false; //ConstructorLista=> Notes.ForEach(note => note.IsSelected = false);

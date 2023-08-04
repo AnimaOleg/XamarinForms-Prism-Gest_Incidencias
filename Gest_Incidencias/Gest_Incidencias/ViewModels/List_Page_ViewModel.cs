@@ -34,12 +34,15 @@ namespace Gest_Incidencias.ViewModels
             get => _notes;
             set => SetProperty(ref _notes, value);
         }
-        private bool _isAvailableProperty = false;
-        public bool IsAvailableProperty
+
+        private bool _is_Unique_Selected = false;
+        public bool Is_Unique_Selected
         {
-            get => _isAvailableProperty;
-            set => SetProperty(ref _isAvailableProperty, value);
+            get => _is_Unique_Selected;
+            set => SetProperty(ref _is_Unique_Selected, value);
         }
+
+
         /*private bool _selectedItemColor;
         public bool SelectedItemColor
         {
@@ -132,7 +135,7 @@ namespace Gest_Incidencias.ViewModels
             switch (contador_notas_seleccionadas)
             {
                 case 1:
-                    IsAvailableProperty = true;
+                    Is_Unique_Selected = true;
                     //IsCheckedChanged = true;
                     // Seleccion de 1 unica nota
                     for (int i = 0; i < Notes.Count(); i++)
@@ -152,7 +155,7 @@ namespace Gest_Incidencias.ViewModels
                     break;
                 default:
                     //Console.WriteLine(" PARAMETERS.NOTA:"+ Parameters.EditingNote.Name);
-                    IsAvailableProperty = false;
+                    Is_Unique_Selected = false;
                     //IsCheckedChanged = false;
                     Parameters.EditingNote = null;
                     break;
@@ -179,10 +182,10 @@ namespace Gest_Incidencias.ViewModels
             }
             else
             {
-                Parameters.EditingNote.IsAvailable = false;
                 Parameters.EditingNote.IsSelected = false;
-                Parameters.EditingNote.IsDeleted = true;
-                Parameters.EditingNote.Tipo = "Borradas";
+                //Parameters.EditingNote.IsAvailable = false;
+                //Parameters.EditingNote.IsDeleted = true;
+                Parameters.EditingNote.Estado_Actual = "Borrado";
                 Parameters.EditingNote.DateDeleted = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
 
                 await App.Database.SaveNoteAsync(Parameters.EditingNote);
@@ -207,22 +210,23 @@ namespace Gest_Incidencias.ViewModels
             {
 
                 Parameters.EditingNote.IsSelected = false;
-                Parameters.EditingNote.IsAvailable = false;
+                //Parameters.EditingNote.IsAvailable = false;
 
-                if (Parameters.EditingNote.DateFinish == "")
+                if (Parameters.EditingNote.Estado_Actual == "Disponible"
+                    &&Parameters.EditingNote.Estado_Actual == "Iniciado" )
                 {
                     Console.WriteLine("NOTA Finalizar - Finalizada:" + Parameters.EditingNote.Name);
-                    Parameters.EditingNote.IsFinished = true;
-                    Parameters.EditingNote.Tipo = "Finalizadas";
+                    //Parameters.EditingNote.IsFinished = true;
+                    Parameters.EditingNote.Estado_Actual = "Finalizado";
                     Parameters.EditingNote.DateFinish = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
                 }
-                else
+                else if(Parameters.EditingNote.Estado_Actual == "Disponible")
                 {
                     Console.WriteLine("NOTA Finalizar - Renovada:" + Parameters.EditingNote.Name);
-                    Parameters.EditingNote.IsFinished = false;
-                    Parameters.EditingNote.InProgress = true;
-                    Parameters.EditingNote.Tipo = "Disponibles";
-                    Parameters.EditingNote.DateFinish = "";
+                    //Parameters.EditingNote.IsFinished = false;
+                    //Parameters.EditingNote.InProgress = true;
+                    Parameters.EditingNote.Estado_Actual = "Iniciado";
+                    Parameters.EditingNote.DateStarting = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
                 }
                 await App.Database.SaveNoteAsync(Parameters.EditingNote);
                 await _navigationService.NavigateAsync("MainPage");
@@ -231,38 +235,6 @@ namespace Gest_Incidencias.ViewModels
             {
                 await _messageService.ShowAsync("NOTA Finalizar - no hay nada a cambiar de estado");
             }
-
-
-
-
-
-
-            //// hay nota, y no esta ya finalizada
-            //if (Parameters.EditingNote != null
-            //    /*&& Parameters.EditingNote.IsFinished != true*/
-            //    //&& Parameters.EditingNote.IsAvailable
-            //    )
-            //{
-            //    Console.WriteLine(" FINALIZADO");
-            //    IsAvailableProperty = true;
-            //    //Parameters.EditingNote.IsSelected = false;
-            //    Parameters.EditingNote.IsAvailable = false;
-            //    Parameters.EditingNote.InProgress = false;
-            //    Parameters.EditingNote.IsFinished = true;
-            //    Parameters.EditingNote.IsDeleted = false;
-            //    Parameters.EditingNote.Tipo = "Finalizadas";
-            //    Parameters.EditingNote.DateFinish = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
-
-            //    await App.Database.SaveNoteAsync(Parameters.EditingNote);
-            //    await _navigationService.NavigateAsync("MainPage");
-            //}
-            //else
-            //{
-            //    Console.WriteLine("NOTA Finalizar - Parameters.EditingNote == NULL ");
-            //}
-
-
-
 
         }
         #endregion

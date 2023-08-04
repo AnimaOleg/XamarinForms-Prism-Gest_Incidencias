@@ -18,7 +18,7 @@ namespace Gest_Incidencias.Data
 
         public Task<List<Note>> GetNotesAsync(string tipo)
         {
-            if (tipo == "Todas" || tipo == null)
+            if (tipo == "" || tipo == null)
             {
 
                 return database.Table<Note>().ToListAsync();
@@ -45,7 +45,7 @@ namespace Gest_Incidencias.Data
                 //        default: break;
                 //        }
             }
-            return database.Table<Note>().Where(i => i.Tipo == tipo).ToListAsync();
+            return database.Table<Note>().Where(i => i.Estado_Actual == tipo).ToListAsync();
             //.Where(i => i.Tipo.Equals(tipo)).ToListAsync();
             //.FirstOrDefaultAsync();
             //Where(x => x.drugname.Contains(pillname));

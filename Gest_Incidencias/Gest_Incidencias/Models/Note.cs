@@ -22,34 +22,43 @@ namespace Gest_Incidencias.Models
         public string DateStarting { get; set; }
         public string DateFinish { get; set; }
         public string DateDeleted { get; set; }
-        public bool IsAvailable { get; set; }
+
+        //revisar si se puede usar desde aqui en lugar de List_Page.xaml/cs
+        // Se utiliza en Detalis_Page_ViewModel.cs
         public bool IsSelected { get; set; } = false; // checkbox del listado
-        public bool IsChecked { get; set; } = false;
+        public bool IsAvailable { get; set; } // estado inicial disponible al crear
+
+        //public bool IsChecked { get; set; } = false;
+        /*
+        
         public bool IsDeleted { get; set; } = false;
         public bool IsFinished { get; set; } = false;
-        public bool InProgress { get; set; } = false;
-        public string Tipo { get; set; }
+        public bool InProgress { get; set; } = false;*/
+        public string Estado_Actual { get; set; }
         #endregion
 
 
         #region Comportamientos_Bindeados
         public string StateElement {
             get {
-                if (IsAvailable) return FontAwesome.FontAwesomeIcons.Check;
-                else if (IsDeleted) return FontAwesome.FontAwesomeIcons.Trash;
-                else if (InProgress) return FontAwesome.FontAwesomeIcons.Play;
-                else if (IsFinished) return FontAwesome.FontAwesomeIcons.Flag;
+                if (Estado_Actual == "Disponible") return FontAwesome.FontAwesomeIcons.Check;
+                else if (Estado_Actual == "Borrado") return FontAwesome.FontAwesomeIcons.Trash;
+                else if (Estado_Actual == "Iniciado") return FontAwesome.FontAwesomeIcons.Play;
+                else if (Estado_Actual == "Finalizado") return FontAwesome.FontAwesomeIcons.Flag;
                 else return null;
+
+                //if (IsAvailable) return FontAwesome.FontAwesomeIcons.Check;
+                //else if (IsDeleted) return FontAwesome.FontAwesomeIcons.Trash;
+                //else if (InProgress) return FontAwesome.FontAwesomeIcons.Play;
+                //else if (IsFinished) return FontAwesome.FontAwesomeIcons.Flag; else retrn null;
             }
         }
         public Color StateColor {
             get {
-                /*if (IsAvailable) return Color.Green;
-                else */
-                if (IsAvailable) return Color.DarkTurquoise;
-                else if (IsDeleted) return Color.Red;
-                else if (InProgress) return Color.Green;
-                else if (IsFinished) return Color.DarkBlue;
+                if (Estado_Actual == "Disponible") return Color.DarkTurquoise;
+                else if (Estado_Actual == "Borrado") return Color.Red;
+                else if (Estado_Actual == "Iniciado") return Color.Green;
+                else if (Estado_Actual == "Finalizado") return Color.DarkBlue;
                 else return Color.Gray;
             }
         }

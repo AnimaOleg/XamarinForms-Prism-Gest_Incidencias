@@ -47,11 +47,20 @@ namespace Gest_Incidencias.ViewModels
             get { return _dateCreation; }
             set { SetProperty(ref _dateCreation, value); }
         }
-        private bool _isAvailable = false;
+        /*private bool _isAvailable = false;
         public bool IsAvailable
         {
             get { return _isAvailable; }
             set { SetProperty(ref _isAvailable, value);
+            }
+        }*/
+        private string _estado_Actual = "Disponible";
+        public string Estado_Actual
+        {
+            get { return _estado_Actual; }
+            set
+            {
+                SetProperty(ref _estado_Actual, value);
             }
         }
         #endregion
@@ -90,18 +99,16 @@ namespace Gest_Incidencias.ViewModels
 
         void Execute_TextChanged()
         {
-            //IsAvailable = true;
-
-            if (Name != "")
-            {
-                IsAvailable = true;
-            }
-            if(Description != "")
-            {
-                IsAvailable = true;
-            }
+            //if (Name != "")
+            //{
+            //    IsAvailable = true;
+            //}
+            //if (Description != "")
+            //{
+            //    IsAvailable = true;
+            //}
         }
-        
+
         async void Execute_Create_Command()
         {
             Console.WriteLine("Dentro");
@@ -109,9 +116,10 @@ namespace Gest_Incidencias.ViewModels
             Note note = new Note {
                 Name = Name,
                 Description = Description,
-                IsAvailable = IsAvailable,
+                //IsAvailable = true,
+                //Estado_Actual = Estado_Actual,
                 DateCreation = DateTime.UtcNow,
-                Tipo = "Disponibles"
+                Estado_Actual = "Disponibles"
             };
 
             try
@@ -122,7 +130,7 @@ namespace Gest_Incidencias.ViewModels
                 {
                     try
                     {
-                        Console.WriteLine($"Note: {note.Tipo}");    
+                        Console.WriteLine($"Note: {note.Estado_Actual}");    
                         await App.Database.SaveNoteAsync(note);
                         await _navigationService.NavigateAsync("MainPage");
                     }

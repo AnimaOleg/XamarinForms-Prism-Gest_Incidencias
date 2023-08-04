@@ -20,11 +20,13 @@
         </AbsoluteLayout>
     </NavigationPage.TitleView>
 
-    <listado:List_Page Title="Disponibles" Icon="lista.png" Tipo="Disponibles"/>
-    <listado:List_Page Title="Todas" Icon="hogar.png" Tipo="Todas"/>
-    <listado:List_Page Title="Iniciadas" Icon="play.png" Tipo="Iniciadas"/>
-    <listado:List_Page Title="Finalizadas" Icon="report.png" Tipo="Finalizadas"/>
-    <listado:List_Page Title="Borradas" Icon="basura.png" Tipo="Borradas"/>
+    <listado:List_Page Title="Disponibles" Icon="lista.png" Tipo="Disponible"/>
+    <!--<listado:List_Page Title="Todas" Icon="hogar.png" Tipo=""/>-->
+    <listado:List_Page Title="Todas" Icon="hogar.png"/>
+    <listado:List_Page Title="Iniciadas" Icon="play.png" Tipo="Iniciado"/>
+    <listado:List_Page Title="Finalizadas" Icon="report.png" Tipo="Finalizado"/>
+    <listado:List_Page Title="Borradas" Icon="basura.png" Tipo="Borrado"/>
+    <listado:List_Page Title="Settings" Icon="basura.png" Tipo="Settings"/>
 </TabbedPage>
 
 

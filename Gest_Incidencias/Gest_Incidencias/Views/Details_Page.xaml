@@ -66,8 +66,10 @@
                     <StackLayout Orientation="Horizontal">
                         <Grid ColumnDefinitions="0.75*,0.25*" BackgroundColor="{StaticResource SecondaryColor}" Padding="4" Margin="8">
                             <Label Text="Disponible" FontSize="Medium" Grid.Column="0"/>
-                            <CheckBox IsChecked="{Binding IsAvailable}" Grid.Column="1" ScaleX="2" ScaleY="2" Scale="1"
-                                  HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Color="Red" IsEnabled="false"/>
+                            <!--<CheckBox IsChecked="{Binding IsAvailable}" Grid.Column="1" ScaleX="2" ScaleY="2" Scale="1"
+                                  HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Color="Red" IsEnabled="false"/>-->
+                            <Label Text="{Binding Estado_Actual}" Grid.Column="1" ScaleX="2" ScaleY="2"
+                                   HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
                         </Grid>
                     </StackLayout>
                 </Frame>
