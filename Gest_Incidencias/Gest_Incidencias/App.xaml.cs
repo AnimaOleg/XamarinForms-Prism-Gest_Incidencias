@@ -25,18 +25,6 @@ namespace Gest_Incidencias
         #endregion
 
 
-        #region Database
-        public static NoteDatabase Database
-        {
-            get {
-                if (database == null)
-                    database = new NoteDatabase(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "IncidencesAicom.db3"));
-                return database;
-            }
-        }
-        #endregion
-
-
         #region OnInitialized
         protected override async void OnInitialized()
         {
@@ -64,6 +52,20 @@ namespace Gest_Incidencias
             //containerRegistry.RegisterForNavigation<MainPage>("MiAlias");
         }
         #endregion
+
+
+        #region Database
+        public static NoteDatabase Database
+        {
+            get
+            {
+                if (database == null)
+                    database = new NoteDatabase(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "IncidencesAicom.db3"));
+                return database;
+            }
+        }
+        #endregion
+
 
     }
 }
