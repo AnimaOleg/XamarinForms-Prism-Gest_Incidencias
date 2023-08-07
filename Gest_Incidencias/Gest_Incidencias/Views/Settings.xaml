@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            mc:Ignorable="d"
+            xmlns:vm="clr-namespace:Gest_Incidencias.ViewModels"
+            x:Class="Gest_Incidencias.Views.Settings"
+                xmlns:fontAwesome="clr-namespace:FontAwesome"
+                xmlns:prism="http://prismlibrary.com"
+                prism:ViewModelLocator.AutowireViewModel="True"
+            NavigationPage.HasNavigationBar="true"
+            Title="{Binding Title}">
+
+    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+        <Grid>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20*" />
+                    <RowDefinition Height="20*" />
+                    <RowDefinition Height="20*" />
+                </Grid.RowDefinitions>
+                <!--<Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>-->
+            </Grid>
+
+
+            <!--<BoxView x:Name="boxView" Color="Transparent" Grid.Row="0"/>-->
+            <Grid RowDefinitions="*" Padding="12,4,12,0" RowSpacing="0" ColumnSpacing="0" Grid.Row="0">
+                <Label Text="{Binding Title}" Grid.Row="1" TextColor="Red"/>
+                <Button Text="Navigate to A" Command="{Binding NavigateCommand}" Grid.Row="2"/>
+                <BoxView HorizontalOptions="FillAndExpand" WidthRequest="1" Color="Black" Grid.Row="3"/>
+            </Grid>
+
+            <Grid RowDefinitions="*" Padding="12,4,12,0" RowSpacing="0" ColumnSpacing="0" Grid.Row="1">
+                <Label Text="{Binding Title}" Grid.Row="1" TextColor="Red"/>
+                <Button Text="Navigate to B" Command="{Binding NavigateCommand}" Grid.Row="2"/>
+                <BoxView HorizontalOptions="FillAndExpand" WidthRequest="1" Color="Black" Grid.Row="3"/>
+            </Grid>
+
+            <Grid RowDefinitions="*" Padding="12,4,12,0" RowSpacing="0" ColumnSpacing="0" Grid.Row="2">
+                <Label Text="{Binding Title}" Grid.Row="1" TextColor="Red"/>
+                <Button Text="Navigate to C" Command="{Binding NavigateCommand}" Grid.Row="2"/>
+                <BoxView HorizontalOptions="FillAndExpand" WidthRequest="1" Color="Black" Grid.Row="3"/>
+            </Grid>
+
+        </Grid>
+        <!--
+        <Label Text="{Binding Message}"
+               HorizontalOptions="Center"
+               VerticalOptions="CenterAndExpand"/>
+        <Button Text="Go to ViewA"
+                Command="{prism:NavigateTo ViewA}"/>
+        -->
+    </StackLayout>
+</ContentPage>

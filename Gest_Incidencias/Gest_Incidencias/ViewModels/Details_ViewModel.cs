@@ -14,7 +14,7 @@ using Xamarin.Forms;
 
 namespace Gest_Incidencias.ViewModels
 {
-    public class Details_Page_ViewModel : BaseViewModel
+    public class Details_ViewModel : BaseViewModel
     {
         #region Variables
         private readonly Services.IMessageService _messageService;
@@ -99,8 +99,8 @@ namespace Gest_Incidencias.ViewModels
                 else return false;
             }
         }
-        private bool _estado_Actual;
-        public bool Estado_Actual
+        private string _estado_Actual;
+        public string Estado_Actual
         {
             get { return _estado_Actual; }
             set { SetProperty(ref _estado_Actual, value); }
@@ -126,18 +126,18 @@ namespace Gest_Incidencias.ViewModels
 
 
         #region Constructor
-        public Details_Page_ViewModel(INavigationService navigationService) : base(navigationService)
+        public Details_ViewModel(INavigationService navigationService) : base(navigationService)
         {
             Title = "Detalles - \"" + Parameters.EditingNote.Name + "\"";
             _navigationService = navigationService;
             _messageService = DependencyService.Get<Services.IMessageService>();
 
-            IniciarCommand = new DelegateCommand(Iniciar);
-            FinalizarCommand = new DelegateCommand(Finalizar);
-            RenovarCommand = new DelegateCommand(Renovar);
-            DeleteCommand = new DelegateCommand(Delete);
-            CancelCommand = new DelegateCommand(Return);
-            SaveCommand = new DelegateCommand(Save);
+            IniciarCommand = new DelegateCommand(Execute_Iniciar);
+            FinalizarCommand = new DelegateCommand(Execute_Finalizar);
+            RenovarCommand = new DelegateCommand(Execute_Renovar);
+            DeleteCommand = new DelegateCommand(Execute_Delete);
+            CancelCommand = new DelegateCommand(Execute_Return);
+            SaveCommand = new DelegateCommand(Execute_Save);
 
             Name = Parameters.EditingNote.Name;
             Description = Parameters.EditingNote.Description;
@@ -147,33 +147,24 @@ namespace Gest_Incidencias.ViewModels
             DateStarting = Parameters.EditingNote.DateStarting;
             DateFinish = Parameters.EditingNote.DateFinish;
             DateDeleted = Parameters.EditingNote.DateDeleted;
+            Estado_Actual = Parameters.EditingNote.Estado_Actual;
 
             Tipo = Tipo;
             Parameters.EditingNote.IsSelected = false;
         }
         public override void Initialize(INavigationParameters parameters)
         {
-            Console.WriteLine(" VIEW Details_Page_ViewModel");
             base.Initialize(parameters);
         }
         #endregion
 
 
         #region CommandsFunctions
-        async void Iniciar()
+        async void Execute_Iniciar()
         {
             // hay nota, y no esta ya iniciada
-            if (Parameters.EditingNote != null
-                && Parameters.EditingNote.Estado_Actual == "Disponible"
-                //&& Parameters.EditingNote.InProgress != true
-                //&& Parameters.EditingNote.IsAvailable
-                )
+            if (Parameters.EditingNote != null && Parameters.EditingNote.Estado_Actual == "Disponible")
             {
-                Console.WriteLine(" INICIADO");
-                //IsAvailableProperty = false;
-                //Parameters.EditingNote.IsAvailable = false;
-                //Parameters.EditingNote.IsFinished = false;
-                //Parameters.EditingNote.InProgress = true;
                 Parameters.EditingNote.Estado_Actual = "Iniciado";
                 Parameters.EditingNote.DateStarting = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
                 Console.WriteLine(Parameters.EditingNote.DateStarting);
@@ -182,27 +173,16 @@ namespace Gest_Incidencias.ViewModels
                 await _navigationService.NavigateAsync("MainPage");
             }
             else
-            {
-                Console.WriteLine("NOTA YA Iniciada");
-            }
+                await _messageService.ShowAsync("Para Iniciar, debe estar en el estado Disponible");
         }
 
-        async void Finalizar()
+        async void Execute_Finalizar()
         {
             // hay nota, y no esta ya finalizada
-            if (Parameters.EditingNote != null
-                && Parameters.EditingNote.Estado_Actual == "Iniciado"
-                /*&& Parameters.EditingNote.IsFinished != true*/
-                //&& Parameters.EditingNote.IsAvailable
-                )
+            if (Parameters.EditingNote != null && Parameters.EditingNote.Estado_Actual == "Iniciado")
             {
                 Console.WriteLine(" FINALIZADO");
                 //IsAvailableProperty = true;
-                ////Parameters.EditingNote.IsSelected = false;
-                //Parameters.EditingNote.IsAvailable = false;
-                //Parameters.EditingNote.InProgress = false;
-                //Parameters.EditingNote.IsFinished = true;
-                //Parameters.EditingNote.IsDeleted = false;
                 Parameters.EditingNote.Estado_Actual = "Iniciado";
                 Parameters.EditingNote.DateFinish = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
 
@@ -210,56 +190,44 @@ namespace Gest_Incidencias.ViewModels
                 await _navigationService.NavigateAsync("MainPage");
             }
             else
-            {
-                Console.WriteLine("NOTA Finalizar - Parameters.EditingNote == NULL ");
-            }
+                await _messageService.ShowAsync("Para Finalizar, debe estar en el estado Iniciado");
         }
 
-        async void Renovar()
+        async void Execute_Renovar()
         {
-            try
+            if (Parameters.EditingNote.Estado_Actual == "Borrado")
             {
                 if (!string.IsNullOrWhiteSpace(Parameters.EditingNote.Name) && !string.IsNullOrWhiteSpace(Parameters.EditingNote.Description))
                 {
-                    //Parameters.EditingNote.IsAvailable = true;
-                    //Parameters.EditingNote.IsDeleted = false;
-                    //Parameters.EditingNote.IsFinished = false;
-                    //Parameters.EditingNote.InProgress = false;
-                    Parameters.EditingNote.DateDeleted = "Renovado " + DateTime.UtcNow;
-                    Parameters.EditingNote.Estado_Actual = "Renovado";
-
                     try
                     {
+                        Parameters.EditingNote.DateDeleted = "Renovado " + DateTime.UtcNow;
+                        Parameters.EditingNote.Estado_Actual = "Renovado";
                         await App.Database.SaveNoteAsync(Parameters.EditingNote);
                         await _navigationService.NavigateAsync("MainPage");
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(ex.Message);
+                        await _messageService.ShowAsync("Error: " + ex.Message);
                     }
                 }
                 else
                     await _messageService.ShowAsync("Renovar: Rellene Titulo y Descripcion");
             }
-            catch (Exception ex)
-            {
-                await _messageService.ShowAsync("Excepcion: " + ex);
-            }
-            await _navigationService.NavigateAsync("MainPage");
+            else
+                await _messageService.ShowAsync("Para Renovar, debe estar en el estado Borrado");
+
         }
 
-        async void Delete()
+        async void Execute_Delete()
         {
-            Console.WriteLine("BORRAR: " + Parameters.EditingNote.Name);
+            if (Parameters.EditingNote.Estado_Actual == "Finalizado" || Parameters.EditingNote.Estado_Actual == "Disponible" )
+            {
+                Parameters.EditingNote.Estado_Actual = "Borrado";
+                Parameters.EditingNote.DateDeleted = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
 
-            //Parameters.EditingNote.IsAvailable = false;
-            //Parameters.EditingNote.IsDeleted = true;
-            Parameters.EditingNote.Estado_Actual = "Borrado";
-            //Parameters.EditingNote.IsFinished = true;
-            Parameters.EditingNote.DateDeleted = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
-
-            try {
-                if (!string.IsNullOrWhiteSpace(Parameters.EditingNote.Name) && !string.IsNullOrWhiteSpace(Parameters.EditingNote.Description)) {
+                if (!string.IsNullOrWhiteSpace(Parameters.EditingNote.Name) && !string.IsNullOrWhiteSpace(Parameters.EditingNote.Description))
+                {
                     try {
                         await App.Database.SaveNoteAsync(Parameters.EditingNote);
                         await _navigationService.NavigateAsync("MainPage");
@@ -271,48 +239,36 @@ namespace Gest_Incidencias.ViewModels
                 else
                     await _messageService.ShowAsync("Borrar: Titulo o Descripcion vacios");
             }
-            catch (Exception ex)
+            else
+                await _messageService.ShowAsync("Para borrar, debe estar en estado Disponible o Finalizado");
+        }
+
+        async void Execute_Return()
+        {
+            await _navigationService.NavigateAsync("MainPage");
+        }
+
+        async void Execute_Save()
+        {
+            if (!string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(Description))
             {
-                await _messageService.ShowAsync("Excepcion: " + ex);
-            }
-            await _navigationService.NavigateAsync("MainPage");
-        }
+                try
+                {
+                    Parameters.EditingNote.Name = Name;
+                    Parameters.EditingNote.Description = Description;
+                    Parameters.EditingNote.DateModification = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
+                    Parameters.EditingNote.IsSelected = false; //ConstructorLista=> Notes.ForEach(note => note.IsSelected = false);
 
-        async void Return()
-        {
-            //await _navigationService.GoBackAsync();
-            await _navigationService.NavigateAsync("MainPage");
-        }
-
-        async void Save()
-        {
-            Console.WriteLine("Guardar: " + Name);
-
-            Parameters.EditingNote.Name = Name;
-            Parameters.EditingNote.Description = Description;
-            //Parameters.EditingNote.IsAvailable = IsAvailable;
-            Parameters.EditingNote.DateModification = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
-            ////Parameters.EditingNote.DateModification = DateTime.UtcNow.ToString();
-            Parameters.EditingNote.IsSelected = false; //ConstructorLista=> Notes.ForEach(note => note.IsSelected = false);
-
-            try {
-                if (!string.IsNullOrWhiteSpace(Parameters.EditingNote.Name) &&
-                    !string.IsNullOrWhiteSpace(Parameters.EditingNote.Description)) {
-                    try {
-                        await App.Database.SaveNoteAsync(Parameters.EditingNote);
-                    }
-                    catch (Exception ex) {
-                        Console.WriteLine(ex.Message);
-                    }
+                    await App.Database.SaveNoteAsync(Parameters.EditingNote);
+                    await _navigationService.NavigateAsync("MainPage");
                 }
-                else
-                    await _messageService.ShowAsync(message: "Guardar: Titulo o Descripcion vacios");
+                catch (Exception ex)
+                {
+                    await _messageService.ShowAsync("Error: "+ ex.Message);
+                }
             }
-            catch (Exception ex)
-            {
-                await _messageService.ShowAsync(message: "Excepcion: "+ex);
-            }
-            await _navigationService.NavigateAsync("MainPage");
+            else
+                await _messageService.ShowAsync("Guardar: Rellene Titulo y Descripcion");
         }
         #endregion
 

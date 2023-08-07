@@ -13,10 +13,20 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
+using Gest_Incidencias.Data;
+using Syncfusion.Pdf.Grid;
+using Syncfusion.Pdf;
+using System.IO;
+using Syncfusion.Drawing;
+
+//using Syncfusion.Pdf;
+//using Syncfusion.Pdf.Parsing;
+//using Syncfusion.Pdf.Graphics;
+//using Syncfusion.Pdf.Grid;
 
 namespace Gest_Incidencias.ViewModels
 {
-    public class List_Page_ViewModel : BaseViewModel /*BindableBase*/
+    public class List_ViewModel : BaseViewModel /*BindableBase*/
     {
         #region Variables
         int contador_notas_seleccionadas = 0;
@@ -69,10 +79,10 @@ namespace Gest_Incidencias.ViewModels
 
 
         #region Constructor
-        public List_Page_ViewModel(INavigationService navigationService) : base(navigationService)
+        public List_ViewModel(INavigationService navigationService) : base(navigationService)
         { }
 
-        public List_Page_ViewModel(INavigationService navigationService, string tipo) : base(navigationService)
+        public List_ViewModel(INavigationService navigationService, string tipo) : base(navigationService)
         {
             
             // Variables
@@ -80,7 +90,7 @@ namespace Gest_Incidencias.ViewModels
             //Title = "Listado";
             _messageService = DependencyService.Get<Services.IMessageService>();
             _navigationService = navigationService; //Navigation = navigation;
-            Console.WriteLine(" MODEL 1 Page_List_Incidencias_ViewModel, TIPO: " + tipo);
+            //Console.WriteLine(" MODEL 1 Page_List_Incidencias_ViewModel, TIPO: " + tipo);
 
             /// Commands
             Command_CheckedChanged = new Command<CheckedChangedEventArgs>(Execute_OnCheckedChanged);
@@ -110,16 +120,7 @@ namespace Gest_Incidencias.ViewModels
         #region CommandsFunctions
         async void Execute_CreateItem()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("Page_Entry_Incidence");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(" EXCEPTION CreateItem: " + ex);
-            }
-            //await _navigationService.NavigateAsync("Page_Entry_Incidence");
-            //await Navigation.PushAsync(new Page_Entry_Incidence());
+            await _navigationService.NavigateAsync("Creation");
         }
 
         async void Execute_OnCheckedChanged(CheckedChangedEventArgs arg)
@@ -170,11 +171,6 @@ namespace Gest_Incidencias.ViewModels
             //}
         }
 
-        async void Execute_GetReports()
-        {
-            //await _navigationService.NavigateAsync("Page_Reports");
-        }
-
         async void Execute_DeleteItem()
         {
             if (Parameters.EditingNote == null) {
@@ -197,7 +193,7 @@ namespace Gest_Incidencias.ViewModels
         {
             if (Parameters.EditingNote != null) {
                 Parameters.EditingNote.IsSelected = false;
-                await _navigationService.NavigateAsync("Details_Page");
+                await _navigationService.NavigateAsync("Details");
             }
             else {
                 await _messageService.ShowAsync(message: "Elige una Incidencia para Modificar");
@@ -237,25 +233,64 @@ namespace Gest_Incidencias.ViewModels
             }
 
         }
+
+        /*
+         * busqueda basada: https://help.syncfusion.com/file-formats/pdf/create-pdf-file-in-xamarin
+         * ejemplo funcional: https://github.com/SyncfusionExamples/PDF-Examples/tree/master/Getting%20Started/Xamarin/CreatePDFwithTable
+         * NuGet: Syncfusion.Xamarin.Pdf
+         * 
+         */
+        async void Execute_GetReports()
+        {
+            //void OnButtonClicked(object sender, EventArgs args)
+            //Create a new PDF document.
+            PdfDocument document = new PdfDocument();
+
+            //Add a page.
+            PdfPage page = document.Pages.Add();
+
+            //Create a PdfGrid.
+            PdfGrid pdfGrid = new PdfGrid();
+
+            //Add values to list
+            List<object> data = new List<object>();
+            //Object row1 = new { ID = "E01", Name = "Clay" };
+            //Object row2 = new { ID = "E02", Name = "Thomas" };
+            ////Add rows to datatable. 
+            //data.Add(row1);
+            //data.Add(row2);
+
+            // Seleccion de 1 unica nota
+            for (int i = 0; i < Notes.Count(); i++)
+            {
+                //// Hay Nota Seleccionada
+                //if (Notes[i].IsSelected)
+                //{
+                    data.Add(Notes[i]);
+                //}
+            }
+
+            //Add list to IEnumerable.
+            IEnumerable<object> dataTable = data;
+
+            //Assign data source.
+            pdfGrid.DataSource = dataTable;
+
+            //Draw grid to the page of PDF document.
+            pdfGrid.Draw(page, new PointF(10, 10));
+
+            //Save the PDF document to stream.
+            MemoryStream stream = new MemoryStream();
+            document.Save(stream);
+
+            //Close the document.
+            document.Close(true);
+
+            //Save the stream as a file in the device and invoke it for viewing
+            Xamarin.Forms.DependencyService.Get<ISave>().SaveAndView("Gest_Incidencias_Listado.pdf", "application/pdf", stream);
+        }
         #endregion
 
     }
-
-
-
-
-    // EJEMEPLO color a hexadecimal
-    //string color = HexConverter(Color.Red);
-    //Console.WriteLine("Color:"+color);
-    /*
-    private static String HexConverter(System.Drawing.Color c)
-    {
-        return "#" + c.R.ToString("X2") + c.G.ToString("X2") + c.B.ToString("X2");
-    }
-    private static String RGBConverter(System.Drawing.Color c)
-    {
-        return "RGB(" + c.R.ToString() + "," + c.G.ToString() + "," + c.B.ToString() + ")";
-    }
-    */
 
 }

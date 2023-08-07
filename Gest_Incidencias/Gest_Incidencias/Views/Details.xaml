@@ -5,7 +5,7 @@
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
             mc:Ignorable="d"
             xmlns:vm="clr-namespace:Gest_Incidencias.ViewModels"
-            x:Class="Gest_Incidencias.Views.Details_Page"
+            x:Class="Gest_Incidencias.Views.Details"
                 xmlns:fontAwesome="clr-namespace:FontAwesome"
                 xmlns:prism="http://prismlibrary.com"
                 prism:ViewModelLocator.AutowireViewModel="True"
@@ -22,10 +22,23 @@
                     <Button Text="Fin" Command="{Binding IniciarCommand}" Grid.Column="2" ImageSource="prohibicion64px.png" FontSize="24" HeightRequest="74" Opacity="0.85" TextColor="black" BackgroundColor="GreenYellow" BorderColor="Black" BorderWidth="1"/>
                 </Grid>
                 -->
-            <Grid ColumnDefinitions="0.3*, 0.4*, 0.4*">
+            <Grid ColumnDefinitions="*">
                 <!--<Button Command="{Binding IniciarCommand}" IsEnabled="{Binding IsAvailableProperty}"-->
+
+                <Frame Grid.Column="0"
+                       BorderColor="DarkGray" CornerRadius="0" HasShadow="True" Padding="8" Margin="0,2">
+                    <StackLayout Orientation="Horizontal">
+                        <!--<Grid ColumnDefinitions="0.5*,0.5*"-->
+                              <!--BackgroundColor="{StaticResource SecondaryColor}" Padding="4" Margin="8">-->
+                            <!--<Label Text="Estado" FontSize="12" Grid.Column="0"/>-->
+                            <!--<Label Text="{Binding Estado_Actual}" FontSize="12" Grid.Column="1"/>-->
+                        <Label Text="{Binding Estado_Actual}" FontSize="16" TextColor="Black"/>
+                        <!--</Grid>-->
+                    </StackLayout>
+                </Frame>
+
                 <Button Command="{Binding IniciarCommand}"
-                Text="{x:Static fontAwesome:FontAwesomeIcons.Play}" FontFamily="FAS"
+                        Text="{x:Static fontAwesome:FontAwesomeIcons.Play}" FontFamily="FAS"
                         Grid.Column="1" FontSize="36"
                         TextColor="Green" BackgroundColor="{StaticResource SecondaryColor}" BorderColor="Green" BorderWidth="3"/>
                 <!--<Button Command="{Binding FinalizarCommand}" IsEnabled="{Binding IsAvailableProperty}"-->
@@ -35,7 +48,7 @@
                         TextColor="Red" BackgroundColor="{StaticResource SecondaryColor}" BorderColor="Red" BorderWidth="3"/>
             </Grid>
 
-            <Frame BorderColor="Orange" CornerRadius="10" HasShadow="True" Padding="12" Margin="8,2">
+            <Frame BorderColor="Orange" CornerRadius="10" HasShadow="True" Padding="12" Margin="8,12,8,2">
                 <StackLayout Orientation="Vertical">
                     <Label Text="Titulo" FontSize="Medium" HeightRequest="20"/>
                     <!--<BoxView Color="White" HeightRequest="1" HorizontalOptions="Fill" />-->
@@ -51,31 +64,33 @@
                 </StackLayout>
             </Frame>
 
-            <Grid ColumnDefinitions="0.5*, 0.5*">
-                <Frame Grid.Column="0"
+            <Grid ColumnDefinitions="0.5*">
+                <!--<Frame Grid.Column="0"
                        BorderColor="Orange" CornerRadius="0" HasShadow="True" Padding="0" Margin="0,2">
                     <StackLayout Orientation="Horizontal">
                         <Grid ColumnDefinitions="0.5*,0.5*" BackgroundColor="{StaticResource SecondaryColor}" Padding="4" Margin="8">
                             <Label Text="Estado" FontSize="Medium" Grid.Column="0"/>
-                            <Label Text="{Binding Tipo}" FontSize="Medium" Grid.Column="1"/>
+                            <Label Text="{Binding Estado_Actual}" FontSize="Medium" Grid.Column="1"/>
                         </Grid>
                     </StackLayout>
-                </Frame>
-                <Frame Grid.Column="1"
+                </Frame>-->
+                
+                <!--<Frame Grid.Column="1"
                     BorderColor="Orange" CornerRadius="0" HasShadow="True" Padding="0" Margin="0,2">
                     <StackLayout Orientation="Horizontal">
                         <Grid ColumnDefinitions="0.75*,0.25*" BackgroundColor="{StaticResource SecondaryColor}" Padding="4" Margin="8">
                             <Label Text="Disponible" FontSize="Medium" Grid.Column="0"/>
-                            <!--<CheckBox IsChecked="{Binding IsAvailable}" Grid.Column="1" ScaleX="2" ScaleY="2" Scale="1"
-                                  HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Color="Red" IsEnabled="false"/>-->
-                            <Label Text="{Binding Estado_Actual}" Grid.Column="1" ScaleX="2" ScaleY="2"
+                            --><!--<CheckBox IsChecked="{Binding IsAvailable}" Grid.Column="1" ScaleX="2" ScaleY="2" Scale="1"
+                                  HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Color="Red" IsEnabled="false"/>--><!--
+                            <Label Text="{Binding Tipo}" Grid.Column="1"
                                    HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
                         </Grid>
                     </StackLayout>
-                </Frame>
+                </Frame>-->
+                
             </Grid>
 
-            <Frame BorderColor="Gray"  CornerRadius="0" HasShadow="True" Margin="0,8,0,0" Padding="0">
+            <Frame BorderColor="Gray"  CornerRadius="0" HasShadow="True" Margin="0,8,0,0" Padding="4">
                 <StackLayout Orientation="Vertical" Padding="0" Margin="0">
 
                     <Grid ColumnDefinitions="0.4*,0.6*" BackgroundColor="{StaticResource SecondaryColor}" Padding="12,4,12,0" Margin="1">
@@ -89,7 +104,7 @@
                 </StackLayout>
             </Frame>
 
-            <Frame BorderColor="Gray" CornerRadius="0" HasShadow="True" Margin="0,0,0,8" Padding="0">
+            <Frame BorderColor="Gray" CornerRadius="0" HasShadow="True" Margin="0,0,0,8" Padding="4">
                 <StackLayout Orientation="Vertical" Padding="0" Margin="0">
 
                     <Grid ColumnDefinitions="0.45*,0.6*" BackgroundColor="{StaticResource SecondaryColor}" Padding="12,0" Margin="1">
@@ -102,7 +117,7 @@
                     </Grid>
                     <Grid ColumnDefinitions="0.45*,0.6*" BackgroundColor="{StaticResource SecondaryColor}" Padding="12,0" Margin="1">
                         <Label Text="Fecha Borrado:" FontSize="16" Grid.Column="0"/>
-                        <Label Text="{Binding DateDeleted}" FontSize="20" Grid.Column="1"/>
+                        <Label Text="{Binding DateDeleted}" FontSize="16" Grid.Column="1"/>
                     </Grid>
                 </StackLayout>
             </Frame>

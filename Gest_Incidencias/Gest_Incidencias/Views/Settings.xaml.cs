@@ -1,35 +1,32 @@
 ﻿using Gest_Incidencias.ViewModels;
-using Prism.Ioc;
 using Prism.Navigation;
-using System;
 using Xamarin.Forms;
 
 namespace Gest_Incidencias.Views
 {
-    public partial class Creation_Page : ContentPage
+    public partial class Settings : ContentPage
     {
         #region Variables
         private INavigationService _navigationService;
+        public string Tipo { get; set; }
         #endregion
 
 
         #region Constructor
-        public Creation_Page()
+        public Settings()
         {
-            this._navigationService = ContainerLocator.Container.Resolve<INavigationService>();
             InitializeComponent();
         }
         #endregion
 
-
         #region OnAppearing
         protected override void OnAppearing()
         {
-            BindingContext = new Creation_Page_ViewModel(_navigationService);
+            Tipo = Tipo;
+            BindingContext = new Settings_ViewModel(_navigationService, this.Tipo);
             base.OnAppearing();
         }
         #endregion
-
 
     }
 }

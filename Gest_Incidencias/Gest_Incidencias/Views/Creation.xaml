@@ -4,7 +4,7 @@
             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
             mc:Ignorable="d"
-            x:Class="Gest_Incidencias.Views.Creation_Page"
+            x:Class="Gest_Incidencias.Views.Creation"
                 xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
                 xmlns:fontAwesome="clr-namespace:FontAwesome"
                 xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
@@ -48,13 +48,14 @@
             </StackLayout>
         </Frame>
 
-        <Frame BorderColor="Orange" CornerRadius="5" HasShadow="True" Padding="0" Margin="100,8">
+        <Frame BorderColor="DarkGray" CornerRadius="0" HasShadow="True" Padding="0" Margin="0,2">
             <StackLayout Orientation="Horizontal">
-                <Grid ColumnDefinitions="0.75*,0.25*" BackgroundColor="{StaticResource SecondaryColor}" Padding="8" Margin="8">
-                    <Label Text="Disponible" FontSize="Medium" Grid.Column="0"/>
+                <Grid ColumnDefinitions="0.5*,0.5*" BackgroundColor="{StaticResource SecondaryColor}" Padding="8" Margin="8">
+                    <Label Text="Estado" FontSize="14" Grid.Column="0"/>
                     <!--<CheckBox IsChecked="{Binding IsAvailable}" Grid.Column="1" ScaleX="2" ScaleY="2"
                         HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" IsEnabled="false"/>-->
-                    <Label Text="{Binding Estado_Actual}" Grid.Column="1" ScaleX="2" ScaleY="2"
+                    <Label Text="{Binding Estado_Actual}" FontSize="12" Grid.Column="1"
+                           
                         HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
                 </Grid>
             </StackLayout>

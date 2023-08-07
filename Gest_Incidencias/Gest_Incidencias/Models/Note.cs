@@ -45,6 +45,7 @@ namespace Gest_Incidencias.Models
                 else if (Estado_Actual == "Borrado") return FontAwesome.FontAwesomeIcons.Trash;
                 else if (Estado_Actual == "Iniciado") return FontAwesome.FontAwesomeIcons.Play;
                 else if (Estado_Actual == "Finalizado") return FontAwesome.FontAwesomeIcons.Flag;
+                else if (Estado_Actual == "Renovado") return FontAwesome.FontAwesomeIcons.TrashArrowUp;
                 else return null;
 
                 //if (IsAvailable) return FontAwesome.FontAwesomeIcons.Check;
@@ -59,6 +60,7 @@ namespace Gest_Incidencias.Models
                 else if (Estado_Actual == "Borrado") return Color.Red;
                 else if (Estado_Actual == "Iniciado") return Color.Green;
                 else if (Estado_Actual == "Finalizado") return Color.DarkBlue;
+                else if (Estado_Actual == "Renovado") return Color.Green;
                 else return Color.Gray;
             }
         }

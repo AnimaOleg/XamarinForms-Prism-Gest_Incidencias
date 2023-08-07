@@ -1,24 +1,13 @@
 ﻿using Gest_Incidencias.Models;
-using Gest_Incidencias.Views;
 using Gest_Incidencias.Services;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Navigation;
-using Prism.Navigation.Xaml;
-using Prism.Xaml;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel.Design;
-using System.Linq;
-using System.Net.Sockets;
-using System.Threading.Tasks;
-using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace Gest_Incidencias.ViewModels
 {
-    public class Creation_Page_ViewModel : /*BindableBase*/ BaseViewModel
+    public class Creation_ViewModel : /*BindableBase*/ BaseViewModel
     {
         #region Variables
         private /*readonly*/ IMessageService _messageService;
@@ -75,7 +64,7 @@ namespace Gest_Incidencias.ViewModels
 
 
         #region Constructor
-        public Creation_Page_ViewModel(INavigationService navigationService) : base(navigationService)
+        public Creation_ViewModel(INavigationService navigationService) : base(navigationService)
         {
             Title = "Nueva Entrada";
             _navigationService = navigationService;
@@ -89,7 +78,6 @@ namespace Gest_Incidencias.ViewModels
 
         public override void Initialize(INavigationParameters parameters)
         {
-            Console.WriteLine(" INITIALIZE Creation_Page");
             base.Initialize(parameters);
         }
         #endregion
@@ -111,47 +99,30 @@ namespace Gest_Incidencias.ViewModels
 
         async void Execute_Create_Command()
         {
-            Console.WriteLine("Dentro");
-            //var note = (Note)BindingContext;
-            Note note = new Note {
-                Name = Name,
-                Description = Description,
-                //IsAvailable = true,
-                //Estado_Actual = Estado_Actual,
-                DateCreation = DateTime.UtcNow,
-                Estado_Actual = "Disponibles"
-            };
-
-            try
+            if (!string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(Description) && Name.Length >= 3 && Description.Length >= 3)
             {
-                if (!string.IsNullOrWhiteSpace(note.Name) && !string.IsNullOrWhiteSpace(note.Description)
-                    && note.Name.Length >= 3 && note.Description.Length >= 3
-                    )
+                try
                 {
-                    try
+                    Note note = new Note
                     {
-                        Console.WriteLine($"Note: {note.Estado_Actual}");    
-                        await App.Database.SaveNoteAsync(note);
-                        await _navigationService.NavigateAsync("MainPage");
-                    }
-                    catch (Exception ex) {
-                        await _messageService.ShowAsync("Error Execute_Create_Command(): " + ex.Message);
-                    }
-                }
-                else
-                    await _messageService.ShowAsync(message: "Rellena el Título o la Descripción. Mínimo 3 carácteres");
-            }
-            catch (Exception ex) {
-                await _messageService.ShowAsync("Error de IsNullOrWhiteSpace: " + ex.Message);
-            }
+                        Name = Name,
+                        Description = Description,
+                        DateCreation = DateTime.UtcNow,
+                        Estado_Actual = "Disponible"
+                    };
 
-            //await Navigation.PopAsync(); // no deja la lista actualizada
+                    await App.Database.SaveNoteAsync(note);
+                    await _navigationService.NavigateAsync("MainPage");
+                }
+                catch (Exception ex) {
+                    await _messageService.ShowAsync("Error Execute_Create_Command(): " + ex.Message);
+                }
+            }
+            else
+                await _messageService.ShowAsync(message: "Rellena el Título o la Descripción. Mínimo 3 carácteres");
         }
 
         async void Execute_Cancel_Command() {
-            //await Navigation.PopAsync();
-            //await _navigationService.GoBackAsync();
-            Console.WriteLine(" Execute_Cancel_Command");
             await _navigationService.NavigateAsync("MainPage");
         }
         #endregion

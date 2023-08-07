@@ -20,8 +20,6 @@ namespace Gest_Incidencias.ViewModels
         {
             //Console.WriteLine("PARAMETERS:" + parameters.ToString());
         }
-
-
         //public override void OnNavigatedFrom(INavigationParameters parameters)
         //{
         //}
@@ -29,13 +27,6 @@ namespace Gest_Incidencias.ViewModels
         //{
         //    //Message = parameters.GetValue<string>("message");
         //}
-        //async void ExecuteNavigationCommand()
-        //{
-        //    Console.WriteLine("Click Boton NAVIGATE TO A");
-        //    await _navigationService.NavigateAsync("Page_Entry_Incidence");
-        //}
-
-
 
 
 

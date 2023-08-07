@@ -6,13 +6,13 @@
             mc:Ignorable="d"
             xmlns:local="clr-namespace:Gest_Incidencias.Views"
             xmlns:vm="clr-namespace:Gest_Incidencias.ViewModels"
-            x:Class="Gest_Incidencias.Views.List_Page"
+            x:Class="Gest_Incidencias.Views.List"
                 xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
                 xmlns:fontAwesome="clr-namespace:FontAwesome"
                 xmlns:prism="http://prismlibrary.com"
                 prism:ViewModelLocator.AutowireViewModel="True"
                 x:Name="oThis"
-    NavigationPage.HasNavigationBar="true"
+                NavigationPage.HasNavigationBar="true"
                 Title="{Binding Title}">
 
     <!--NavigationPage.HasNavigationBar="true"
@@ -138,14 +138,17 @@
                                     </Frame>
                                     
                                     <Grid ColumnDefinitions="0.05*, 0.1*, 0.85*" Padding="14,4">
-                                        <Label Text="{Binding Id}" TextColor="{Binding StateColor}"
+                                            <Label Text="{Binding Id}" TextColor="DarkBlue"
                                             FontFamily="FAB" FontSize="20" Grid.Column="0"/>
 
-                                        <Label Text="{Binding StateElement}" TextColor="{Binding StateColor}"
-                                            FontFamily="FAS" FontSize="20" Grid.Column="1"/>
-                                        <Label Text="{Binding Estado_Actual}" BackgroundColor="{Binding StateColor}" FontSize="Small" HeightRequest="20" WidthRequest="20" Grid.Column="1"/>
+                                        <!--<Label Text="{Binding StateElement}"
+                                               TextColor="{Binding StateColor}"
+                                               FontFamily="FAS" FontSize="20" Grid.Column="1"/>-->
+                                        <Label Text="{Binding StateElement}"
+                                               TextColor="{Binding StateColor}"
+                                               FontSize="20" FontFamily="FAS"  Grid.Column="1"/>
                                       
-                                        <Label Text="{Binding Name}" Grid.Column="2"  TextColor="{Binding StateColor}"
+                                        <Label Text="{Binding Name}" Grid.Column="2"  TextColor="DarkBlue"
                                             FontFamily="V4" FontSize="20" Padding="0" Margin="0"/>
                                         </Grid>
 

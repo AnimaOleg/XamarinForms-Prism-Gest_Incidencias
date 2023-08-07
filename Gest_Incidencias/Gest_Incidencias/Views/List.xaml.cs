@@ -6,15 +6,17 @@ using Xamarin.Forms;
 
 namespace Gest_Incidencias.Views
 {
-    public partial class Details_Page : ContentPage
+    //[assembly: XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class List : ContentPage
     {
         #region Variables
         private INavigationService _navigationService;
+        public string Tipo { get; set; }
         #endregion
 
 
         #region Constructor
-        public Details_Page()
+        public List()
         {
             this._navigationService = ContainerLocator.Container.Resolve<INavigationService>();
             InitializeComponent();
@@ -25,10 +27,12 @@ namespace Gest_Incidencias.Views
         #region OnAppearing
         protected override void OnAppearing()
         {
-            BindingContext = new Details_Page_ViewModel(_navigationService);
+            Tipo = Tipo;
+            BindingContext = new List_ViewModel(_navigationService, this.Tipo);
             base.OnAppearing();
         }
         #endregion
 
     }
+
 }

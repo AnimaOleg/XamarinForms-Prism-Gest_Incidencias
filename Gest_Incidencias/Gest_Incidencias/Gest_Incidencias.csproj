@@ -35,34 +35,38 @@
     <PackageReference Include="Prism.DryIoc.Forms" Version="8.1.97" />
     <PackageReference Include="Prism.Forms" Version="8.1.97" />
     <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
+    <PackageReference Include="Syncfusion.Xamarin.Pdf" Version="22.2.7" />
     <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.6" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2578" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.7" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\Details_Page.xaml.cs">
-      <DependentUpon>Details_Page.xaml</DependentUpon>
+    <Compile Update="Views\Details.xaml.cs">
+      <DependentUpon>Details.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\List_Page.xaml.cs">
-      <DependentUpon>List_Page.xaml</DependentUpon>
+    <Compile Update="Views\List.xaml.cs">
+      <DependentUpon>List.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\Creation_Page.xaml.cs">
-      <DependentUpon>Creation_Page.xaml</DependentUpon>
+    <Compile Update="Views\Creation.xaml.cs">
+      <DependentUpon>Creation.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Settings.xaml.cs">
+      <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Views\Details_Page.xaml">
+    <EmbeddedResource Update="Views\Details.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Creation_Page.xaml">
+    <EmbeddedResource Update="Views\Creation.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\List_Page.xaml">
+    <EmbeddedResource Update="Views\List.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Settings_Page.xaml">
+    <EmbeddedResource Update="Views\Settings.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

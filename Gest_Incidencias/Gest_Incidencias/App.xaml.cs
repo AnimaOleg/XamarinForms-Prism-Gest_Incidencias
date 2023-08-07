@@ -18,6 +18,7 @@ namespace Gest_Incidencias
         public INavigationService MyNavigationService => NavigationService; //  llamando a MyNavigationService lo que haces es llamar a NavigationService
         #endregion
 
+
         #region Constructor
         public App() : this(null) { }
         public App(IPlatformInitializer initializer) : base(initializer) { }
@@ -43,6 +44,7 @@ namespace Gest_Incidencias
             DependencyService.Register<IMessageService, MessageService>();
 
             await MyNavigationService.NavigateAsync("MainPage");
+            //await MyNavigationService.NavigateAsync("Settings");
             //await NavigationService.NavigateAsync("MainPage?message=Hello%20From%20PrismApplication"); // Para el ejemplo de Mensajes
         }
         #endregion
@@ -54,10 +56,10 @@ namespace Gest_Incidencias
             containerRegistry.RegisterForNavigation<NavigationPage>();
 
             containerRegistry.RegisterForNavigation<MainPage, MainPage_ViewModel>();
-            containerRegistry.RegisterForNavigation<List_Page, List_Page_ViewModel>();
-            containerRegistry.RegisterForNavigation<Creation_Page, Creation_Page_ViewModel>();
-            containerRegistry.RegisterForNavigation<Details_Page, Details_Page_ViewModel>();
-            containerRegistry.RegisterForNavigation<Settings_Page, Settings_PageViewModel>();
+            containerRegistry.RegisterForNavigation<List, List_ViewModel>();
+            containerRegistry.RegisterForNavigation<Creation, Creation_ViewModel>();
+            containerRegistry.RegisterForNavigation<Details, Details_ViewModel>();
+            containerRegistry.RegisterForNavigation<Settings, Settings_ViewModel>();
 
             //containerRegistry.RegisterForNavigation<MainPage>("MiAlias");
         }
