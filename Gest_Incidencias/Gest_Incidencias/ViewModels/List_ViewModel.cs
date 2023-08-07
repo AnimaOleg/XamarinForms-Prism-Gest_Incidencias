@@ -105,7 +105,21 @@ namespace Gest_Incidencias.ViewModels
 
         async void Load_Data()
         {
-            Notes = new ObservableCollection<Note>(await App.Database.GetNotesAsync(Tipo)); //Notes.ForEach(note => note.IsSelected = false);
+            //Notes = new ObservableCollection<Note>(await App.Database.GetNotesAsync(Tipo)); //Notes.ForEach(note => note.IsSelected = false);
+
+            Notes = new ObservableCollection<Note>(await App.Database.GetNotesAsync(Tipo));
+
+            // En caso Disponible, se añaden tambien del tipo Renovado
+            ObservableCollection<Note> list2;
+            if (Tipo == "Disponible")
+            {
+                list2 = new ObservableCollection<Note>(await App.Database.GetNotesAsync("Renovado"));
+                
+                for(int i=0; i < list2.Count(); i++)
+                {
+                    Notes.Add(list2[i]);
+                }
+            }
             Cantidad_Items = Notes.Count();
         }
         public override void Initialize(INavigationParameters parameters)
@@ -205,18 +219,22 @@ namespace Gest_Incidencias.ViewModels
             if (Parameters.EditingNote != null)
             {
 
-                Parameters.EditingNote.IsSelected = false;
+                //if (Parameters.EditingNote != null && Parameters.EditingNote.Estado_Actual == "Disponible")
+                
+
+                    Parameters.EditingNote.IsSelected = false;
                 //Parameters.EditingNote.IsAvailable = false;
 
                 if (Parameters.EditingNote.Estado_Actual == "Disponible"
-                    &&Parameters.EditingNote.Estado_Actual == "Iniciado" )
+                    && Parameters.EditingNote.Estado_Actual == "Iniciado" )
                 {
                     Console.WriteLine("NOTA Finalizar - Finalizada:" + Parameters.EditingNote.Name);
                     //Parameters.EditingNote.IsFinished = true;
                     Parameters.EditingNote.Estado_Actual = "Finalizado";
                     Parameters.EditingNote.DateFinish = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
                 }
-                else if(Parameters.EditingNote.Estado_Actual == "Disponible")
+                else if(Parameters.EditingNote.Estado_Actual == "Disponible"
+                    || Parameters.EditingNote.Estado_Actual == "Renovado")
                 {
                     Console.WriteLine("NOTA Finalizar - Renovada:" + Parameters.EditingNote.Name);
                     //Parameters.EditingNote.IsFinished = false;
@@ -224,6 +242,7 @@ namespace Gest_Incidencias.ViewModels
                     Parameters.EditingNote.Estado_Actual = "Iniciado";
                     Parameters.EditingNote.DateStarting = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
                 }
+
                 await App.Database.SaveNoteAsync(Parameters.EditingNote);
                 await _navigationService.NavigateAsync("MainPage");
             }

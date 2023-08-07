@@ -183,7 +183,7 @@ namespace Gest_Incidencias.ViewModels
             {
                 Console.WriteLine(" FINALIZADO");
                 //IsAvailableProperty = true;
-                Parameters.EditingNote.Estado_Actual = "Iniciado";
+                Parameters.EditingNote.Estado_Actual = "Finalizado";
                 Parameters.EditingNote.DateFinish = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
 
                 await App.Database.SaveNoteAsync(Parameters.EditingNote);
