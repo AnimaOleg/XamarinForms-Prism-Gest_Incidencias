@@ -1,9 +1,11 @@
 ﻿using Gest_Incidencias.ViewModels;
 using Prism.Navigation;
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace Gest_Incidencias.Views
 {
+    //[XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Settings : ContentPage
     {
         #region Variables

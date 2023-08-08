@@ -11,7 +11,7 @@ using Xamarin.Forms;
 
 namespace Gest_Incidencias
 {
-    public partial class App
+    public partial class App /*: Application*/
     {
         #region Variables
         static NoteDatabase database;

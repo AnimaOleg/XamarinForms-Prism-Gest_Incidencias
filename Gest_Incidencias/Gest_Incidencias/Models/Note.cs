@@ -29,11 +29,7 @@ namespace Gest_Incidencias.Models
         public bool IsAvailable { get; set; } // estado inicial disponible al crear
 
         //public bool IsChecked { get; set; } = false;
-        /*
-        
-        public bool IsDeleted { get; set; } = false;
-        public bool IsFinished { get; set; } = false;
-        public bool InProgress { get; set; } = false;*/
+
         public string Estado_Actual { get; set; }
         #endregion
 
@@ -56,11 +52,11 @@ namespace Gest_Incidencias.Models
         }
         public Color StateColor {
             get {
-                if (Estado_Actual == "Disponible") return Color.DarkTurquoise;
-                else if (Estado_Actual == "Borrado") return Color.Red;
+                if (Estado_Actual == "Disponible") return Color.Turquoise;
+                else if (Estado_Actual == "Borrado") return Color.PaleVioletRed;
                 else if (Estado_Actual == "Iniciado") return Color.Green;
-                else if (Estado_Actual == "Finalizado") return Color.DarkBlue;
-                else if (Estado_Actual == "Renovado") return Color.Green;
+                else if (Estado_Actual == "Finalizado") return Color.DarkGray;
+                else if (Estado_Actual == "Renovado") return Color.PaleTurquoise;
                 else return Color.Gray;
             }
         }

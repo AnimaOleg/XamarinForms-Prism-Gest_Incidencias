@@ -1,13 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<!--<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Gest_Incidencias.Views.MainPage"
-             NavigationPage.HasBackButton="False"
-    xmlns:listado="clr-namespace:Gest_Incidencias.Views"
-    xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
-    android:TabbedPage.ToolbarPlacement="Bottom"
-             >-->
-
 
 <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -18,11 +9,10 @@
     android:TabbedPage.ToolbarPlacement="Bottom"
     android:TabbedPage.BarItemColor="Black"
     android:TabbedPage.BarSelectedItemColor="Red"
-    android:TabbedPage.OffscreenPageLimit="2"
+    android:TabbedPage.OffscreenPageLimit="5"
     android:TabbedPage.IsSwipePagingEnabled="true"
-    NavigationPage.HasNavigationBar="true" >
-
-
+    NavigationPage.HasNavigationBar="false" >
+    
     <!-- https://stackoverflow.com/questions/72922974/center-text-on-navigationpages-titleview-it-is-slightly-offset-due-to-back-but -->
     <NavigationPage.TitleView Padding="0">
         <AbsoluteLayout BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Margin="0" Padding="0">
@@ -42,10 +32,10 @@
     </NavigationPage.TitleView>
 
     <vistas:List Title="Disponibles" Icon="lista.png" Tipo="Disponible"/>
-    <vistas:List Title="Todas" Icon="hogar.png"/>
-    <vistas:List Title="Iniciadas" Icon="play.png" Tipo="Iniciado"/>
-    <vistas:List Title="Finalizadas" Icon="report.png" Tipo="Finalizado"/>
-    <vistas:List Title="Borradas" Icon="basura.png" Tipo="Borrado"/>
+    <vistas:List Title="Todos" Icon="hogar.png" Tipo="Todos"/>
+    <vistas:List Title="Iniciados" Icon="play.png" Tipo="Iniciado"/>
+    <vistas:List Title="Finalizados" Icon="report.png" Tipo="Finalizado"/>
+    <vistas:List Title="Borrados" Icon="basura.png" Tipo="Borrado"/>
     <!--<vistas:Settings Title="Settings" Icon="mas_opciones.png" Tipo="Settings"/>-->
 </TabbedPage>
 

@@ -77,41 +77,71 @@ namespace Gest_Incidencias.ViewModels
             get { return _dateDeleted; }
             set { SetProperty(ref _dateDeleted, value); }
         }
-        /*private bool _isDeletedProperty = false;
-        public bool IsDeletedProperty
-        {
-            get => _isDeletedProperty;
-            set => SetProperty(ref _isDeletedProperty, value);
-        }*/
-        private bool _isDeleted;
-        public bool IsDeleted
-        {
-            get { return _isDeleted; }
-            set { SetProperty(ref _isDeleted, value); }
-        }
-
-        public bool IsDeletedStateElement
-        {
-            get
-            {
-                Console.WriteLine("IsDeletedStateElement? " + IsDeleted);
-                if (IsDeleted) return true;
-                else return false;
-            }
-        }
-        private string _estado_Actual;
-        public string Estado_Actual
-        {
-            get { return _estado_Actual; }
-            set { SetProperty(ref _estado_Actual, value); }
-        }
-
         /*private bool _isAvailableProperty = false;
         public bool IsAvailableProperty
         {
             get => _isAvailableProperty;
             set => SetProperty(ref _isAvailableProperty, value);
         }*/
+
+        private string _estado_Actual;
+        public string Estado_Actual{
+            get { return _estado_Actual; }
+            set { SetProperty(ref _estado_Actual, value); }
+        }
+
+        
+        public bool Is_Started_State
+        {
+            //get{
+            //    if (Estado_Actual == "Disponible") return true;
+            //    else if (Estado_Actual == "Renovado") return true;
+            //    else return false;
+            //}
+            get => Estado_Actual == "Disponible" ? true : Estado_Actual == "Renovado" ? true : false;
+        }
+        public bool Is_Finish_State{
+            //get{if (Estado_Actual == "Iniciado") return true;else return false;}
+            get => Estado_Actual == "Iniciado" ? true : false;
+        }
+        public Color Is_Available_State_BorderColor{
+            //get{
+            //    if (Estado_Actual == "Disponible") return Color.Green;
+            //    else if (Estado_Actual == "Renovado") return Color.Green;
+            //    else return Color.LightGray;
+            //}
+            get => Estado_Actual == "Disponible" ? Color.Green : Estado_Actual == "Renovado" ? Color.Green : Color.LightGray;
+        }
+
+        public Color Is_Started_State_BorderColor
+        {
+            //get{if (Estado_Actual == "Iniciado") return Color.Black;else return Color.LightGray;}
+            get => Estado_Actual == "Iniciado" ? Color.Black : Color.LightGray;
+        }
+        public bool Is_Available_State
+        {
+            //get{if (Estado_Actual == "Disponible") return true;else return false;}
+            get => Estado_Actual == "Disponible" ? true : false;
+        }
+        public bool Is_Deleted_State
+        {
+            //get{if (Estado_Actual == "Borrado") return true;else return false;}
+            get => Estado_Actual == "Borrado" ? true : false;
+        }
+        public Color Is_Deleted_State_BorderColor
+        {
+            //get{if (Estado_Actual == "Borrado") return Color.Black;else return Color.LightGray;}
+            get => Estado_Actual == "Borrado" ? Color.Black : Color.LightGray;
+        }
+        public Color Is_Renovated_State_BorderColor
+        {
+            //get{
+            //    if (Estado_Actual == "Renovado") return Color.Black;
+            //    else if (Estado_Actual == "Disponible") return Color.Black;
+            //    else return Color.LightGray;
+            //}
+            get => Estado_Actual == "Renovado" ? Color.Black : Estado_Actual == "Disponible" ? Color.Black : Color.LightGray;
+        }
         #endregion
 
 
@@ -128,7 +158,8 @@ namespace Gest_Incidencias.ViewModels
         #region Constructor
         public Details_ViewModel(INavigationService navigationService) : base(navigationService)
         {
-            Title = "Detalles - \"" + Parameters.EditingNote.Name + "\"";
+            //Title = "Detalles de \"" + Parameters.EditingNote.Name + "\"";
+            Title = "Detalles";
             _navigationService = navigationService;
             _messageService = DependencyService.Get<Services.IMessageService>();
 

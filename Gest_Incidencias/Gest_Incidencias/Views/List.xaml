@@ -38,8 +38,13 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.1*"/>
-            <RowDefinition Height="0.8*" />
-            <RowDefinition Height="0.1*" />
+            <RowDefinition Height="0.82*" />
+            <!--<RowDefinition Height="0.01*" />
+            <RowDefinition Height="0.09*" />-->
+
+
+            <!--<RowDefinition Height="0.00*" />-->
+            <RowDefinition Height="0.08*" />
         </Grid.RowDefinitions>
 
         
@@ -48,27 +53,31 @@
             <Grid ColumnDefinitions="*">
 
                 <Button Command="{Binding Command_GetReports}"
-                        Grid.Column="0" BorderWidth="2" Text="{x:Static fontAwesome:FontAwesomeIcons.Newspaper}"
+                        Grid.Column="0" BorderWidth="1" Text="{x:Static fontAwesome:FontAwesomeIcons.Newspaper}"
                         FontFamily="FAS" FontSize="30" BackgroundColor="{StaticResource SecondaryColor}"
                         TextColor="DarkBlue" BorderColor="DarkBlue"/>
-                <StackLayout Grid.Column="1" Orientation="Vertical" Padding="0" Margin="0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                <StackLayout Grid.Column="1" Orientation="Vertical" Padding="0" Margin="0"
+                             HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
                     <Label Text="{Binding Cantidad_Items}" TextColor="DarkBlue" FontSize="24" FontFamily="FAS"
-                           Padding="0" Margin="0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
+                            Padding="0" Margin="0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
                     <Label Text="{Binding Tipo}" TextColor="DarkBlue" FontSize="13" FontFamily="V4"
-                           Padding="0" Margin="0"/>
+                            Padding="0" Margin="0"/>
                 </StackLayout>
                 <Button Command="{Binding Command_DeleteItem}" IsEnabled="{Binding Is_Unique_Selected}"
                         Grid.Column="2" Text="{x:Static fontAwesome:FontAwesomeIcons.Trash}"
-                        FontFamily="FAS" FontSize="30" BackgroundColor="{StaticResource SecondaryColor}"
-                        TextColor="DarkBlue" BorderColor="DarkBlue" BorderWidth="2"/>
+                        FontFamily="FAS" FontSize="30"
+                        BorderColor="{Binding Is_Unique_Selected_BorderColor}" 
+                        TextColor="DarkBlue" BorderWidth="1"/>
                 <Button Command="{Binding Command_ModifyItem}" IsEnabled="{Binding Is_Unique_Selected}"
                         Grid.Column="3" Text="{x:Static fontAwesome:FontAwesomeIcons.Pen}"
-                        FontFamily="FAS" FontSize="30" BackgroundColor="{StaticResource SecondaryColor}"
-                        TextColor="DarkBlue" BorderColor="DarkBlue" BorderWidth="2"/>
+                        FontFamily="FAS" FontSize="30"
+                        BorderColor="{Binding Is_Unique_Selected_BorderColor}" 
+                        TextColor="DarkBlue" BorderWidth="1"/>
                 <Button Command="{Binding Command_FinishItem}" IsEnabled="{Binding Is_Unique_Selected}"
                         Grid.Column="4" HeightRequest="50" Text="{x:Static fontAwesome:FontAwesomeIcons.Flag}"
-                        FontFamily="FAS" FontSize="30" BackgroundColor="{StaticResource SecondaryColor}"
-                        TextColor="DarkBlue" BorderColor="DarkBlue" BorderWidth="2"/>
+                        FontFamily="FAS" FontSize="30"
+                        BorderColor="{Binding Is_Unique_Selected_BorderColor}" 
+                        TextColor="DarkBlue" BorderWidth="1"/>
             </Grid>
             
         </Grid>
@@ -80,13 +89,13 @@
                 
                 <ListView ItemsSource="{Binding Notes}" Margin="0"
                           SelectionMode="None" RowHeight="130" HasUnevenRows="False"
-                          IsPullToRefreshEnabled="true" RefreshControlColor="Red">
+                          IsPullToRefreshEnabled="true" RefreshControlColor="Red" BackgroundColor="White">
                     <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            
-                            <Frame CornerRadius="20" HasShadow="True"
-                                   Padding="0" Margin="8,4,10,3" BorderColor="DarkBlue">
+
+                            <!--<Frame CornerRadius="10" HasShadow="True" Padding="0" Margin="8,4,10,3" BorderColor="#D1D1D6">-->
+                            <Frame CornerRadius="30" HasShadow="True" Padding="0" Margin="8,4,10,3" BorderColor="{Binding StateColor}">
                                 <Grid RowSpacing="0" ColumnSpacing="0" Margin="6,4,2,0">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="30"/>
@@ -106,7 +115,7 @@
                                             </StackLayout>
                                         </Frame>
                                         -->
-                                    <Frame BorderColor="DarkBlue" Grid.Column="1" Grid.RowSpan="4" Padding="00" Margin="0">
+                                    <Frame BorderColor="DarkBlue" Grid.Column="1" Grid.RowSpan="4" Padding="0" Margin="0">
                                         <!--<StackLayout Spacing="0" Padding="23,0" BackgroundColor="LightCyan">-->
                                         <StackLayout Spacing="0" Padding="0,0" BackgroundColor="LightCyan">
 
@@ -114,10 +123,11 @@
                                                 <!--<CheckBox IsChecked="{Binding IsChecked}" BackgroundColor="{Binding SelectedItemColor}"-->
                                                 <!--<CheckBox IsChecked="{Binding IsSelected}" BackgroundColor="{Binding SelectedItemColor}"-->
                                                 <CheckBox IsChecked="{Binding IsSelected}" BackgroundColor="DarkBlue"
-                                                    Grid.Column="1" Grid.RowSpan="4" ScaleX="1" ScaleY="1" Scale="2.3" Color="White"
-                                                    Opacity="0.8" HeightRequest="120"
+                                                    Grid.Column="1" Grid.RowSpan="4" ScaleX="1" ScaleY="1" Scale="2.35" Color="White"
+                                                    Opacity="0.8" HeightRequest="120" xct:CornerRadiusEffect.CornerRadius="100"
                                                     HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-                                                <CheckBox.Behaviors>
+
+                                                    <CheckBox.Behaviors>
                                                     <xct:EventToCommandBehavior
                                                         EventName="CheckedChanged"
                                                         x:TypeArguments="CheckedChangedEventArgs"
@@ -179,13 +189,15 @@
         </Grid>
 
 
-        <Grid RowDefinitions="*" Padding="6,0,6,4" Grid.Row="2">
-            <Grid ColumnDefinitions="*">
+        <!--<BoxView Color="LightGray" Grid.Row="2" HeightRequest="0.2"/>-->
+        <Grid RowDefinitions="*" Grid.Row="2" BackgroundColor="Transparent" Margin="0">
+
+            <Grid ColumnDefinitions="*" Padding="6,0,6,2" >
                 <Button Command="{Binding Command_CreateItem}"
                     Grid.Column="0" HorizontalOptions="EndAndExpand"
                     Text="{x:Static fontAwesome:FontAwesomeIcons.Plus}"
-                    FontFamily="FAS" FontSize="40" BackgroundColor="LightGreen"
-                    TextColor="DarkBlue" BorderColor="DarkBlue" BorderWidth="2" />
+                    FontFamily="FAS" FontSize="36" BackgroundColor="LightGreen"
+                    TextColor="DarkBlue" BorderColor="DarkBlue" BorderWidth="1" />
             </Grid>
         </Grid>
 

@@ -18,34 +18,11 @@ namespace Gest_Incidencias.Data
 
         public Task<List<Note>> GetNotesAsync(string tipo)
         {
-            if (tipo == "" || tipo == null)
-            {
-
+            if (tipo == "Todos")
                 return database.Table<Note>().ToListAsync();
-            }
             else
-            {
-                //    switch(tipo)
-                //    {
-                //        case "Todas":
-                //            tipo = "All";
-                //            break;
-                //        case "Disponibles":
-                //            tipo = "Enabled";
-                //            break;
-                //        case "Iniciadas":
-                //            tipo = "InProgress";
-                //            break;
-                //        case "Finalizadas":
-                //            tipo = "Finished";
-                //            break;
-                //        case "Borradas":
-                //            tipo = "Deleted";
-                //            break;
-                //        default: break;
-                //        }
-            }
-            return database.Table<Note>().Where(i => i.Estado_Actual == tipo).ToListAsync();
+                return database.Table<Note>().Where(i => i.Estado_Actual == tipo).ToListAsync();
+
             //.Where(i => i.Tipo.Equals(tipo)).ToListAsync();
             //.FirstOrDefaultAsync();
             //Where(x => x.drugname.Contains(pillname));

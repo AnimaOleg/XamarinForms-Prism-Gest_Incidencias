@@ -1,18 +1,12 @@
 ﻿using Gest_Incidencias.Models;
-using Gest_Incidencias.Views;
 using Gest_Incidencias.Services;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Input;
 using Xamarin.Forms;
-using Xamarin.Forms.Internals;
 using Gest_Incidencias.Data;
 using Syncfusion.Pdf.Grid;
 using Syncfusion.Pdf;
@@ -26,19 +20,17 @@ using Syncfusion.Drawing;
 
 namespace Gest_Incidencias.ViewModels
 {
-    public class List_ViewModel : BaseViewModel /*BindableBase*/
+    public class List_ViewModel : BaseViewModel
     {
         #region Variables
-        int contador_notas_seleccionadas = 0;
-
-        private /*readonly*/ IMessageService _messageService;
-        private /*readonly*/ INavigationService _navigationService; /*=> NavigationService;*/ // AÑADIDO A MANO; //public INavigation Navigation { get; set; }
+        private IMessageService _messageService;
+        private INavigationService _navigationService;
+        public int Contador_seleccion { get; set; }
+        public string Tipo { get; set; }
         #endregion
 
 
         #region Properties
-        public string Tipo { get; set; }
-
         private ObservableCollection<Note> _notes;
         public ObservableCollection<Note> Notes {
             get => _notes;
@@ -52,19 +44,23 @@ namespace Gest_Incidencias.ViewModels
             set => SetProperty(ref _is_Unique_Selected, value);
         }
 
-
+        private Xamarin.Forms.Color _is_Unique_Selected_BorderColor = Xamarin.Forms.Color.LightGray;
+        public Xamarin.Forms.Color Is_Unique_Selected_BorderColor
+        {
+            get => _is_Unique_Selected_BorderColor;
+            set => SetProperty(ref _is_Unique_Selected_BorderColor, value);
+        }
+        private int _cantidad_Items;
+        public int Cantidad_Items {
+            get => _cantidad_Items;
+            set => SetProperty(ref _cantidad_Items, value);
+        }
         /*private bool _selectedItemColor;
         public bool SelectedItemColor
         {
             get => _selectedItemColor;
             set => SetProperty(ref _selectedItemColor, value);
         }*/
-        private int _cantidad_Items;
-        public int Cantidad_Items {
-            get => _cantidad_Items;
-            set => SetProperty(ref _cantidad_Items, value);
-
-        }
         #endregion
 
 
@@ -82,12 +78,14 @@ namespace Gest_Incidencias.ViewModels
         public List_ViewModel(INavigationService navigationService) : base(navigationService)
         { }
 
-        public List_ViewModel(INavigationService navigationService, string tipo) : base(navigationService)
+        public List_ViewModel(INavigationService navigationService, string tipo, int contador) : base(navigationService)
         {
-            
+            Title = "Listado de " + tipo;
+
             // Variables
             this.Tipo = tipo;
-            //Title = "Listado";
+            this.Contador_seleccion = contador;
+
             _messageService = DependencyService.Get<Services.IMessageService>();
             _navigationService = navigationService; //Navigation = navigation;
             //Console.WriteLine(" MODEL 1 Page_List_Incidencias_ViewModel, TIPO: " + tipo);
@@ -141,16 +139,18 @@ namespace Gest_Incidencias.ViewModels
         {
             // Contador de Checks Marcados
             if (arg.Value == true)
-                contador_notas_seleccionadas++;
+                this.Contador_seleccion++;
             else if (arg.Value == false)
-                contador_notas_seleccionadas--;
-            Console.WriteLine("contador:" + contador_notas_seleccionadas);
+                this.Contador_seleccion--;
+            Console.WriteLine("contador:" + this.Contador_seleccion);
 
             // Activacion Botones
-            switch (contador_notas_seleccionadas)
+            switch (this.Contador_seleccion)
             {
                 case 1:
                     Is_Unique_Selected = true;
+                    Is_Unique_Selected_BorderColor = Xamarin.Forms.Color.DarkBlue;
+
                     //IsCheckedChanged = true;
                     // Seleccion de 1 unica nota
                     for (int i = 0; i < Notes.Count(); i++)
@@ -161,16 +161,13 @@ namespace Gest_Incidencias.ViewModels
                             Parameters.EditingNote = Notes[i];
                             Parameters.EditingNote.IsSelected = false;
                             //Parameters.EditingNote.IsSelected2 = true;
-
-                            Console.WriteLine("NOTA: " + Notes[i].Name);
-                            //Console.WriteLine("COLOR: " + SelectedItemColor);
                             break;
                         }
                     }
                     break;
                 default:
-                    //Console.WriteLine(" PARAMETERS.NOTA:"+ Parameters.EditingNote.Name);
                     Is_Unique_Selected = false;
+                    Is_Unique_Selected_BorderColor = Xamarin.Forms.Color.LightGray;
                     //IsCheckedChanged = false;
                     Parameters.EditingNote = null;
                     break;
@@ -188,24 +185,37 @@ namespace Gest_Incidencias.ViewModels
         async void Execute_DeleteItem()
         {
             if (Parameters.EditingNote == null) {
-                await _messageService.ShowAsync(message: "Elige una Incidencia para Eliminar");
+                await _messageService.ShowAsync("Elige una Incidencia para Eliminar");
             }
             else
             {
-                Parameters.EditingNote.IsSelected = false;
-                //Parameters.EditingNote.IsAvailable = false;
-                //Parameters.EditingNote.IsDeleted = true;
-                Parameters.EditingNote.Estado_Actual = "Borrado";
-                Parameters.EditingNote.DateDeleted = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
+                this.Contador_seleccion = 0;
+                //if (Parameters.EditingNote.Estado_Actual != "Iniciado" || Parameters.EditingNote.Estado_Actual != "Borrado")
+                if (Parameters.EditingNote.Estado_Actual == "Finalizado"
+                    || Parameters.EditingNote.Estado_Actual == "Renovado"
+                    || Parameters.EditingNote.Estado_Actual == "Disponible" )
+                {
 
-                await App.Database.SaveNoteAsync(Parameters.EditingNote);
-                await _navigationService.NavigateAsync("MainPage");
+                    await _messageService.ShowAsync("BOTON BORRAR, estado actual: " + Parameters.EditingNote.Estado_Actual);
+                    Parameters.EditingNote.IsSelected = false;
+                    Parameters.EditingNote.Estado_Actual = "Borrado";
+                    Parameters.EditingNote.DateDeleted = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
+
+                    await App.Database.SaveNoteAsync(Parameters.EditingNote);
+                    await _navigationService.NavigateAsync("MainPage");
+                }
+                else
+                {
+                    await _messageService.ShowAsync("Estado Actual: Iniciado/Borrado. No se puede borrar.");
+                }
             }
         }
 
         async void Execute_ModifyItem()
         {
-            if (Parameters.EditingNote != null) {
+            if (Parameters.EditingNote != null)
+            {
+                this.Contador_seleccion = 0;
                 Parameters.EditingNote.IsSelected = false;
                 await _navigationService.NavigateAsync("Details");
             }
@@ -214,41 +224,55 @@ namespace Gest_Incidencias.ViewModels
             }
         }
 
+
+        /*
+         * 
+         * 
+         * 
+         *      REVSIAR LOS ESTADOS
+         * 
+         * 
+         */
         async void Execute_FinishItem()
         {
             if (Parameters.EditingNote != null)
             {
-
-                //if (Parameters.EditingNote != null && Parameters.EditingNote.Estado_Actual == "Disponible")
-                
-
-                    Parameters.EditingNote.IsSelected = false;
+                this.Contador_seleccion = 0;
+                Parameters.EditingNote.IsSelected = false;
                 //Parameters.EditingNote.IsAvailable = false;
 
                 if (Parameters.EditingNote.Estado_Actual == "Disponible"
                     && Parameters.EditingNote.Estado_Actual == "Iniciado" )
                 {
-                    Console.WriteLine("NOTA Finalizar - Finalizada:" + Parameters.EditingNote.Name);
                     //Parameters.EditingNote.IsFinished = true;
                     Parameters.EditingNote.Estado_Actual = "Finalizado";
                     Parameters.EditingNote.DateFinish = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
+
+                    await App.Database.SaveNoteAsync(Parameters.EditingNote);
+                    await _messageService.ShowAsync("FINALIZADO");
+                    await _navigationService.NavigateAsync("MainPage");
                 }
                 else if(Parameters.EditingNote.Estado_Actual == "Disponible"
                     || Parameters.EditingNote.Estado_Actual == "Renovado")
                 {
-                    Console.WriteLine("NOTA Finalizar - Renovada:" + Parameters.EditingNote.Name);
                     //Parameters.EditingNote.IsFinished = false;
                     //Parameters.EditingNote.InProgress = true;
                     Parameters.EditingNote.Estado_Actual = "Iniciado";
                     Parameters.EditingNote.DateStarting = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
+
+                    await App.Database.SaveNoteAsync(Parameters.EditingNote);
+                    await _messageService.ShowAsync("INICIADO");
+                    await _navigationService.NavigateAsync("MainPage");
+                }
+                else
+                {
+                    await _messageService.ShowAsync("Solo se pueden Iniciar/Finalizar estados Disponibles, Iniciados y Renovados. No se puede hacer ésto con Finalizados/Borrados");
                 }
 
-                await App.Database.SaveNoteAsync(Parameters.EditingNote);
-                await _navigationService.NavigateAsync("MainPage");
             }
             else
             {
-                await _messageService.ShowAsync("NOTA Finalizar - no hay nada a cambiar de estado");
+                await _messageService.ShowAsync("No hay nada seleccionado");
             }
 
         }

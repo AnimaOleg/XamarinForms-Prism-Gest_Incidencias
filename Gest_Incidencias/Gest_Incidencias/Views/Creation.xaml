@@ -14,13 +14,30 @@
     <!-- añadir ¿?  xmlns:vm="clr-namespace:Gest_Incidencias.ViewModels" -->
     <!--xmlns:prism="http://prismlibrary.com"-->
 
-    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Spacing="4" Orientation="Vertical" Padding="10">
+    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="FillAndExpand" Spacing="4" Orientation="Vertical">
 
-        <Frame BorderColor="Orange" CornerRadius="5" HasShadow="True" Padding="12" Margin="8">
+        <Frame BackgroundColor="{StaticResource AppBackgroundColor}">
+            <Label Text="{Binding Title}" TextColor="DarkBlue" FontSize="22"
+                VerticalTextAlignment="Center" HorizontalOptions="CenterAndExpand"/>
+        </Frame>
+
+        <Grid ColumnDefinitions="*,*" Margin="14,10,14,20">
+            <Button Command="{Binding Command_Cancel}" Grid.Column="0"
+                Text="{x:Static fontAwesome:FontAwesomeIcons.ArrowLeft}" FontFamily="FAS"
+                FontSize="50" TextColor="Black" BorderColor="Black" BorderWidth="1"
+                BackgroundColor="{StaticResource SecondaryColor}"/>
+            <Button Command="{Binding Command_Create}"  Grid.Column="1"
+                Text="{x:Static fontAwesome:FontAwesomeIcons.SquareCheck}" FontFamily="FAS"
+                FontSize="50" TextColor="Green" BorderColor="Green" BorderWidth="1"
+                BackgroundColor="{StaticResource SecondaryColor}"/>
+        </Grid>
+
+        <Frame CornerRadius="2" Padding="12" Margin="14,4">
             <StackLayout Orientation="Vertical">
                 <Label Text="Titulo" FontSize="Medium" HeightRequest="20"/>
                 <BoxView Color="white" HeightRequest="1" HorizontalOptions="Fill" />
-                <Entry Text="{Binding Name}" FontSize="Large">
+
+                <Entry Text="{Binding Name}" FontSize="Large" Placeholder="Escriba aquí el título">
                     <Entry.Behaviors>
                         <xct:EventToCommandBehavior
                             EventName="TextChanged"
@@ -29,16 +46,15 @@
                             EventName="Unfocused"
                             Command="{Binding UnfocusedTitle}" />
                     </Entry.Behaviors>
-
                 </Entry>
             </StackLayout>
         </Frame>
 
-        <Frame BorderColor="Orange" CornerRadius="5" HasShadow="True" Padding="12" Margin="0,8">
+        <Frame CornerRadius="2" Padding="12" Margin="14,4">
             <StackLayout Orientation="Vertical" >
                 <Label Text="Descripción" FontSize="Medium" />
                 <BoxView Color="white" HeightRequest="1" HorizontalOptions="Fill" />
-                <Editor Text="{Binding Description}" FontSize="Large" HeightRequest="120" Placeholder="Write here">
+                <Editor Text="{Binding Description}" FontSize="Large" HeightRequest="120" Placeholder="Escriba aquí la descripción">
                     <Editor.Behaviors>
                         <xct:EventToCommandBehavior
                             EventName="TextChanged"
@@ -48,27 +64,12 @@
             </StackLayout>
         </Frame>
 
-        <Frame BorderColor="DarkGray" CornerRadius="0" HasShadow="True" Padding="0" Margin="0,2">
-            <StackLayout Orientation="Horizontal">
-                <Grid ColumnDefinitions="0.5*,0.5*" BackgroundColor="{StaticResource SecondaryColor}" Padding="8" Margin="8">
-                    <Label Text="Estado" FontSize="14" Grid.Column="0"/>
-                    <!--<CheckBox IsChecked="{Binding IsAvailable}" Grid.Column="1" ScaleX="2" ScaleY="2"
-                        HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" IsEnabled="false"/>-->
-                    <Label Text="{Binding Estado_Actual}" FontSize="12" Grid.Column="1"
-                           
-                        HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
-                </Grid>
+        <Frame BorderColor="Blue" CornerRadius="2" HasShadow="True" Padding="8" Margin="14,8">
+            <StackLayout Orientation="Vertical">
+                <Label Text="Estado" FontSize="16" Grid.Row="0"/>
+                <Label Text="{Binding Estado_Actual}" FontSize="18" TextColor="Blue" Grid.Row="1"/>
             </StackLayout>
         </Frame>
 
-        <Grid ColumnDefinitions="*,*" Margin="0,20,0,0">
-            <Button Command="{Binding Command_Cancel}" Grid.Column="0"
-                Text="{x:Static fontAwesome:FontAwesomeIcons.SquareXmark}" FontFamily="FAS"
-                FontSize="50" TextColor="Red" BackgroundColor="{StaticResource SecondaryColor}" BorderColor="Red" BorderWidth="2"/>
-            <Button Command="{Binding Command_Create}"  Grid.Column="1"
-                Text="{x:Static fontAwesome:FontAwesomeIcons.SquareCheck}" FontFamily="FAS"
-                FontSize="50" TextColor="Green" BackgroundColor="{StaticResource SecondaryColor}" BorderColor="Green" BorderWidth="2"/>
-
-        </Grid>
     </StackLayout>
 </ContentPage>

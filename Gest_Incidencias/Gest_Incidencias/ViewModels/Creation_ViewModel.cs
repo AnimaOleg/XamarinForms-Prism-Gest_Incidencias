@@ -33,8 +33,8 @@ namespace Gest_Incidencias.ViewModels
         }
         private DateTime _dateCreation;
         public DateTime DateCreation {
-            get { return _dateCreation; }
-            set { SetProperty(ref _dateCreation, value); }
+            get => _dateCreation;
+            set => SetProperty(ref _dateCreation, value);
         }
         /*private bool _isAvailable = false;
         public bool IsAvailable
@@ -46,11 +46,8 @@ namespace Gest_Incidencias.ViewModels
         private string _estado_Actual = "Disponible";
         public string Estado_Actual
         {
-            get { return _estado_Actual; }
-            set
-            {
-                SetProperty(ref _estado_Actual, value);
-            }
+            get => _estado_Actual;
+            set => SetProperty(ref _estado_Actual, value);
         }
         #endregion
 
