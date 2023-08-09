@@ -115,7 +115,7 @@
                                             </StackLayout>
                                         </Frame>
                                         -->
-                                    <Frame BorderColor="DarkBlue" Grid.Column="1" Grid.RowSpan="4" Padding="0" Margin="0">
+                                    <Frame BorderColor="DarkBlue" Grid.Column="1" Grid.RowSpan="4" Padding="0" Margin="0" >
                                         <!--<StackLayout Spacing="0" Padding="23,0" BackgroundColor="LightCyan">-->
                                         <StackLayout Spacing="0" Padding="0,0" BackgroundColor="LightCyan">
 

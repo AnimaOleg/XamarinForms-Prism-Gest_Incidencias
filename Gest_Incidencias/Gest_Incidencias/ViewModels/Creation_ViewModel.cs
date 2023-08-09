@@ -109,7 +109,8 @@ namespace Gest_Incidencias.ViewModels
                     };
 
                     await App.Database.SaveNoteAsync(note);
-                    await _navigationService.NavigateAsync("MainPage");
+                    //await _navigationService.NavigateAsync("MainPage");
+                    await _navigationService.GoBackAsync();
                 }
                 catch (Exception ex) {
                     await _messageService.ShowAsync("Error Execute_Create_Command(): " + ex.Message);
@@ -119,8 +120,10 @@ namespace Gest_Incidencias.ViewModels
                 await _messageService.ShowAsync(message: "Rellena el Título o la Descripción. Mínimo 3 carácteres");
         }
 
-        async void Execute_Cancel_Command() {
-            await _navigationService.NavigateAsync("MainPage");
+        async void Execute_Cancel_Command()
+        {
+            //await _navigationService.NavigateAsync("MainPage");
+            await _navigationService.GoBackAsync();
         }
         #endregion
     }

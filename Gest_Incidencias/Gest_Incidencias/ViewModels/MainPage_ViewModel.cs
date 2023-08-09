@@ -20,13 +20,8 @@ namespace Gest_Incidencias.ViewModels
         {
             //Console.WriteLine("PARAMETERS:" + parameters.ToString());
         }
-        //public override void OnNavigatedFrom(INavigationParameters parameters)
-        //{
-        //}
-        //public override void OnNavigatedTo(INavigationParameters parameters)
-        //{
-        //    //Message = parameters.GetValue<string>("message");
-        //}
+        //public override void OnNavigatedFrom(INavigationParameters parameters){}
+        //public override void OnNavigatedTo(INavigationParameters parameters){//Message = parameters.GetValue<string>("message");}
 
 
 

@@ -201,7 +201,8 @@ namespace Gest_Incidencias.ViewModels
                 Console.WriteLine(Parameters.EditingNote.DateStarting);
 
                 await App.Database.SaveNoteAsync(Parameters.EditingNote);
-                await _navigationService.NavigateAsync("MainPage");
+                //await _navigationService.NavigateAsync("MainPage");
+                await _navigationService.GoBackAsync();
             }
             else
                 await _messageService.ShowAsync("Para Iniciar, debe estar en el estado Disponible");
@@ -218,7 +219,8 @@ namespace Gest_Incidencias.ViewModels
                 Parameters.EditingNote.DateFinish = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
 
                 await App.Database.SaveNoteAsync(Parameters.EditingNote);
-                await _navigationService.NavigateAsync("MainPage");
+                //await _navigationService.NavigateAsync("MainPage");
+                await _navigationService.GoBackAsync();
             }
             else
                 await _messageService.ShowAsync("Para Finalizar, debe estar en el estado Iniciado");
@@ -235,7 +237,8 @@ namespace Gest_Incidencias.ViewModels
                         Parameters.EditingNote.DateDeleted = "Renovado " + DateTime.UtcNow;
                         Parameters.EditingNote.Estado_Actual = "Renovado";
                         await App.Database.SaveNoteAsync(Parameters.EditingNote);
-                        await _navigationService.NavigateAsync("MainPage");
+                        //await _navigationService.NavigateAsync("MainPage");
+                        await _navigationService.GoBackAsync();
                     }
                     catch (Exception ex)
                     {
@@ -261,7 +264,8 @@ namespace Gest_Incidencias.ViewModels
                 {
                     try {
                         await App.Database.SaveNoteAsync(Parameters.EditingNote);
-                        await _navigationService.NavigateAsync("MainPage");
+                        //await _navigationService.NavigateAsync("MainPage");
+                        await _navigationService.GoBackAsync();
                     }
                     catch (Exception ex) {
                         Console.WriteLine(ex.Message);
@@ -276,7 +280,8 @@ namespace Gest_Incidencias.ViewModels
 
         async void Execute_Return()
         {
-            await _navigationService.NavigateAsync("MainPage");
+            //await _navigationService.NavigateAsync("MainPage");
+            await _navigationService.GoBackAsync();
         }
 
         async void Execute_Save()
@@ -291,7 +296,8 @@ namespace Gest_Incidencias.ViewModels
                     Parameters.EditingNote.IsSelected = false; //ConstructorLista=> Notes.ForEach(note => note.IsSelected = false);
 
                     await App.Database.SaveNoteAsync(Parameters.EditingNote);
-                    await _navigationService.NavigateAsync("MainPage");
+                    //await _navigationService.NavigateAsync("MainPage");
+                    await _navigationService.GoBackAsync();
                 }
                 catch (Exception ex)
                 {

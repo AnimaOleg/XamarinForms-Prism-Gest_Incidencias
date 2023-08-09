@@ -51,7 +51,10 @@ namespace Gest_Incidencias.Models
             }
         }
         public Color StateColor {
-            get {
+            // Hacerlo en el List_ViewModel.cs=>Execute_OnCheckedChanged
+
+            get
+            {
                 if (Estado_Actual == "Disponible") return Color.Turquoise;
                 else if (Estado_Actual == "Borrado") return Color.PaleVioletRed;
                 else if (Estado_Actual == "Iniciado") return Color.Green;
