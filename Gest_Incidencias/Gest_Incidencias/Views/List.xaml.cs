@@ -13,7 +13,6 @@ namespace Gest_Incidencias.Views
         #region Variables
         private INavigationService _navigationService;
         public string Tipo { get; set; }
-        public int Contador_seleccion { get; set; }
         #endregion
 
 
@@ -29,9 +28,8 @@ namespace Gest_Incidencias.Views
         #region OnAppearing
         protected override void OnAppearing()
         {
-            Contador_seleccion = 0;
             Tipo = Tipo;
-            BindingContext = new List_ViewModel(_navigationService, this.Tipo, Contador_seleccion);
+            BindingContext = new List_ViewModel(_navigationService, this.Tipo /*, Contador_seleccion*/);
             base.OnAppearing();
         }
         #endregion

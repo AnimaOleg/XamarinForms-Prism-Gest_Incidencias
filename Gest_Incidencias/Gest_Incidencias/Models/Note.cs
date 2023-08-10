@@ -2,8 +2,9 @@
 using SQLite;
 using System.Collections.Generic;
 using System.Text;
-using System.Drawing;
+//using System.Drawing;
 using System.Globalization;
+using Xamarin.Forms;
 
 namespace Gest_Incidencias.Models
 {
@@ -23,18 +24,15 @@ namespace Gest_Incidencias.Models
         public string DateFinish { get; set; }
         public string DateDeleted { get; set; }
 
-        //revisar si se puede usar desde aqui en lugar de List_Page.xaml/cs
-        // Se utiliza en Detalis_Page_ViewModel.cs
+        [Ignore]
         public bool IsSelected { get; set; } = false; // checkbox del listado
-        public bool IsAvailable { get; set; } // estado inicial disponible al crear
-
-        //public bool IsChecked { get; set; } = false;
 
         public string Estado_Actual { get; set; }
         #endregion
 
 
         #region Comportamientos_Bindeados
+        [Ignore]
         public string StateElement {
             get {
                 if (Estado_Actual == "Disponible") return FontAwesome.FontAwesomeIcons.Check;
@@ -43,13 +41,9 @@ namespace Gest_Incidencias.Models
                 else if (Estado_Actual == "Finalizado") return FontAwesome.FontAwesomeIcons.Flag;
                 else if (Estado_Actual == "Renovado") return FontAwesome.FontAwesomeIcons.TrashArrowUp;
                 else return null;
-
-                //if (IsAvailable) return FontAwesome.FontAwesomeIcons.Check;
-                //else if (IsDeleted) return FontAwesome.FontAwesomeIcons.Trash;
-                //else if (InProgress) return FontAwesome.FontAwesomeIcons.Play;
-                //else if (IsFinished) return FontAwesome.FontAwesomeIcons.Flag; else retrn null;
             }
         }
+        [Ignore]
         public Color StateColor {
             // Hacerlo en el List_ViewModel.cs=>Execute_OnCheckedChanged
 
@@ -64,21 +58,14 @@ namespace Gest_Incidencias.Models
             }
         }
 
-        //[Ignore]
-        //public Color SelectedItemColor
-        //{
-        //    get
-        //    {
-        //        if (!IsSelected) return Color.DarkBlue;
-        //        else return Color.Transparent;
-        //    }
-        //}
-        //public float StateSelectedToOpacity{
-        //    get{
-        //        if (!IsSelected) return float.Parse("1", CultureInfo.InvariantCulture);
-        //        else return float.Parse("0,5", CultureInfo.InvariantCulture);
-        //    }
-        //}
+
+        private Color _color_Selected;
+        [Ignore]
+        public Color Color_Selected
+        {
+            get => _color_Selected;
+            set => _color_Selected = value;
+        }
         #endregion
 
     }

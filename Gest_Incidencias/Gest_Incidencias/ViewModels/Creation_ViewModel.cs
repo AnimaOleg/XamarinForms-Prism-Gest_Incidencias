@@ -36,13 +36,7 @@ namespace Gest_Incidencias.ViewModels
             get => _dateCreation;
             set => SetProperty(ref _dateCreation, value);
         }
-        /*private bool _isAvailable = false;
-        public bool IsAvailable
-        {
-            get { return _isAvailable; }
-            set { SetProperty(ref _isAvailable, value);
-            }
-        }*/
+
         private string _estado_Actual = "Disponible";
         public string Estado_Actual
         {
@@ -54,7 +48,6 @@ namespace Gest_Incidencias.ViewModels
 
         #region Commands
         //public DelegateCommand UnfocusedTitleCommand { private set; get; }
-        public DelegateCommand Command_TextChanged { private set; get; }
         public DelegateCommand Command_Cancel { private set; get; }
         public DelegateCommand Command_Create { private set; get; }
         #endregion
@@ -69,7 +62,6 @@ namespace Gest_Incidencias.ViewModels
 
             Command_Cancel = new DelegateCommand(Execute_Cancel_Command);
             Command_Create = new DelegateCommand(Execute_Create_Command);
-            Command_TextChanged = new DelegateCommand(Execute_TextChanged);
             //UnfocusedTitleCommand = new Command(UnfocusedTitle);
         }
 
@@ -82,17 +74,6 @@ namespace Gest_Incidencias.ViewModels
 
         #region CommandsFunctions
 
-        void Execute_TextChanged()
-        {
-            //if (Name != "")
-            //{
-            //    IsAvailable = true;
-            //}
-            //if (Description != "")
-            //{
-            //    IsAvailable = true;
-            //}
-        }
 
         async void Execute_Create_Command()
         {

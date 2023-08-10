@@ -77,13 +77,6 @@ namespace Gest_Incidencias.ViewModels
             get { return _dateDeleted; }
             set { SetProperty(ref _dateDeleted, value); }
         }
-        /*private bool _isAvailableProperty = false;
-        public bool IsAvailableProperty
-        {
-            get => _isAvailableProperty;
-            set => SetProperty(ref _isAvailableProperty, value);
-        }*/
-
         private string _estado_Actual;
         public string Estado_Actual{
             get { return _estado_Actual; }
@@ -172,7 +165,6 @@ namespace Gest_Incidencias.ViewModels
 
             Name = Parameters.EditingNote.Name;
             Description = Parameters.EditingNote.Description;
-            //IsAvailable = Parameters.EditingNote.IsAvailable;
             DateCreation = Parameters.EditingNote.DateCreation;
             DateModification = Parameters.EditingNote.DateModification;
             DateStarting = Parameters.EditingNote.DateStarting;
@@ -214,7 +206,6 @@ namespace Gest_Incidencias.ViewModels
             if (Parameters.EditingNote != null && Parameters.EditingNote.Estado_Actual == "Iniciado")
             {
                 Console.WriteLine(" FINALIZADO");
-                //IsAvailableProperty = true;
                 Parameters.EditingNote.Estado_Actual = "Finalizado";
                 Parameters.EditingNote.DateFinish = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
 

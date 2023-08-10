@@ -81,13 +81,13 @@ namespace Gest_Incidencias.ViewModels
         public List_ViewModel(INavigationService navigationService) : base(navigationService)
         { }
 
-        public List_ViewModel(INavigationService navigationService, string tipo, int contador) : base(navigationService)
+        public List_ViewModel(INavigationService navigationService, string tipo /*, int contador*/) : base(navigationService)
         {
             Title = "Listado de " + tipo;
 
             // Variables
             this.Tipo = tipo;
-            this.Contador_seleccion = contador;
+            //this.Contador_seleccion = contador;
 
             _messageService = DependencyService.Get<Services.IMessageService>();
             _navigationService = navigationService; //Navigation = navigation;
@@ -295,7 +295,6 @@ namespace Gest_Incidencias.ViewModels
             {
                 this.Contador_seleccion = 0;
                 Parameters.EditingNote.IsSelected = false;
-                //Parameters.EditingNote.IsAvailable = false;
 
                 if (Parameters.EditingNote.Estado_Actual == "Disponible"
                     && Parameters.EditingNote.Estado_Actual == "Iniciado")
@@ -344,7 +343,7 @@ namespace Gest_Incidencias.ViewModels
             //Add a page.
             PdfPage page = document.Pages.Add();
 
-            //Create a PdfGrid.
+            //Create a PdfGrid. - https://help.syncfusion.com/cr/xamarin/Syncfusion.Pdf.Grid.PdfGrid.html
             PdfGrid pdfGrid = new PdfGrid();
 
             //Add values to list
@@ -355,12 +354,9 @@ namespace Gest_Incidencias.ViewModels
             //data.Add(row1);
             //data.Add(row2);
 
-            // Seleccion de 1 unica nota
             for (int i = 0; i < Notes.Count(); i++)
             {
-                //// Hay Nota Seleccionada
-                //if (Notes[i].IsSelected)
-                //{
+                //if (Notes[i].IsSelected){
                     data.Add(Notes[i]);
                 //}
             }
