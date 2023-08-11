@@ -91,11 +91,13 @@ namespace Gest_Incidencias.ViewModels
             //    else if (Estado_Actual == "Renovado") return true;
             //    else return false;
             //}
-            get => Estado_Actual == "Disponible" ? true : Estado_Actual == "Renovado" ? true : false;
+            //get => Estado_Actual == "Disponible" || (Estado_Actual == "Renovado" ? true : false);
+            get => Estado_Actual == "Disponible" || (Estado_Actual == "Renovado");
         }
         public bool Is_Finish_State{
             //get{if (Estado_Actual == "Iniciado") return true;else return false;}
-            get => Estado_Actual == "Iniciado" ? true : false;
+            //get => Estado_Actual == "Iniciado" ? true : false;
+            get => Estado_Actual == "Iniciado";
         }
         public Color Is_Available_State_BorderColor{
             //get{
@@ -114,12 +116,14 @@ namespace Gest_Incidencias.ViewModels
         public bool Is_Available_State
         {
             //get{if (Estado_Actual == "Disponible") return true;else return false;}
-            get => Estado_Actual == "Disponible" ? true : false;
+            //get => Estado_Actual == "Disponible" ? true : false;
+            get => Estado_Actual == "Disponible";
         }
         public bool Is_Deleted_State
         {
             //get{if (Estado_Actual == "Borrado") return true;else return false;}
-            get => Estado_Actual == "Borrado" ? true : false;
+            //get => Estado_Actual == "Borrado" ? true : false;
+            get => Estado_Actual == "Borrado";
         }
         public Color Is_Deleted_State_BorderColor
         {
@@ -143,7 +147,7 @@ namespace Gest_Incidencias.ViewModels
         public DelegateCommand FinalizarCommand { private set; get; }
         public DelegateCommand RenovarCommand { private set; get; }
         public DelegateCommand DeleteCommand { private set; get; }
-        public DelegateCommand CancelCommand { private set; get; }
+        public DelegateCommand ReturnCommand { private set; get; }
         public DelegateCommand SaveCommand { private set; get; }
         #endregion
 
@@ -160,7 +164,7 @@ namespace Gest_Incidencias.ViewModels
             FinalizarCommand = new DelegateCommand(Execute_Finalizar);
             RenovarCommand = new DelegateCommand(Execute_Renovar);
             DeleteCommand = new DelegateCommand(Execute_Delete);
-            CancelCommand = new DelegateCommand(Execute_Return);
+            ReturnCommand = new DelegateCommand(Execute_Return);
             SaveCommand = new DelegateCommand(Execute_Save);
 
             Name = Parameters.EditingNote.Name;
@@ -182,7 +186,7 @@ namespace Gest_Incidencias.ViewModels
         #endregion
 
 
-        #region CommandsFunctions
+        #region Execute_Iniciar
         async void Execute_Iniciar()
         {
             // hay nota, y no esta ya iniciada
@@ -193,13 +197,15 @@ namespace Gest_Incidencias.ViewModels
                 Console.WriteLine(Parameters.EditingNote.DateStarting);
 
                 await App.Database.SaveNoteAsync(Parameters.EditingNote);
-                //await _navigationService.NavigateAsync("MainPage");
                 await _navigationService.GoBackAsync();
             }
             else
                 await _messageService.ShowAsync("Para Iniciar, debe estar en el estado Disponible");
         }
+        #endregion
 
+
+        #region Execute_Finalizar
         async void Execute_Finalizar()
         {
             // hay nota, y no esta ya finalizada
@@ -210,31 +216,25 @@ namespace Gest_Incidencias.ViewModels
                 Parameters.EditingNote.DateFinish = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
 
                 await App.Database.SaveNoteAsync(Parameters.EditingNote);
-                //await _navigationService.NavigateAsync("MainPage");
                 await _navigationService.GoBackAsync();
             }
             else
                 await _messageService.ShowAsync("Para Finalizar, debe estar en el estado Iniciado");
         }
+        #endregion
 
+
+        #region Execute_Renovar
         async void Execute_Renovar()
         {
             if (Parameters.EditingNote.Estado_Actual == "Borrado")
             {
                 if (!string.IsNullOrWhiteSpace(Parameters.EditingNote.Name) && !string.IsNullOrWhiteSpace(Parameters.EditingNote.Description))
                 {
-                    try
-                    {
-                        Parameters.EditingNote.DateDeleted = "Renovado " + DateTime.UtcNow;
-                        Parameters.EditingNote.Estado_Actual = "Renovado";
-                        await App.Database.SaveNoteAsync(Parameters.EditingNote);
-                        //await _navigationService.NavigateAsync("MainPage");
-                        await _navigationService.GoBackAsync();
-                    }
-                    catch (Exception ex)
-                    {
-                        await _messageService.ShowAsync("Error: " + ex.Message);
-                    }
+                    Parameters.EditingNote.DateDeleted = "Renovado " + DateTime.UtcNow;
+                    Parameters.EditingNote.Estado_Actual = "Renovado";
+                    await App.Database.SaveNoteAsync(Parameters.EditingNote);
+                    await _navigationService.GoBackAsync();
                 }
                 else
                     await _messageService.ShowAsync("Renovar: Rellene Titulo y Descripcion");
@@ -243,7 +243,10 @@ namespace Gest_Incidencias.ViewModels
                 await _messageService.ShowAsync("Para Renovar, debe estar en el estado Borrado");
 
         }
+        #endregion
 
+
+        #region Execute_Delete
         async void Execute_Delete()
         {
             if (Parameters.EditingNote.Estado_Actual == "Finalizado" || Parameters.EditingNote.Estado_Actual == "Disponible" )
@@ -255,7 +258,6 @@ namespace Gest_Incidencias.ViewModels
                 {
                     try {
                         await App.Database.SaveNoteAsync(Parameters.EditingNote);
-                        //await _navigationService.NavigateAsync("MainPage");
                         await _navigationService.GoBackAsync();
                     }
                     catch (Exception ex) {
@@ -268,32 +270,29 @@ namespace Gest_Incidencias.ViewModels
             else
                 await _messageService.ShowAsync("Para borrar, debe estar en estado Disponible o Finalizado");
         }
+        #endregion
 
+
+        #region Execute_Return
         async void Execute_Return()
         {
-            //await _navigationService.NavigateAsync("MainPage");
             await _navigationService.GoBackAsync();
         }
+        #endregion
 
+
+        #region Execute_Save
         async void Execute_Save()
         {
             if (!string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(Description))
             {
-                try
-                {
-                    Parameters.EditingNote.Name = Name;
-                    Parameters.EditingNote.Description = Description;
-                    Parameters.EditingNote.DateModification = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
-                    Parameters.EditingNote.IsSelected = false; //ConstructorLista=> Notes.ForEach(note => note.IsSelected = false);
+                Parameters.EditingNote.Name = Name;
+                Parameters.EditingNote.Description = Description;
+                Parameters.EditingNote.DateModification = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
+                Parameters.EditingNote.IsSelected = false; //ConstructorLista=> Notes.ForEach(note => note.IsSelected = false);
 
-                    await App.Database.SaveNoteAsync(Parameters.EditingNote);
-                    //await _navigationService.NavigateAsync("MainPage");
-                    await _navigationService.GoBackAsync();
-                }
-                catch (Exception ex)
-                {
-                    await _messageService.ShowAsync("Error: "+ ex.Message);
-                }
+                await App.Database.SaveNoteAsync(Parameters.EditingNote);
+                await _navigationService.GoBackAsync();
             }
             else
                 await _messageService.ShowAsync("Guardar: Rellene Titulo y Descripcion");

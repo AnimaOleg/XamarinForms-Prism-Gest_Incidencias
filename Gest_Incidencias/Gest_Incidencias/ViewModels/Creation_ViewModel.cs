@@ -10,8 +10,8 @@ namespace Gest_Incidencias.ViewModels
     public class Creation_ViewModel : /*BindableBase*/ BaseViewModel
     {
         #region Variables
-        private /*readonly*/ IMessageService _messageService;
-        private /*readonly*/ INavigationService _navigationService; //public INavigation Navigation { get; set; }
+        private readonly IMessageService _messageService;
+        private readonly INavigationService _navigationService; //public INavigation Navigation { get; set; }
         #endregion
 
 
@@ -47,7 +47,6 @@ namespace Gest_Incidencias.ViewModels
 
 
         #region Commands
-        //public DelegateCommand UnfocusedTitleCommand { private set; get; }
         public DelegateCommand Command_Cancel { private set; get; }
         public DelegateCommand Command_Create { private set; get; }
         #endregion
@@ -60,11 +59,13 @@ namespace Gest_Incidencias.ViewModels
             _navigationService = navigationService;
             _messageService = DependencyService.Get<Services.IMessageService>();
 
-            Command_Cancel = new DelegateCommand(Execute_Cancel_Command);
-            Command_Create = new DelegateCommand(Execute_Create_Command);
-            //UnfocusedTitleCommand = new Command(UnfocusedTitle);
+            Command_Cancel = new DelegateCommand(Execute_Cancel);
+            Command_Create = new DelegateCommand(Execute_Create);
         }
+        #endregion
 
+
+        #region Initialize
         public override void Initialize(INavigationParameters parameters)
         {
             base.Initialize(parameters);
@@ -72,38 +73,30 @@ namespace Gest_Incidencias.ViewModels
         #endregion
 
 
-        #region CommandsFunctions
-
-
-        async void Execute_Create_Command()
+        #region Execute_Create
+        async void Execute_Create()
         {
             if (!string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(Description) && Name.Length >= 3 && Description.Length >= 3)
             {
-                try
+                Note note = new Note
                 {
-                    Note note = new Note
-                    {
-                        Name = Name,
-                        Description = Description,
-                        DateCreation = DateTime.UtcNow,
-                        Estado_Actual = "Disponible"
-                    };
-
-                    await App.Database.SaveNoteAsync(note);
-                    //await _navigationService.NavigateAsync("MainPage");
-                    await _navigationService.GoBackAsync();
-                }
-                catch (Exception ex) {
-                    await _messageService.ShowAsync("Error Execute_Create_Command(): " + ex.Message);
-                }
+                    Name = Name,
+                    Description = Description,
+                    DateCreation = DateTime.UtcNow,
+                    Estado_Actual = "Disponible"
+                };
+                await App.Database.SaveNoteAsync(note);
+                await _navigationService.GoBackAsync();
             }
             else
                 await _messageService.ShowAsync(message: "Rellena el Título o la Descripción. Mínimo 3 carácteres");
         }
+        #endregion
 
-        async void Execute_Cancel_Command()
+
+        #region Execute_Cancel()
+        async void Execute_Cancel()
         {
-            //await _navigationService.NavigateAsync("MainPage");
             await _navigationService.GoBackAsync();
         }
         #endregion

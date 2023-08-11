@@ -15,8 +15,9 @@ namespace Gest_Incidencias.Views
 
 
         #region Constructor
-        public Settings()
+        public Settings(INavigationService navigationService)
         {
+            _navigationService = navigationService;
             InitializeComponent();
         }
         #endregion

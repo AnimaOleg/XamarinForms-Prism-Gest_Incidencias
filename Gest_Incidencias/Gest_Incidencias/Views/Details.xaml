@@ -233,14 +233,14 @@
 
             <Grid Grid.Row="1">
                 <Grid ColumnDefinitions="*, *">
-                    <!--<Button Text="Atrás" FontSize="14" Command="{Binding CancelCommand}" Grid.Column="0" ImageSource="anguloIzquierdo.png"/>
+                    <!--<Button Text="Atrás" FontSize="14" Command="{Binding ReturnCommand}" Grid.Column="0" ImageSource="anguloIzquierdo.png"/>
                     <Button Text="Guardar" FontSize="14"  Command="{Binding SaveCommand}" Grid.Column="1" ImageSource="controlar.png"/>-->
                     <!--  <Button Command="{prism:NavigateTo 'NavigationPage/MainPage'}" Grid.Column="0"  -->
                     <Button
                         Grid.Column="0"
                         BorderColor="Black"
                         BorderWidth="1"
-                        Command="{Binding CancelCommand}"
+                        Command="{Binding ReturnCommand}"
                         FontFamily="FAS"
                         FontSize="44"
                         Text="{x:Static fontAwesome:FontAwesomeIcons.ArrowLeft}"

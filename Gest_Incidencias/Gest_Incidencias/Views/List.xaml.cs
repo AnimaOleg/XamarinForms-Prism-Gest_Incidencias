@@ -11,7 +11,8 @@ namespace Gest_Incidencias.Views
     public partial class List : ContentPage
     {
         #region Variables
-        private INavigationService _navigationService;
+        //readonly int Contador_seleccion;
+        private readonly INavigationService _navigationService;
         public string Tipo { get; set; }
         #endregion
 
@@ -19,6 +20,7 @@ namespace Gest_Incidencias.Views
         #region Constructor
         public List()
         {
+            //Contador_seleccion = 0;
             this._navigationService = ContainerLocator.Container.Resolve<INavigationService>();
             InitializeComponent();
         }
@@ -29,7 +31,7 @@ namespace Gest_Incidencias.Views
         protected override void OnAppearing()
         {
             Tipo = Tipo;
-            BindingContext = new List_ViewModel(_navigationService, this.Tipo /*, Contador_seleccion*/);
+            BindingContext = new List_ViewModel(_navigationService, this.Tipo/*, Contador_seleccion*/);
             base.OnAppearing();
         }
         #endregion

@@ -1,73 +1,121 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-            xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-            mc:Ignorable="d"
-            x:Class="Gest_Incidencias.Views.Creation"
-                xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-                xmlns:fontAwesome="clr-namespace:FontAwesome"
-                xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
-                prism:ViewModelLocator.AutowireViewModel="True"
-                NavigationPage.HasNavigationBar="true"
-             Title="{Binding Title}">
-    <!-- añadir ¿?  xmlns:vm="clr-namespace:Gest_Incidencias.ViewModels" -->
-    <!--xmlns:prism="http://prismlibrary.com"-->
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="Gest_Incidencias.Views.Creation"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:fontAwesome="clr-namespace:FontAwesome"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    Title="{Binding Title}"
+    prism:ViewModelLocator.AutowireViewModel="True"
+    NavigationPage.HasNavigationBar="true"
+    mc:Ignorable="d">
+    <!--  añadir ¿?  xmlns:vm="clr-namespace:Gest_Incidencias.ViewModels"  -->
+    <!--  xmlns:prism="http://prismlibrary.com"  -->
 
-    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="FillAndExpand" Spacing="4" Orientation="Vertical">
+    <StackLayout
+        HorizontalOptions="CenterAndExpand"
+        Orientation="Vertical"
+        Spacing="4"
+        VerticalOptions="FillAndExpand">
 
         <Frame BackgroundColor="{StaticResource AppBackgroundColor}">
-            <Label Text="{Binding Title}" TextColor="DarkBlue" FontSize="22"
-                VerticalTextAlignment="Center" HorizontalOptions="CenterAndExpand"/>
+            <Label
+                FontSize="22"
+                HorizontalOptions="CenterAndExpand"
+                Text="{Binding Title}"
+                TextColor="DarkBlue"
+                VerticalTextAlignment="Center" />
         </Frame>
 
-        <Grid ColumnDefinitions="*,*" Margin="14,10,14,20">
-            <Button Command="{Binding Command_Cancel}" Grid.Column="0"
-                Text="{x:Static fontAwesome:FontAwesomeIcons.ArrowLeft}" FontFamily="FAS"
-                FontSize="50" TextColor="Black" BorderColor="Black" BorderWidth="1"
-                BackgroundColor="{StaticResource SecondaryColor}"/>
-            <Button Command="{Binding Command_Create}"  Grid.Column="1"
-                Text="{x:Static fontAwesome:FontAwesomeIcons.SquareCheck}" FontFamily="FAS"
-                FontSize="50" TextColor="Green" BorderColor="Green" BorderWidth="1"
-                BackgroundColor="{StaticResource SecondaryColor}"/>
+        <Grid Margin="14,10,14,20" ColumnDefinitions="*,*">
+            <Button
+                Grid.Column="0"
+                BackgroundColor="{StaticResource SecondaryColor}"
+                BorderColor="Black"
+                BorderWidth="1"
+                Command="{Binding Command_Cancel}"
+                FontFamily="FAS"
+                FontSize="50"
+                Text="{x:Static fontAwesome:FontAwesomeIcons.ArrowLeft}"
+                TextColor="Black" />
+            <Button
+                Grid.Column="1"
+                BackgroundColor="{StaticResource SecondaryColor}"
+                BorderColor="Green"
+                BorderWidth="1"
+                Command="{Binding Command_Create}"
+                FontFamily="FAS"
+                FontSize="50"
+                Text="{x:Static fontAwesome:FontAwesomeIcons.SquareCheck}"
+                TextColor="Green" />
         </Grid>
 
-        <Frame CornerRadius="2" Padding="12" Margin="14,4">
+        <Frame
+            Margin="14,4"
+            Padding="12"
+            CornerRadius="2">
             <StackLayout Orientation="Vertical">
-                <Label Text="Titulo" FontSize="Medium" HeightRequest="20"/>
-                <BoxView Color="white" HeightRequest="1" HorizontalOptions="Fill" />
+                <Label
+                    FontSize="Medium"
+                    HeightRequest="20"
+                    Text="Titulo" />
+                <BoxView
+                    HeightRequest="1"
+                    HorizontalOptions="Fill"
+                    Color="white" />
 
-                <Entry Text="{Binding Name}" FontSize="Large" Placeholder="Escriba aquí el título">
+                <Entry
+                    FontSize="Large"
+                    Placeholder="Escriba aquí el título"
+                    Text="{Binding Name}">
                     <Entry.Behaviors>
-                        <xct:EventToCommandBehavior
-                            EventName="TextChanged"
-                            Command="{Binding Command_TextChanged}" />
-                        <xct:EventToCommandBehavior
-                            EventName="Unfocused"
-                            Command="{Binding UnfocusedTitle}" />
+                        <xct:EventToCommandBehavior Command="{Binding Command_TextChanged}" EventName="TextChanged" />
                     </Entry.Behaviors>
                 </Entry>
             </StackLayout>
         </Frame>
 
-        <Frame CornerRadius="2" Padding="12" Margin="14,4">
-            <StackLayout Orientation="Vertical" >
-                <Label Text="Descripción" FontSize="Medium" />
-                <BoxView Color="white" HeightRequest="1" HorizontalOptions="Fill" />
-                <Editor Text="{Binding Description}" FontSize="Large" HeightRequest="120" Placeholder="Escriba aquí la descripción">
+        <Frame
+            Margin="14,4"
+            Padding="12"
+            CornerRadius="2">
+            <StackLayout Orientation="Vertical">
+                <Label FontSize="Medium" Text="Descripción" />
+                <BoxView
+                    HeightRequest="1"
+                    HorizontalOptions="Fill"
+                    Color="white" />
+                <Editor
+                    FontSize="Large"
+                    HeightRequest="120"
+                    Placeholder="Escriba aquí la descripción"
+                    Text="{Binding Description}">
                     <Editor.Behaviors>
-                        <xct:EventToCommandBehavior
-                            EventName="TextChanged"
-                            Command="{Binding Command_TextChanged}" />
+                        <xct:EventToCommandBehavior Command="{Binding Command_TextChanged}" EventName="TextChanged" />
                     </Editor.Behaviors>
                 </Editor>
             </StackLayout>
         </Frame>
 
-        <Frame BorderColor="Blue" CornerRadius="2" HasShadow="True" Padding="8" Margin="14,8">
+        <Frame
+            Margin="14,8"
+            Padding="8"
+            BorderColor="Blue"
+            CornerRadius="2"
+            HasShadow="True">
             <StackLayout Orientation="Vertical">
-                <Label Text="Estado" FontSize="16" Grid.Row="0"/>
-                <Label Text="{Binding Estado_Actual}" FontSize="18" TextColor="Blue" Grid.Row="1"/>
+                <Label
+                    Grid.Row="0"
+                    FontSize="16"
+                    Text="Estado" />
+                <Label
+                    Grid.Row="1"
+                    FontSize="18"
+                    Text="{Binding Estado_Actual}"
+                    TextColor="Blue" />
             </StackLayout>
         </Frame>
 

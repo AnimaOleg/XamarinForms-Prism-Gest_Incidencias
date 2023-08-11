@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Xamarin.Forms;
+using XFC = Xamarin.Forms.Color;
 using Gest_Incidencias.Data;
 using Syncfusion.Pdf.Grid;
 using Syncfusion.Pdf;
@@ -25,16 +26,15 @@ namespace Gest_Incidencias.ViewModels
     public class List_ViewModel : BaseViewModel
     {
         #region Variables
-        private IMessageService _messageService;
-        private INavigationService _navigationService;
-        public int Contador_seleccion { get; set; }
+        private readonly IMessageService _messageService;
+        private readonly INavigationService _navigationService;
+        private int Contador_seleccion { get; set; } = 0;
         public string Tipo { get; set; }
-        public List<Note> Notas_Seleccionadas;
         #endregion
 
 
-    #region Properties
-    private ObservableCollection<Note> _notes;
+        #region Properties
+        private ObservableCollection<Note> _notes;
         public ObservableCollection<Note> Notes {
             get => _notes;
             set => SetProperty(ref _notes, value);
@@ -47,8 +47,8 @@ namespace Gest_Incidencias.ViewModels
             set => SetProperty(ref _is_Unique_Selected, value);
         }
 
-        private Xamarin.Forms.Color _is_Unique_Selected_BorderColor = Xamarin.Forms.Color.LightGray;
-        public Xamarin.Forms.Color Is_Unique_Selected_BorderColor
+        private XFC _is_Unique_Selected_BorderColor = XFC.LightGray;
+        public XFC Is_Unique_Selected_BorderColor
         {
             get => _is_Unique_Selected_BorderColor;
             set => SetProperty(ref _is_Unique_Selected_BorderColor, value);
@@ -81,32 +81,27 @@ namespace Gest_Incidencias.ViewModels
         public List_ViewModel(INavigationService navigationService) : base(navigationService)
         { }
 
-        public List_ViewModel(INavigationService navigationService, string tipo /*, int contador*/) : base(navigationService)
+        public List_ViewModel(INavigationService navigationService, string tipo/*, int contador*/) : base(navigationService)
         {
             Title = "Listado de " + tipo;
-
-            // Variables
             this.Tipo = tipo;
-            //this.Contador_seleccion = contador;
-
             _messageService = DependencyService.Get<Services.IMessageService>();
             _navigationService = navigationService; //Navigation = navigation;
-            //Console.WriteLine(" MODEL 1 Page_List_Incidencias_ViewModel, TIPO: " + tipo);
 
-            /// Commands
             Command_CheckedChanged = new Command<CheckedChangedEventArgs>(Execute_OnCheckedChanged);
             Command_GetReports = new DelegateCommand(Execute_GetReports);
             Command_DeleteItem = new DelegateCommand(Execute_DeleteItem);
             Command_ModifyItem = new DelegateCommand(Execute_ModifyItem);
             Command_FinishItem = new DelegateCommand(Execute_FinishItem);
             Command_CreateItem = new DelegateCommand(Execute_CreateItem);
-
             Load_Data();
         }
+        #endregion
 
+
+        #region Load_Data() + Initialize()
         async void Load_Data()
         {
-            Notas_Seleccionadas = new List<Note>();
             Notes = new ObservableCollection<Note>(await App.Database.GetNotesAsync(Tipo));
 
             // En caso Disponible, se añaden tambien del tipo Renovado
@@ -128,102 +123,70 @@ namespace Gest_Incidencias.ViewModels
             //Console.WriteLine(" INITIALIZE Page_List_Incidencias params: " + parameters);
             base.Initialize(parameters);
         }
-
         #endregion
 
 
-        #region CommandsFunctions
+        #region Execute_CreateItem
         async void Execute_CreateItem()
         {
             await _navigationService.NavigateAsync("Creation");
         }
+        #endregion
 
+
+        #region Execute_CreateItem
         async void Execute_OnCheckedChanged(CheckedChangedEventArgs arg)
         {
             Console.WriteLine(" ");
-            Console.WriteLine(" ");
-            try
-            {
-
-                if (Parameters.EditingNote == null){
-                    Console.WriteLine(" NULL NOTA");
-                }
-                else{
-                    Console.WriteLine(" (anterior): " + Parameters.EditingNote.Name);
-                }
-            }
-            catch (Exception ex)
-            { Console.WriteLine(" EX 1:"+ex.ToString()); }
-
 
             // Contador de Checks Marcados
             if (arg.Value == true){
-                this.Contador_seleccion++;
+                Contador_seleccion++;
             }
-            else if (arg.Value == false && this.Contador_seleccion != 0){
-                this.Contador_seleccion--;
-                //Parameters.EditingNote = null;
-            }
-
-
-            for (int i = 0; i < Notes.Count(); i++)
+            else if (arg.Value == false)
             {
-                // Notas Seleccionadas:
-                if (Notes[i].IsSelected)
-                {
-                    Console.WriteLine("( si ) " + Notes[i].Name);
+                if(Contador_seleccion != 0) // No restar, para casos de acceder a los detalles, al volver atras se ponia en -1
+                    Contador_seleccion--;
+            }
+            Console.WriteLine(" CONTADOR:"+Contador_seleccion);
 
-                    // Activacion Botones
-                    switch (this.Contador_seleccion)
-                    {
-                        case 1:
-                            Is_Unique_Selected = true;
-                            Parameters.EditingNote = Notes[i];
-                            Is_Unique_Selected_BorderColor = Xamarin.Forms.Color.DarkBlue;
-
-                            Console.WriteLine(" MI NOTA: " + Parameters.EditingNote.Name);
-                            break;
-                        default:
-                            Is_Unique_Selected = false;
-                            Is_Unique_Selected_BorderColor = Xamarin.Forms.Color.LightGray;
-                            //Notas_Seleccionadas.Remove(Parameters.EditingNote);
-                            Parameters.EditingNote = null;
-
-                            //Console.WriteLine(" NOTAS -> nullear");
-                            break;
-                    }
-                }
+            try {
+                if (Notes == null)
+                    Console.WriteLine("Vuelta a la vista List_ViewModel. Notes null, fallaria Notes.Count()");
                 else
-                    Console.WriteLine("( no ) " + Notes[i].Name);
-            }
-            Console.WriteLine(" CONTADOR: " + this.Contador_seleccion);
-
-            Console.WriteLine(" ");
-            Console.WriteLine(" ");
-
-
-            // Seleccion de 1 unica nota
-            /*for (int i = 0; i < Notes.Count(); i++)
+                    for (int i = 0; i < Notes.Count(); i++)
+                    {
+                        // Notas Seleccionadas:
+                        if (Notes[i].IsSelected)
+                        {
+                            Parameters.EditingNote = Notes[i];
+                            Console.WriteLine("( si ) " + Notes[i].Name);
+                        }
+                        else
+                            Console.WriteLine("( no ) " + Notes[i].Name);
+                    }
+            }catch(Exception ex)
             {
-                // Hay Nota Seleccionada
-                if (Notes[i].IsSelected)
-                {
-                    Parameters.EditingNote = Notes[i];
-                    //Parameters.EditingNote.IsSelected = false;
-                    Notas_Seleccionadas.Add(Parameters.EditingNote);
-                    //Console.WriteLine("CONTADOR:" + this.Contador_seleccion + " NOTA: " + Parameters.EditingNote.Name);
+                Console.WriteLine(" ");
+                Console.WriteLine("Excepcion-Execute_OnCheckedChanged:" + ex);
+            }
+
+            // Activacion Botones
+            switch (Contador_seleccion)
+            {
+                case 1:
+                    Is_Unique_Selected = true;
+                    Is_Unique_Selected_BorderColor = XFC.DarkBlue;
+
+                    Console.WriteLine(" MI NOTA: " + Parameters.EditingNote.Name);
                     break;
-                }
-            }*/
-
-
-            //Console.WriteLine(" ARRAY NOTAS:");
-            //for (int i = 0; i < Notas_Seleccionadas.Count(); i++)
-            //{
-            //    Console.WriteLine(" - "+Notas_Seleccionadas[i].Name);
-            //}
-            // You can convert it back to an array if you would like to
-            //int[] terms = termsList.ToArray();
+                default:
+                    Is_Unique_Selected = false;
+                    Is_Unique_Selected_BorderColor = XFC.LightGray;
+                    Parameters.EditingNote = null;
+                    break;
+            }
+            Console.WriteLine(" ");
 
             // Seleccion del Primero
             //if (Notes.Any(x => x.IsSelected)) {
@@ -232,7 +195,10 @@ namespace Gest_Incidencias.ViewModels
             //    Console.WriteLine("nota: "+Notes[n].Name);
             //}
         }
+        #endregion
 
+
+        #region Execute_DeleteItem
         async void Execute_DeleteItem()
         {
             if (Parameters.EditingNote == null) {
@@ -240,20 +206,20 @@ namespace Gest_Incidencias.ViewModels
             }
             else
             {
-                this.Contador_seleccion = 0;
+                Contador_seleccion = 0;
                 //if (Parameters.EditingNote.Estado_Actual != "Iniciado" || Parameters.EditingNote.Estado_Actual != "Borrado")
                 if (Parameters.EditingNote.Estado_Actual == "Finalizado"
                     || Parameters.EditingNote.Estado_Actual == "Renovado"
                     || Parameters.EditingNote.Estado_Actual == "Disponible" )
                 {
 
-                    await _messageService.ShowAsync("BOTON BORRAR, estado actual: " + Parameters.EditingNote.Estado_Actual);
                     Parameters.EditingNote.IsSelected = false;
                     Parameters.EditingNote.Estado_Actual = "Borrado";
                     Parameters.EditingNote.DateDeleted = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm");
 
                     await App.Database.SaveNoteAsync(Parameters.EditingNote);
                     await _navigationService.NavigateAsync("MainPage");
+                    await _messageService.ShowAsync("BORRADO " + Parameters.EditingNote.Name);
                 }
                 else
                 {
@@ -261,7 +227,10 @@ namespace Gest_Incidencias.ViewModels
                 }
             }
         }
+        #endregion
 
+
+        #region Execute_ModifyItem
         async void Execute_ModifyItem()
         {
             if (Parameters.EditingNote == null)
@@ -270,21 +239,15 @@ namespace Gest_Incidencias.ViewModels
             }
             else
             {
-                this.Contador_seleccion = 0;
+                Contador_seleccion = 0;
                 Parameters.EditingNote.IsSelected = false;
                 await _navigationService.NavigateAsync("Details");
             }
         }
+        #endregion
 
 
-        /*
-         * 
-         * 
-         * 
-         *      REVSIAR LOS ESTADOS
-         * 
-         * 
-         */
+        #region Execute_FinishItem
         async void Execute_FinishItem()
         {
             if (Parameters.EditingNote == null)
@@ -293,11 +256,10 @@ namespace Gest_Incidencias.ViewModels
             }
             else
             {
-                this.Contador_seleccion = 0;
+                Contador_seleccion = 0;
                 Parameters.EditingNote.IsSelected = false;
 
-                if (Parameters.EditingNote.Estado_Actual == "Disponible"
-                    && Parameters.EditingNote.Estado_Actual == "Iniciado")
+                if (Parameters.EditingNote.Estado_Actual == "Iniciado")
                 {
                     //Parameters.EditingNote.IsFinished = true;
                     Parameters.EditingNote.Estado_Actual = "Finalizado";
@@ -327,7 +289,10 @@ namespace Gest_Incidencias.ViewModels
             }
 
         }
+        #endregion
 
+
+        #region Execute_GetReports()
         /*
          * busqueda basada: https://help.syncfusion.com/file-formats/pdf/create-pdf-file-in-xamarin
          * ejemplo funcional: https://github.com/SyncfusionExamples/PDF-Examples/tree/master/Getting%20Started/Xamarin/CreatePDFwithTable
@@ -378,7 +343,7 @@ namespace Gest_Incidencias.ViewModels
             document.Close(true);
 
             //Save the stream as a file in the device and invoke it for viewing
-            Xamarin.Forms.DependencyService.Get<ISave>().SaveAndView("Gest_Incidencias_Listado.pdf", "application/pdf", stream);
+            await Xamarin.Forms.DependencyService.Get<ISave>().SaveAndView("Gest_Incidencias_Listado.pdf", "application/pdf", stream);
         }
         #endregion
 

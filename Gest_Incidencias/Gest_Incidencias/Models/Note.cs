@@ -24,7 +24,6 @@ namespace Gest_Incidencias.Models
         public string DateFinish { get; set; }
         public string DateDeleted { get; set; }
 
-        [Ignore]
         public bool IsSelected { get; set; } = false; // checkbox del listado
 
         public string Estado_Actual { get; set; }

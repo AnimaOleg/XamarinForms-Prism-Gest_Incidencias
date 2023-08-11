@@ -11,8 +11,8 @@ namespace Gest_Incidencias.ViewModels
     public class Settings_ViewModel : /*BindableBase*/ BaseViewModel
     {
         #region Variables
-        private /*readonly*/ IMessageService _messageService;
-        private /*readonly*/ INavigationService _navigationService;
+        //private /*readonly*/ IMessageService _messageService;
+        //private /*readonly*/ INavigationService _navigationService;
         #endregion
 
         #region Properties

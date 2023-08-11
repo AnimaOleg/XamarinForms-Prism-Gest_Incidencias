@@ -1,9 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <prism:PrismApplication xmlns="http://xamarin.com/schemas/2014/forms"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-            xmlns:prism="http://prismlibrary.com"
+            xmlns:prism="clr-namespace:Prism.DryIoc;assembly=Prism.DryIoc.Forms"
+            xmlns:prism99="http://prismlibrary.com"
             x:Class="Gest_Incidencias.App">
-            <!--xmlns:prism1="clr-namespace:Prism.DryIoc;assembly=Prism.DryIoc.Forms"-->
+    
+<!--xmlns:prism1="clr-namespace:Prism.DryIoc;assembly=Prism.DryIoc.Forms"-->
+<!-- usar namespace para prism en lugar de URL para que no salte el mensaje de error-->
+<!--
+    NO: xmlns:prism="http://prismlibrary.com"
+    SI: xmlns:prism="clr-namespace:Prism.DryIoc;assembly=Prism.DryIoc.Forms"
+-->
+
+
 
     <Application.Resources>
         <ResourceDictionary>

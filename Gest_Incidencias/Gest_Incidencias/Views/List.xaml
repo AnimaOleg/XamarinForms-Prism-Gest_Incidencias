@@ -202,9 +202,10 @@
 
                                                     <CheckBox.Behaviors>
                                                         <xct:EventToCommandBehavior
+                                                            EventName="CheckedChanged" 
                                                             x:TypeArguments="CheckedChangedEventArgs"
                                                             Command="{Binding BindingContext.Command_CheckedChanged, Source={x:Reference oThis}}"
-                                                            EventName="CheckedChanged" />
+                                                            />
                                                     </CheckBox.Behaviors>
                                                 </CheckBox>
                                                 <!-- https://learn.microsoft.com/en-us/xamarin/xamarin-forms/app-fundamentals/data-binding/relative-bindings
